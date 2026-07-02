@@ -5,11 +5,14 @@ import 'package:drift/native.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 import 'package:sqlite3/sqlite3.dart';
+import '../seed/database_seeder.dart';
 
 QueryExecutor connect() {
   return LazyDatabase(() async {
-    final dbFolder = await getApplicationDocumentsDirectory();
-    final file = File(p.join(dbFolder.path, 'db.sqlite'));
+    final seeder = DatabaseSeeder();
+    await seeder.ensureDatabaseIsSeeded();
+    
+    final file = await seeder.getDatabaseFile();
 
     final cachebase = await getTemporaryDirectory();
     sqlite3.tempDirectory = cachebase.path;
