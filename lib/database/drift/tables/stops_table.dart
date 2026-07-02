@@ -1,6 +1,5 @@
 import 'package:drift/drift.dart';
 import 'operators_table.dart';
-import '../../../shared/models/enums.dart';
 
 @DataClassName('Stop')
 class Stops extends Table {

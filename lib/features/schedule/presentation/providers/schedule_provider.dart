@@ -5,7 +5,7 @@ import '../../data/schedule_repository.dart';
 part 'schedule_provider.g.dart';
 
 @Riverpod(keepAlive: true)
-ScheduleRepository scheduleRepository(ScheduleRepositoryRef ref) {
+ScheduleRepository scheduleRepository(Ref ref) {
   final db = ref.watch(appDatabaseProvider);
   return ScheduleRepository(db.stopTimesDao);
 }

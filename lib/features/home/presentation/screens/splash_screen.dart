@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../../../database/seed/database_seeder.dart';
+import 'package:cadiz_tren_bus_tranvia_catamaran/database/seed/database_seeder.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../core/theme/theme_provider.dart';
-import '../providers/counter_provider.dart';
+import 'package:cadiz_tren_bus_tranvia_catamaran/core/theme/theme_provider.dart';
+import 'package:cadiz_tren_bus_tranvia_catamaran/providers/counter_provider.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});

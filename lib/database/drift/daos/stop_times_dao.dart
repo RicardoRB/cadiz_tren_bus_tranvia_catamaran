@@ -7,7 +7,7 @@ part 'stop_times_dao.g.dart';
 
 @DriftAccessor(tables: [StopTimes])
 class StopTimesDao extends DatabaseAccessor<AppDatabase> with _$StopTimesDaoMixin {
-  StopTimesDao(AppDatabase db) : super(db);
+  StopTimesDao(super.db);
 
   Future<List<StopTime>> getStopTimesForTrip(String tripId) => 
     (select(stopTimes)..where((t) => t.tripId.equals(tripId))..orderBy([(t) => OrderingTerm(expression: t.sequence)])).get();

@@ -5,7 +5,7 @@ import '../../data/stops_repository.dart';
 part 'stops_provider.g.dart';
 
 @Riverpod(keepAlive: true)
-StopsRepository stopsRepository(StopsRepositoryRef ref) {
+StopsRepository stopsRepository(Ref ref) {
   final db = ref.watch(appDatabaseProvider);
   return StopsRepository(db.stopsDao);
 }

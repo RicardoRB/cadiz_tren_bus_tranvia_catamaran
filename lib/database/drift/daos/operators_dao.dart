@@ -6,7 +6,7 @@ part 'operators_dao.g.dart';
 
 @DriftAccessor(tables: [Operators])
 class OperatorsDao extends DatabaseAccessor<AppDatabase> with _$OperatorsDaoMixin {
-  OperatorsDao(AppDatabase db) : super(db);
+  OperatorsDao(super.db);
 
   Future<List<Operator>> getAllOperators() => select(operators).get();
   Future<Operator?> getOperatorById(String id) => (select(operators)..where((t) => t.id.equals(id))).getSingleOrNull();

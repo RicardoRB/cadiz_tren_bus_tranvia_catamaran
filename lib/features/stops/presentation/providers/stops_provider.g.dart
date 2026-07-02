@@ -6,22 +6,47 @@ part of 'stops_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$stopsRepositoryHash() => r'973a5cd90672639fc1b535c5fbb3f1f2c6afc0d7';
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 
-/// See also [stopsRepository].
 @ProviderFor(stopsRepository)
-final stopsRepositoryProvider = Provider<StopsRepository>.internal(
-  stopsRepository,
-  name: r'stopsRepositoryProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$stopsRepositoryHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+final stopsRepositoryProvider = StopsRepositoryProvider._();
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef StopsRepositoryRef = ProviderRef<StopsRepository>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+final class StopsRepositoryProvider
+    extends
+        $FunctionalProvider<StopsRepository, StopsRepository, StopsRepository>
+    with $Provider<StopsRepository> {
+  StopsRepositoryProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'stopsRepositoryProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$stopsRepositoryHash();
+
+  @$internal
+  @override
+  $ProviderElement<StopsRepository> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  StopsRepository create(Ref ref) {
+    return stopsRepository(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(StopsRepository value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<StopsRepository>(value),
+    );
+  }
+}
+
+String _$stopsRepositoryHash() => r'f4f4f67e3f3d777169a03dce7cd26003a12c57cb';

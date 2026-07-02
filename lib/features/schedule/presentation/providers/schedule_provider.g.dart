@@ -6,23 +6,53 @@ part of 'schedule_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$scheduleRepositoryHash() =>
-    r'51507fb19fdbac0fcb9d32e2f71f3ffa898b8014';
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 
-/// See also [scheduleRepository].
 @ProviderFor(scheduleRepository)
-final scheduleRepositoryProvider = Provider<ScheduleRepository>.internal(
-  scheduleRepository,
-  name: r'scheduleRepositoryProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$scheduleRepositoryHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+final scheduleRepositoryProvider = ScheduleRepositoryProvider._();
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef ScheduleRepositoryRef = ProviderRef<ScheduleRepository>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+final class ScheduleRepositoryProvider
+    extends
+        $FunctionalProvider<
+          ScheduleRepository,
+          ScheduleRepository,
+          ScheduleRepository
+        >
+    with $Provider<ScheduleRepository> {
+  ScheduleRepositoryProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'scheduleRepositoryProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$scheduleRepositoryHash();
+
+  @$internal
+  @override
+  $ProviderElement<ScheduleRepository> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  ScheduleRepository create(Ref ref) {
+    return scheduleRepository(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(ScheduleRepository value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<ScheduleRepository>(value),
+    );
+  }
+}
+
+String _$scheduleRepositoryHash() =>
+    r'018d30afdb4dfb1abe3afc5c9df0b537238d452a';

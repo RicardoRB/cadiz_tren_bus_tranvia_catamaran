@@ -5,7 +5,7 @@ import '../../data/routes_repository.dart';
 part 'routes_provider.g.dart';
 
 @Riverpod(keepAlive: true)
-RoutesRepository routesRepository(RoutesRepositoryRef ref) {
+RoutesRepository routesRepository(Ref ref) {
   final db = ref.watch(appDatabaseProvider);
   return RoutesRepository(db.routesDao);
 }

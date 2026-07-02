@@ -1908,7 +1908,7 @@ final class $$OperatorsTableReferences
     _$AppDatabase db,
   ) => MultiTypedResultKey.fromTable(
     db.stops,
-    aliasName: $_aliasNameGenerator(db.operators.id, db.stops.operatorId),
+    aliasName: 'operators__id__stops__operator_id',
   );
 
   $$StopsTableProcessedTableManager get stopsRefs {
@@ -1927,7 +1927,7 @@ final class $$OperatorsTableReferences
     _$AppDatabase db,
   ) => MultiTypedResultKey.fromTable(
     db.routes,
-    aliasName: $_aliasNameGenerator(db.operators.id, db.routes.operatorId),
+    aliasName: 'operators__id__routes__operator_id',
   );
 
   $$RoutesTableProcessedTableManager get routesRefs {
@@ -2291,8 +2291,8 @@ final class $$StopsTableReferences
     extends BaseReferences<_$AppDatabase, $StopsTable, Stop> {
   $$StopsTableReferences(super.$_db, super.$_table, super.$_typedResult);
 
-  static $OperatorsTable _operatorIdTable(_$AppDatabase db) => db.operators
-      .createAlias($_aliasNameGenerator(db.stops.operatorId, db.operators.id));
+  static $OperatorsTable _operatorIdTable(_$AppDatabase db) =>
+      db.operators.createAlias('stops__operator_id__operators__id');
 
   $$OperatorsTableProcessedTableManager get operatorId {
     final $_column = $_itemColumn<String>('operator_id')!;
@@ -2311,7 +2311,7 @@ final class $$StopsTableReferences
   static MultiTypedResultKey<$StopTimesTable, List<StopTime>>
   _stopTimesRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
     db.stopTimes,
-    aliasName: $_aliasNameGenerator(db.stops.id, db.stopTimes.stopId),
+    aliasName: 'stops__id__stop_times__stop_id',
   );
 
   $$StopTimesTableProcessedTableManager get stopTimesRefs {
@@ -2706,8 +2706,8 @@ final class $$RoutesTableReferences
     extends BaseReferences<_$AppDatabase, $RoutesTable, Route> {
   $$RoutesTableReferences(super.$_db, super.$_table, super.$_typedResult);
 
-  static $OperatorsTable _operatorIdTable(_$AppDatabase db) => db.operators
-      .createAlias($_aliasNameGenerator(db.routes.operatorId, db.operators.id));
+  static $OperatorsTable _operatorIdTable(_$AppDatabase db) =>
+      db.operators.createAlias('routes__operator_id__operators__id');
 
   $$OperatorsTableProcessedTableManager get operatorId {
     final $_column = $_itemColumn<String>('operator_id')!;
@@ -2727,7 +2727,7 @@ final class $$RoutesTableReferences
     _$AppDatabase db,
   ) => MultiTypedResultKey.fromTable(
     db.trips,
-    aliasName: $_aliasNameGenerator(db.routes.id, db.trips.routeId),
+    aliasName: 'routes__id__trips__route_id',
   );
 
   $$TripsTableProcessedTableManager get tripsRefs {
@@ -3103,9 +3103,8 @@ final class $$TripsTableReferences
     extends BaseReferences<_$AppDatabase, $TripsTable, Trip> {
   $$TripsTableReferences(super.$_db, super.$_table, super.$_typedResult);
 
-  static $RoutesTable _routeIdTable(_$AppDatabase db) => db.routes.createAlias(
-    $_aliasNameGenerator(db.trips.routeId, db.routes.id),
-  );
+  static $RoutesTable _routeIdTable(_$AppDatabase db) =>
+      db.routes.createAlias('trips__route_id__routes__id');
 
   $$RoutesTableProcessedTableManager get routeId {
     final $_column = $_itemColumn<String>('route_id')!;
@@ -3124,7 +3123,7 @@ final class $$TripsTableReferences
   static MultiTypedResultKey<$StopTimesTable, List<StopTime>>
   _stopTimesRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
     db.stopTimes,
-    aliasName: $_aliasNameGenerator(db.trips.id, db.stopTimes.tripId),
+    aliasName: 'trips__id__stop_times__trip_id',
   );
 
   $$StopTimesTableProcessedTableManager get stopTimesRefs {
@@ -3467,9 +3466,8 @@ final class $$StopTimesTableReferences
     extends BaseReferences<_$AppDatabase, $StopTimesTable, StopTime> {
   $$StopTimesTableReferences(super.$_db, super.$_table, super.$_typedResult);
 
-  static $TripsTable _tripIdTable(_$AppDatabase db) => db.trips.createAlias(
-    $_aliasNameGenerator(db.stopTimes.tripId, db.trips.id),
-  );
+  static $TripsTable _tripIdTable(_$AppDatabase db) =>
+      db.trips.createAlias('stop_times__trip_id__trips__id');
 
   $$TripsTableProcessedTableManager get tripId {
     final $_column = $_itemColumn<String>('trip_id')!;
@@ -3485,9 +3483,8 @@ final class $$StopTimesTableReferences
     );
   }
 
-  static $StopsTable _stopIdTable(_$AppDatabase db) => db.stops.createAlias(
-    $_aliasNameGenerator(db.stopTimes.stopId, db.stops.id),
-  );
+  static $StopsTable _stopIdTable(_$AppDatabase db) =>
+      db.stops.createAlias('stop_times__stop_id__stops__id');
 
   $$StopsTableProcessedTableManager get stopId {
     final $_column = $_itemColumn<String>('stop_id')!;

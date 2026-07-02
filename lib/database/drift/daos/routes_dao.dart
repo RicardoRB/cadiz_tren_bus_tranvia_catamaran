@@ -7,7 +7,7 @@ part 'routes_dao.g.dart';
 
 @DriftAccessor(tables: [Routes])
 class RoutesDao extends DatabaseAccessor<AppDatabase> with _$RoutesDaoMixin {
-  RoutesDao(AppDatabase db) : super(db);
+  RoutesDao(super.db);
 
   Future<List<Route>> getAllRoutes() => select(routes).get();
   Future<List<Route>> getRoutesByMode(TransportMode mode) => (select(routes)..where((t) => t.transportMode.equalsValue(mode))).get();
