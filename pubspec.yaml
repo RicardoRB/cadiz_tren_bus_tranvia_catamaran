@@ -22,6 +22,10 @@ dependencies:
   flex_color_scheme: ^8.4.0
   shared_preferences: ^2.5.5
 
+dependency_overrides:
+  meta: 1.17.0
+  analyzer: ^11.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

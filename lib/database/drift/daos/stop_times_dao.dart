@@ -15,5 +15,11 @@ class StopTimesDao extends DatabaseAccessor<AppDatabase> with _$StopTimesDaoMixi
   Future<List<StopTime>> getStopTimesByStopAndDay(String stopId, DayType dayType) =>
     (select(stopTimes)..where((t) => t.stopId.equals(stopId) & t.dayType.equalsValue(dayType))..orderBy([(t) => OrderingTerm(expression: t.arrivalTime)])).get();
 
+  Future<List<StopTime>> getUpcomingStopTimesByStopAndDay(String stopId, DayType dayType, String time) =>
+    (select(stopTimes)
+      ..where((t) => t.stopId.equals(stopId) & t.dayType.equalsValue(dayType) & t.arrivalTime.isBiggerOrEqualValue(time))
+      ..orderBy([(t) => OrderingTerm(expression: t.arrivalTime)]))
+    .get();
+
   Future<int> insertStopTime(StopTime stopTime) => into(stopTimes).insert(stopTime, mode: InsertMode.insertOrReplace);
 }
