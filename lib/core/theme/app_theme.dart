@@ -15,7 +15,7 @@ class AppTheme {
         subThemesData: const FlexSubThemesData(
           blendOnLevel: 10,
           blendOnColors: false,
-          useTextTheme: true,
+          useMaterial3Typography: true,
           useM2StyleDividerInM3: true,
           alignedDropdown: true,
           useInputDecoratorThemeInDialogs: true,
@@ -31,7 +31,7 @@ class AppTheme {
         blendLevel: 13,
         subThemesData: const FlexSubThemesData(
           blendOnLevel: 20,
-          useTextTheme: true,
+          useMaterial3Typography: true,
           useM2StyleDividerInM3: true,
           alignedDropdown: true,
           useInputDecoratorThemeInDialogs: true,
