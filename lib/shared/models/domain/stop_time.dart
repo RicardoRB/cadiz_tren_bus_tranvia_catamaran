@@ -23,5 +23,9 @@ class TripModel {
   final String routeId;
   final Direction direction;
 
-  TripModel({required this.id, required this.routeId, required this.direction});
+  TripModel({
+    required this.id,
+    required this.routeId,
+    required this.direction,
+  });
 }

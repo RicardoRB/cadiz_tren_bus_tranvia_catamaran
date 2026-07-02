@@ -9,14 +9,8 @@ class ScheduleRepository {
 
   ScheduleRepository(this._stopTimesDao);
 
-  Future<List<StopTimeModel>> getScheduleForStop(
-    String stopId,
-    DayType dayType,
-  ) async {
-    final stopTimes = await _stopTimesDao.getStopTimesByStopAndDay(
-      stopId,
-      dayType,
-    );
+  Future<List<StopTimeModel>> getScheduleForStop(String stopId, DayType dayType) async {
+    final stopTimes = await _stopTimesDao.getStopTimesByStopAndDay(stopId, dayType);
     return stopTimes.map(_mapToDomain).toList();
   }
 

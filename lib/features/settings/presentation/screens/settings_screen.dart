@@ -13,11 +13,16 @@ class SettingsScreen extends ConsumerWidget {
     final themeMode = ref.watch(themeControllerProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Configuración')),
+      appBar: AppBar(
+        title: const Text('Configuración'),
+      ),
       body: ListView(
         children: [
           const ListTile(
-            title: Text('Tema', style: TextStyle(fontWeight: FontWeight.bold)),
+            title: Text(
+              'Tema',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
           ),
           RadioGroup<ThemeMode>(
             groupValue: themeMode,
@@ -45,7 +50,10 @@ class SettingsScreen extends ConsumerWidget {
           ),
           const Divider(),
           const ListTile(
-            title: Text('Otros', style: TextStyle(fontWeight: FontWeight.bold)),
+            title: Text(
+              'Otros',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
           ),
           ListTile(
             title: const Text('Valor del contador (desde Settings):'),
