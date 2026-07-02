@@ -7,7 +7,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 class DatabaseSeeder {
   static const String _dbName = 'cadiz_transit.sqlite';
   static const String _dbVersionKey = 'db_version';
-  static const int _currentDbVersion = 1; // Incrementa esto para forzar re-copia
+  static const int _currentDbVersion =
+      1; // Incrementa esto para forzar re-copia
 
   Future<void> ensureDatabaseIsSeeded() async {
     final prefs = await SharedPreferences.getInstance();
@@ -19,11 +20,14 @@ class DatabaseSeeder {
     if (!await dbFile.exists() || installedVersion < _currentDbVersion) {
       // Copiar desde assets
       final data = await rootBundle.load('assets/data/$_dbName');
-      final bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
-      
+      final bytes = data.buffer.asUint8List(
+        data.offsetInBytes,
+        data.lengthInBytes,
+      );
+
       await dbFile.create(recursive: true);
       await dbFile.writeAsBytes(bytes);
-      
+
       await prefs.setInt(_dbVersionKey, _currentDbVersion);
     }
   }

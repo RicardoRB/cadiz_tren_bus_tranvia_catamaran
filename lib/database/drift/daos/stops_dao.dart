@@ -10,6 +10,8 @@ class StopsDao extends DatabaseAccessor<AppDatabase> with _$StopsDaoMixin {
   StopsDao(super.db);
 
   Future<List<Stop>> getAllStops() => select(stops).get();
-  Future<List<Stop>> getStopsByMode(TransportMode mode) => (select(stops)..where((t) => t.transportMode.equalsValue(mode))).get();
-  Future<int> insertStop(Stop stop) => into(stops).insert(stop, mode: InsertMode.insertOrReplace);
+  Future<List<Stop>> getStopsByMode(TransportMode mode) =>
+      (select(stops)..where((t) => t.transportMode.equalsValue(mode))).get();
+  Future<int> insertStop(Stop stop) =>
+      into(stops).insert(stop, mode: InsertMode.insertOrReplace);
 }

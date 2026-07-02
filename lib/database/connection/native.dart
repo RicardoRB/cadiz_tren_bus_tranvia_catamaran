@@ -8,7 +8,7 @@ QueryExecutor connect() {
   return LazyDatabase(() async {
     final seeder = DatabaseSeeder();
     await seeder.ensureDatabaseIsSeeded();
-    
+
     final file = await seeder.getDatabaseFile();
 
     final cachebase = await getTemporaryDirectory();
