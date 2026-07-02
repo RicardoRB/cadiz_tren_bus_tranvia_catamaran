@@ -6,7 +6,7 @@ part 'theme_provider.g.dart';
 
 /// Provider para SharedPreferences que será sobreescrito en el main
 @riverpod
-SharedPreferences sharedPreferences(SharedPreferencesRef ref) {
+SharedPreferences sharedPreferences(Ref ref) {
   throw UnimplementedError();
 }
 
