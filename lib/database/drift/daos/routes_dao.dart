@@ -10,6 +10,8 @@ class RoutesDao extends DatabaseAccessor<AppDatabase> with _$RoutesDaoMixin {
   RoutesDao(super.db);
 
   Future<List<Route>> getAllRoutes() => select(routes).get();
-  Future<List<Route>> getRoutesByMode(TransportMode mode) => (select(routes)..where((t) => t.transportMode.equalsValue(mode))).get();
-  Future<int> insertRoute(Route route) => into(routes).insert(route, mode: InsertMode.insertOrReplace);
+  Future<List<Route>> getRoutesByMode(TransportMode mode) =>
+      (select(routes)..where((t) => t.transportMode.equalsValue(mode))).get();
+  Future<int> insertRoute(Route route) =>
+      into(routes).insert(route, mode: InsertMode.insertOrReplace);
 }
