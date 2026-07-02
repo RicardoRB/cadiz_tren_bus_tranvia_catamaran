@@ -106,7 +106,7 @@ Ejecuta `flutter analyze` y `flutter test` antes de dar cualquier tarea por term
 
 ## Convenciones de código
 
-- Idioma del código (nombres de variables, clases, funciones, comentarios): **inglés**.
+- Idioma del código (nombres de variables, clases, funciones, comentarios): **español (es_ES)**.
 - Idioma de la interfaz visible al usuario final: **español (es_ES)**.
 - Nombres de archivo: `snake_case.dart`.
 - Cada feature sigue estrictamente las capas `data/` (repositorios, DAOs), `domain/` (modelos, lógica de negocio pura), `presentation/` (screens, widgets, providers).
