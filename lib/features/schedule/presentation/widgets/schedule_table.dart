@@ -63,7 +63,9 @@ class _ScheduleList extends ConsumerWidget {
     return scheduleAsync.when(
       data: (times) {
         if (times.isEmpty) {
-          return const Center(child: Text('No hay horarios para este tipo de día'));
+          return const Center(
+            child: Text('No hay horarios para este tipo de día'),
+          );
         }
 
         // Group by hour
@@ -112,9 +114,14 @@ class _ScheduleList extends ConsumerWidget {
                       runSpacing: 8,
                       children: minutes.map((m) {
                         return Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 4,
+                          ),
                           decoration: BoxDecoration(
-                            border: Border.all(color: Theme.of(context).dividerColor),
+                            border: Border.all(
+                              color: Theme.of(context).dividerColor,
+                            ),
                             borderRadius: BorderRadius.circular(4),
                           ),
                           child: Text(m),

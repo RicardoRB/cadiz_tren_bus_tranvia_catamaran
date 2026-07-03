@@ -20,7 +20,11 @@ void main() {
     });
 
     test('Date in holidays list resolves to holiday', () {
-      final date = DateTime(2024, 5, 1); // Wednesday, but if we pass it as holiday...
+      final date = DateTime(
+        2024,
+        5,
+        1,
+      ); // Wednesday, but if we pass it as holiday...
       final holidays = [DateTime(2024, 5, 1)];
       expect(resolveDayType(date, holidays: holidays), DayType.holiday);
     });

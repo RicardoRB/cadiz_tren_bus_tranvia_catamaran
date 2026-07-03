@@ -12,13 +12,20 @@ Future<List<RouteModel>> routesByMode(Ref ref, TransportMode mode) {
 }
 
 @riverpod
-Future<List<RouteModel>> filteredRoutes(Ref ref, TransportMode mode, {String? searchQuery, String? operatorId}) async {
+Future<List<RouteModel>> filteredRoutes(
+  Ref ref,
+  TransportMode mode, {
+  String? searchQuery,
+  String? operatorId,
+}) async {
   final allRoutes = await ref.watch(routesByModeProvider(mode).future);
 
   return allRoutes.where((route) {
-    final matchesQuery = searchQuery == null ||
+    final matchesQuery =
+        searchQuery == null ||
         route.name.toLowerCase().contains(searchQuery.toLowerCase());
-    final matchesOperator = operatorId == null || route.operatorId == operatorId;
+    final matchesOperator =
+        operatorId == null || route.operatorId == operatorId;
     return matchesQuery && matchesOperator;
   }).toList();
 }

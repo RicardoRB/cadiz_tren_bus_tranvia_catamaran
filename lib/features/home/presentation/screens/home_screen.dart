@@ -48,10 +48,7 @@ class HomeScreen extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 32),
-            Text(
-              'Favoritos',
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
+            Text('Favoritos', style: Theme.of(context).textTheme.titleLarge),
             const SizedBox(height: 16),
             const Card(
               child: Padding(
@@ -93,9 +90,9 @@ class _TransportModeCard extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               name,
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
+              style: Theme.of(
+                context,
+              ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
             ),
           ],
         ),

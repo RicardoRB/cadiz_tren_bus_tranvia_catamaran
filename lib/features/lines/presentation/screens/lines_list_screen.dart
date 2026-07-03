@@ -39,18 +39,22 @@ class _LinesListScreenState extends ConsumerState<LinesListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final filteredRoutesAsync = ref.watch(filteredRoutesProvider(
-      widget.mode,
-      searchQuery: _searchQuery.isEmpty ? null : _searchQuery,
-      operatorId: _selectedOperatorId,
-    ));
+    final filteredRoutesAsync = ref.watch(
+      filteredRoutesProvider(
+        widget.mode,
+        searchQuery: _searchQuery.isEmpty ? null : _searchQuery,
+        operatorId: _selectedOperatorId,
+      ),
+    );
 
     final operatorsAsync = ref.watch(modeOperatorsProvider(widget.mode));
     final operatorsMapAsync = ref.watch(operatorsMapProvider);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Líneas de ${TransportModeColors.getModeName(widget.mode)}'),
+        title: Text(
+          'Líneas de ${TransportModeColors.getModeName(widget.mode)}',
+        ),
       ),
       body: Column(
         children: [
@@ -92,7 +96,9 @@ class _LinesListScreenState extends ConsumerState<LinesListScreen> {
                     final isAll = index == 0;
                     final opId = isAll ? null : operators[index - 1];
                     final isSelected = _selectedOperatorId == opId;
-                    final opName = isAll ? 'Todos' : (operatorsMap[opId] ?? opId);
+                    final opName = isAll
+                        ? 'Todos'
+                        : (operatorsMap[opId] ?? opId);
 
                     return Padding(
                       padding: const EdgeInsets.only(right: 8.0),
@@ -121,11 +127,17 @@ class _LinesListScreenState extends ConsumerState<LinesListScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Icon(Icons.search_off, size: 48, color: Colors.grey),
+                        const Icon(
+                          Icons.search_off,
+                          size: 48,
+                          color: Colors.grey,
+                        ),
                         const SizedBox(height: 16),
-                        Text(_searchQuery.isEmpty
-                            ? 'No hay líneas disponibles'
-                            : 'No se encontraron líneas para "$_searchQuery"'),
+                        Text(
+                          _searchQuery.isEmpty
+                              ? 'No hay líneas disponibles'
+                              : 'No se encontraron líneas para "$_searchQuery"',
+                        ),
                       ],
                     ),
                   );
@@ -134,11 +146,16 @@ class _LinesListScreenState extends ConsumerState<LinesListScreen> {
 
                 return ListView.separated(
                   itemCount: routes.length,
-                  separatorBuilder: (context, index) => const Divider(height: 1),
+                  separatorBuilder: (context, index) =>
+                      const Divider(height: 1),
                   itemBuilder: (context, index) {
                     final route = routes[index];
-                    final color = TransportModeColors.parseHex(route.colorHex, widget.mode);
-                    final opName = operatorsMap[route.operatorId] ?? route.operatorId;
+                    final color = TransportModeColors.parseHex(
+                      route.colorHex,
+                      widget.mode,
+                    );
+                    final opName =
+                        operatorsMap[route.operatorId] ?? route.operatorId;
 
                     return ListTile(
                       leading: Container(

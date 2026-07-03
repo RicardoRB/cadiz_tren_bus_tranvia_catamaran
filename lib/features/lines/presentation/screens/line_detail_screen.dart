@@ -20,7 +20,9 @@ class _LineDetailScreenState extends ConsumerState<LineDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final routeAsync = ref.watch(routeDetailProvider(widget.routeId));
-    final stopsAsync = ref.watch(routeStopsProvider(widget.routeId, _selectedDirection));
+    final stopsAsync = ref.watch(
+      routeStopsProvider(widget.routeId, _selectedDirection),
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -32,9 +34,13 @@ class _LineDetailScreenState extends ConsumerState<LineDetailScreen> {
       ),
       body: routeAsync.when(
         data: (route) {
-          if (route == null) return const Center(child: Text('Línea no encontrada'));
+          if (route == null)
+            return const Center(child: Text('Línea no encontrada'));
 
-          final color = TransportModeColors.parseHex(route.colorHex, route.transportMode);
+          final color = TransportModeColors.parseHex(
+            route.colorHex,
+            route.transportMode,
+          );
 
           return Column(
             children: [
@@ -82,7 +88,11 @@ class _LineDetailScreenState extends ConsumerState<LineDetailScreen> {
                 child: stopsAsync.when(
                   data: (stops) {
                     if (stops.isEmpty) {
-                      return const Center(child: Text('No hay paradas registradas para este sentido'));
+                      return const Center(
+                        child: Text(
+                          'No hay paradas registradas para este sentido',
+                        ),
+                      );
                     }
                     return ListView.builder(
                       itemCount: stops.length,
@@ -107,19 +117,24 @@ class _LineDetailScreenState extends ConsumerState<LineDetailScreen> {
                               Container(
                                 width: 2,
                                 height: index == stops.length - 1 ? 10 : 20,
-                                color: index == stops.length - 1 ? Colors.transparent : color,
+                                color: index == stops.length - 1
+                                    ? Colors.transparent
+                                    : color,
                               ),
                             ],
                           ),
                           title: Text(stop.name),
-                          subtitle: Text(TransportModeColors.getModeName(stop.transportMode)),
+                          subtitle: Text(
+                            TransportModeColors.getModeName(stop.transportMode),
+                          ),
                           trailing: const Icon(Icons.chevron_right),
                           onTap: () => context.push('/stops/${stop.id}'),
                         );
                       },
                     );
                   },
-                  loading: () => const Center(child: CircularProgressIndicator()),
+                  loading: () =>
+                      const Center(child: CircularProgressIndicator()),
                   error: (err, stack) => Center(child: Text('Error: $err')),
                 ),
               ),

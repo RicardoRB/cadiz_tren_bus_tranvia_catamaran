@@ -13,11 +13,23 @@ ScheduleRepository scheduleRepository(Ref ref) {
 }
 
 @riverpod
-Future<List<StopTimeModel>> stopSchedule(Ref ref, String stopId, DayType dayType) {
-  return ref.watch(scheduleRepositoryProvider).getScheduleForStop(stopId, dayType);
+Future<List<StopTimeModel>> stopSchedule(
+  Ref ref,
+  String stopId,
+  DayType dayType,
+) {
+  return ref
+      .watch(scheduleRepositoryProvider)
+      .getScheduleForStop(stopId, dayType);
 }
 
 @riverpod
-Future<List<StopTimeModel>> upcomingStopTimes(Ref ref, String stopId, DateTime now) {
-  return ref.watch(scheduleRepositoryProvider).getUpcomingTimesForStop(stopId, now);
+Future<List<StopTimeModel>> upcomingStopTimes(
+  Ref ref,
+  String stopId,
+  DateTime now,
+) {
+  return ref
+      .watch(scheduleRepositoryProvider)
+      .getUpcomingTimesForStop(stopId, now);
 }

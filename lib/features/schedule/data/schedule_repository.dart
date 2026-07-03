@@ -20,11 +20,19 @@ class ScheduleRepository {
     return stopTimes.map(_mapToDomain).toList();
   }
 
-  Future<List<StopTimeModel>> getUpcomingTimesForStop(String stopId, DateTime now) async {
+  Future<List<StopTimeModel>> getUpcomingTimesForStop(
+    String stopId,
+    DateTime now,
+  ) async {
     final dayType = resolveDayType(now);
-    final timeString = '${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}:${now.second.toString().padLeft(2, '0')}';
+    final timeString =
+        '${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}:${now.second.toString().padLeft(2, '0')}';
 
-    final stopTimes = await _stopTimesDao.getUpcomingStopTimesByStopAndDay(stopId, dayType, timeString);
+    final stopTimes = await _stopTimesDao.getUpcomingStopTimesByStopAndDay(
+      stopId,
+      dayType,
+      timeString,
+    );
     return stopTimes.map(_mapToDomain).toList();
   }
 

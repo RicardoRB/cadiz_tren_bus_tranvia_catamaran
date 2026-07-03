@@ -20,7 +20,8 @@ class SearchScreen extends ConsumerWidget {
             hintText: 'Buscar paradas o líneas...',
             border: InputBorder.none,
           ),
-          onChanged: (value) => ref.read(searchQueryProvider.notifier).update(value),
+          onChanged: (value) =>
+              ref.read(searchQueryProvider.notifier).update(value),
         ),
       ),
       body: resultsAsync.when(
@@ -48,27 +49,39 @@ class SearchScreen extends ConsumerWidget {
             children: [
               if (results.routes.isNotEmpty) ...[
                 const _SectionHeader(title: 'Líneas'),
-                ...results.routes.map((route) => ListTile(
-                      leading: Icon(
-                        TransportModeColors.getModeIcon(route.transportMode),
-                        color: TransportModeColors.getModeColor(route.transportMode),
+                ...results.routes.map(
+                  (route) => ListTile(
+                    leading: Icon(
+                      TransportModeColors.getModeIcon(route.transportMode),
+                      color: TransportModeColors.getModeColor(
+                        route.transportMode,
                       ),
-                      title: Text(route.name),
-                      subtitle: Text(TransportModeColors.getModeName(route.transportMode)),
-                      onTap: () => context.push('/lines/detail/${route.id}'),
-                    )),
+                    ),
+                    title: Text(route.name),
+                    subtitle: Text(
+                      TransportModeColors.getModeName(route.transportMode),
+                    ),
+                    onTap: () => context.push('/lines/detail/${route.id}'),
+                  ),
+                ),
               ],
               if (results.stops.isNotEmpty) ...[
                 const _SectionHeader(title: 'Paradas'),
-                ...results.stops.map((stop) => ListTile(
-                      leading: Icon(
-                        TransportModeColors.getModeIcon(stop.transportMode),
-                        color: TransportModeColors.getModeColor(stop.transportMode),
+                ...results.stops.map(
+                  (stop) => ListTile(
+                    leading: Icon(
+                      TransportModeColors.getModeIcon(stop.transportMode),
+                      color: TransportModeColors.getModeColor(
+                        stop.transportMode,
                       ),
-                      title: Text(stop.name),
-                      subtitle: Text(TransportModeColors.getModeName(stop.transportMode)),
-                      onTap: () => context.push('/stops/${stop.id}'),
-                    )),
+                    ),
+                    title: Text(stop.name),
+                    subtitle: Text(
+                      TransportModeColors.getModeName(stop.transportMode),
+                    ),
+                    onTap: () => context.push('/stops/${stop.id}'),
+                  ),
+                ),
               ],
             ],
           );
@@ -93,9 +106,9 @@ class _SectionHeader extends StatelessWidget {
       child: Text(
         title,
         style: Theme.of(context).textTheme.titleSmall?.copyWith(
-              color: Theme.of(context).colorScheme.onSurfaceVariant,
-              fontWeight: FontWeight.bold,
-            ),
+          color: Theme.of(context).colorScheme.onSurfaceVariant,
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
   }

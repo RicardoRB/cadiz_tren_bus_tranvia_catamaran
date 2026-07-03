@@ -19,16 +19,19 @@ void main() {
   });
 
   group('ScheduleRepository', () {
-    test('getUpcomingTimesForStop resolves DayType and filters times', () async {
-      // 2024-05-21 is a Tuesday (Weekday)
-      final now = DateTime(2024, 5, 21, 10, 0, 0);
+    test(
+      'getUpcomingTimesForStop resolves DayType and filters times',
+      () async {
+        // 2024-05-21 is a Tuesday (Weekday)
+        final now = DateTime(2024, 5, 21, 10, 0, 0);
 
-      final upcoming = await repository.getUpcomingTimesForStop('stop1', now);
+        final upcoming = await repository.getUpcomingTimesForStop('stop1', now);
 
-      expect(upcoming.length, 2);
-      expect(upcoming[0].arrivalTime, '12:00:00');
-      expect(upcoming[1].arrivalTime, '23:55:00');
-    });
+        expect(upcoming.length, 2);
+        expect(upcoming[0].arrivalTime, '12:00:00');
+        expect(upcoming[1].arrivalTime, '23:55:00');
+      },
+    );
 
     test('getUpcomingTimesForStop handles Saturday', () async {
       // 2024-05-25 is a Saturday
@@ -51,10 +54,16 @@ void main() {
       expect(upcoming[1].arrivalTime, '18:00:00');
     });
 
-    test('getUpcomingTimesForStop returns empty for non-existent stop', () async {
-      final now = DateTime(2024, 5, 21, 10, 0, 0);
-      final upcoming = await repository.getUpcomingTimesForStop('non_existent', now);
-      expect(upcoming, isEmpty);
-    });
+    test(
+      'getUpcomingTimesForStop returns empty for non-existent stop',
+      () async {
+        final now = DateTime(2024, 5, 21, 10, 0, 0);
+        final upcoming = await repository.getUpcomingTimesForStop(
+          'non_existent',
+          now,
+        );
+        expect(upcoming, isEmpty);
+      },
+    );
   });
 }

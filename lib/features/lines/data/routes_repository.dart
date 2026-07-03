@@ -24,7 +24,10 @@ class RoutesRepository {
     return route != null ? _mapToDomain(route) : null;
   }
 
-  Future<List<StopModel>> getStopsForRoute(String routeId, Direction direction) async {
+  Future<List<StopModel>> getStopsForRoute(
+    String routeId,
+    Direction direction,
+  ) async {
     final stops = await _routesDao.getStopsForRoute(routeId, direction);
     return stops.map(_mapStopToDomain).toList();
   }

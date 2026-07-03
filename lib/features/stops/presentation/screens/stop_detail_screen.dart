@@ -27,7 +27,9 @@ class _StopDetailScreenState extends ConsumerState<StopDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final stopAsync = ref.watch(stopDetailProvider(widget.stopId));
-    final upcomingAsync = ref.watch(upcomingStopTimesProvider(widget.stopId, _referenceTime));
+    final upcomingAsync = ref.watch(
+      upcomingStopTimesProvider(widget.stopId, _referenceTime),
+    );
     final isFavorite = ref.watch(favoritesProvider).contains(widget.stopId);
 
     return Scaffold(
@@ -42,10 +44,16 @@ class _StopDetailScreenState extends ConsumerState<StopDetailScreen> {
             icon: Icon(isFavorite ? Icons.favorite : Icons.favorite_border),
             color: isFavorite ? Colors.red : null,
             onPressed: () {
-              ref.read(favoritesProvider.notifier).toggleFavorite(widget.stopId);
+              ref
+                  .read(favoritesProvider.notifier)
+                  .toggleFavorite(widget.stopId);
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text(isFavorite ? 'Eliminado de favoritos' : 'Añadido a favoritos'),
+                  content: Text(
+                    isFavorite
+                        ? 'Eliminado de favoritos'
+                        : 'Añadido a favoritos',
+                  ),
                   duration: const Duration(seconds: 1),
                 ),
               );
@@ -55,14 +63,18 @@ class _StopDetailScreenState extends ConsumerState<StopDetailScreen> {
       ),
       body: stopAsync.when(
         data: (stop) {
-          if (stop == null) return const Center(child: Text('Parada no encontrada'));
+          if (stop == null)
+            return const Center(child: Text('Parada no encontrada'));
 
           final color = TransportModeColors.getModeColor(stop.transportMode);
 
           return Column(
             children: [
               ListTile(
-                leading: Icon(TransportModeColors.getModeIcon(stop.transportMode), color: color),
+                leading: Icon(
+                  TransportModeColors.getModeIcon(stop.transportMode),
+                  color: color,
+                ),
                 title: Text(stop.name),
                 subtitle: Text('Operador ID: ${stop.operatorId}'),
               ),
@@ -73,10 +85,15 @@ class _StopDetailScreenState extends ConsumerState<StopDetailScreen> {
                   children: [
                     Text(
                       'Próximos pasos',
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const Spacer(),
-                    const Text('Hoy', style: TextStyle(fontStyle: FontStyle.italic)),
+                    const Text(
+                      'Hoy',
+                      style: TextStyle(fontStyle: FontStyle.italic),
+                    ),
                   ],
                 ),
               ),
@@ -117,7 +134,8 @@ class _StopDetailScreenState extends ConsumerState<StopDetailScreen> {
                       },
                     );
                   },
-                  loading: () => const Center(child: CircularProgressIndicator()),
+                  loading: () =>
+                      const Center(child: CircularProgressIndicator()),
                   error: (err, stack) => Center(child: Text('Error: $err')),
                 ),
               ),

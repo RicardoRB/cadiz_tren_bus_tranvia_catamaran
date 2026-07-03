@@ -39,9 +39,6 @@ final router = GoRouter(
         return StopDetailScreen(stopId: id);
       },
     ),
-    GoRoute(
-      path: '/search',
-      builder: (context, state) => const SearchScreen(),
-    ),
+    GoRoute(path: '/search', builder: (context, state) => const SearchScreen()),
   ],
 );

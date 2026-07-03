@@ -19,22 +19,37 @@ class RoutesDao extends DatabaseAccessor<AppDatabase> with _$RoutesDaoMixin {
   Future<Route?> getRouteById(String id) =>
       (select(routes)..where((t) => t.id.equals(id))).getSingleOrNull();
 
-  Future<List<Stop>> getStopsForRoute(String routeId, Direction direction) async {
+  Future<List<Stop>> getStopsForRoute(
+    String routeId,
+    Direction direction,
+  ) async {
     // To avoid duplicates if there are multiple trips for the same route/direction
     // we take the stops from the first trip found for that route/direction.
-    final firstTrip = await (select(attachedDatabase.trips)
-          ..where((t) => t.routeId.equals(routeId) & t.direction.equalsValue(direction))
-          ..orderBy([(t) => OrderingTerm(expression: t.id)])
-          ..limit(1))
-        .getSingleOrNull();
+    final firstTrip =
+        await (select(attachedDatabase.trips)
+              ..where(
+                (t) =>
+                    t.routeId.equals(routeId) &
+                    t.direction.equalsValue(direction),
+              )
+              ..orderBy([(t) => OrderingTerm(expression: t.id)])
+              ..limit(1))
+            .getSingleOrNull();
 
     if (firstTrip == null) return [];
 
     return (select(attachedDatabase.stops).join([
-      innerJoin(attachedDatabase.stopTimes, attachedDatabase.stopTimes.stopId.equalsExp(attachedDatabase.stops.id)),
-    ])
+            innerJoin(
+              attachedDatabase.stopTimes,
+              attachedDatabase.stopTimes.stopId.equalsExp(
+                attachedDatabase.stops.id,
+              ),
+            ),
+          ])
           ..where(attachedDatabase.stopTimes.tripId.equals(firstTrip.id))
-          ..orderBy([OrderingTerm(expression: attachedDatabase.stopTimes.sequence)]))
+          ..orderBy([
+            OrderingTerm(expression: attachedDatabase.stopTimes.sequence),
+          ]))
         .map((row) => row.readTable(attachedDatabase.stops))
         .get();
   }
