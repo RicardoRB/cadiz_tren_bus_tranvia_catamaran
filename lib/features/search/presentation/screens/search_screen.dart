@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/theme/transport_mode_colors.dart';
 import '../providers/search_provider.dart';
+import '../../../../shared/widgets/loading_shimmer.dart';
 
 class SearchScreen extends ConsumerWidget {
   const SearchScreen({super.key});
@@ -61,7 +62,7 @@ class SearchScreen extends ConsumerWidget {
                     subtitle: Text(
                       TransportModeColors.getModeName(route.transportMode),
                     ),
-                    onTap: () => context.push('/lines/detail/${route.id}'),
+                    onTap: () => context.push('/lines/${route.id}'),
                   ),
                 ),
               ],
@@ -86,7 +87,7 @@ class SearchScreen extends ConsumerWidget {
             ],
           );
         },
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => const LoadingShimmer(child: ListLoadingShimmer()),
         error: (err, stack) => Center(child: Text('Error: $err')),
       ),
     );

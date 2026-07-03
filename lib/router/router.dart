@@ -26,7 +26,7 @@ final router = GoRouter(
       },
     ),
     GoRoute(
-      path: '/lines/detail/:id',
+      path: '/lines/:id',
       builder: (context, state) {
         final id = state.pathParameters['id']!;
         return LineDetailScreen(routeId: id);

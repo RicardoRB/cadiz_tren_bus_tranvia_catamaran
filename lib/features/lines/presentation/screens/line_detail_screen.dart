@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../shared/models/enums.dart';
 import '../providers/line_detail_provider.dart';
 import '../../../../core/theme/transport_mode_colors.dart';
+import '../../../../shared/widgets/loading_shimmer.dart';
 
 class LineDetailScreen extends ConsumerStatefulWidget {
   final String routeId;
@@ -134,15 +135,16 @@ class _LineDetailScreenState extends ConsumerState<LineDetailScreen> {
                       },
                     );
                   },
-                  loading: () =>
-                      const Center(child: CircularProgressIndicator()),
+                  loading: () => const LoadingShimmer(
+                    child: ListLoadingShimmer(itemCount: 5),
+                  ),
                   error: (err, stack) => Center(child: Text('Error: $err')),
                 ),
               ),
             ],
           );
         },
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => const LoadingShimmer(child: DetailLoadingShimmer()),
         error: (err, stack) => Center(child: Text('Error: $err')),
       ),
     );

@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../shared/models/enums.dart';
 import '../providers/lines_list_provider.dart';
 import '../../../../core/theme/transport_mode_colors.dart';
+import '../../../../shared/widgets/loading_shimmer.dart';
 
 class LinesListScreen extends ConsumerStatefulWidget {
   final TransportMode mode;
@@ -172,12 +173,14 @@ class _LinesListScreenState extends ConsumerState<LinesListScreen> {
                       ),
                       subtitle: Text('Operador: $opName'),
                       trailing: const Icon(Icons.chevron_right),
-                      onTap: () => context.push('/lines/detail/${route.id}'),
+                      onTap: () => context.push('/lines/${route.id}'),
                     );
                   },
                 );
               },
-              loading: () => const Center(child: CircularProgressIndicator()),
+              loading: () => const LoadingShimmer(
+                child: ListLoadingShimmer(),
+              ),
               error: (err, stack) => Center(child: Text('Error: $err')),
             ),
           ),

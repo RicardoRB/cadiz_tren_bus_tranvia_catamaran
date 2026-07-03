@@ -5,6 +5,7 @@ import '../providers/stop_detail_provider.dart';
 import '../providers/favorites_provider.dart';
 import '../../../schedule/presentation/providers/schedule_provider.dart';
 import '../../../schedule/presentation/widgets/schedule_table.dart';
+import '../../../../shared/widgets/loading_shimmer.dart';
 
 class StopDetailScreen extends ConsumerStatefulWidget {
   final String stopId;
@@ -135,15 +136,16 @@ class _StopDetailScreenState extends ConsumerState<StopDetailScreen> {
                       },
                     );
                   },
-                  loading: () =>
-                      const Center(child: CircularProgressIndicator()),
+                  loading: () => const LoadingShimmer(
+                    child: ListLoadingShimmer(itemCount: 5),
+                  ),
                   error: (err, stack) => Center(child: Text('Error: $err')),
                 ),
               ),
             ],
           );
         },
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => const LoadingShimmer(child: DetailLoadingShimmer()),
         error: (err, stack) => Center(child: Text('Error: $err')),
       ),
     );

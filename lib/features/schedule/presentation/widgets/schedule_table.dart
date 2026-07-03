@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../shared/models/enums.dart';
 import '../providers/schedule_provider.dart';
 import '../../domain/day_type_resolver.dart';
+import '../../../../shared/widgets/loading_shimmer.dart';
 
 class ScheduleTable extends ConsumerWidget {
   final String stopId;
@@ -135,7 +136,7 @@ class _ScheduleList extends ConsumerWidget {
           },
         );
       },
-      loading: () => const Center(child: CircularProgressIndicator()),
+      loading: () => const LoadingShimmer(child: ListLoadingShimmer()),
       error: (err, stack) => Center(child: Text('Error: $err')),
     );
   }
