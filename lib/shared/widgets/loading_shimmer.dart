@@ -52,11 +52,7 @@ class ListLoadingShimmer extends StatelessWidget {
                     color: Colors.white,
                   ),
                   const SizedBox(height: 8),
-                  Container(
-                    width: 150,
-                    height: 12,
-                    color: Colors.white,
-                  ),
+                  Container(width: 150, height: 12, color: Colors.white),
                 ],
               ),
             ),
@@ -76,21 +72,13 @@ class DetailLoadingShimmer extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            width: double.infinity,
-            height: 200,
-            color: Colors.white,
-          ),
+          Container(width: double.infinity, height: 200, color: Colors.white),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  width: 200,
-                  height: 24,
-                  color: Colors.white,
-                ),
+                Container(width: 200, height: 24, color: Colors.white),
                 const SizedBox(height: 16),
                 Container(
                   width: double.infinity,

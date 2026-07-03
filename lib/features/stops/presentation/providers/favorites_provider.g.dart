@@ -98,4 +98,4 @@ final class FavoriteStopsProvider
   }
 }
 
-String _$favoriteStopsHash() => r'9177a0a014b3efd6b27b31e8cf3b2940073db6d7';
+String _$favoriteStopsHash() => r'568901b19f1eff9cdde4c99c603bc67a09d8c2ac';

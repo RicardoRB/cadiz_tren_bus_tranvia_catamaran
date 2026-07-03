@@ -178,9 +178,7 @@ class _LinesListScreenState extends ConsumerState<LinesListScreen> {
                   },
                 );
               },
-              loading: () => const LoadingShimmer(
-                child: ListLoadingShimmer(),
-              ),
+              loading: () => const LoadingShimmer(child: ListLoadingShimmer()),
               error: (err, stack) => Center(child: Text('Error: $err')),
             ),
           ),

@@ -93,9 +93,8 @@ class HomeScreen extends ConsumerWidget {
                   },
                 );
               },
-              loading: () => const LoadingShimmer(
-                child: ListLoadingShimmer(itemCount: 3),
-              ),
+              loading: () =>
+                  const LoadingShimmer(child: ListLoadingShimmer(itemCount: 3)),
               error: (err, stack) => Center(child: Text('Error: $err')),
             ),
           ],
