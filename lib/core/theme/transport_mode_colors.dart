@@ -40,4 +40,16 @@ class TransportModeColors {
         return 'Catamarán';
     }
   }
+
+  static Color parseHex(String? hex, TransportMode mode) {
+    if (hex == null || hex.isEmpty) return getModeColor(mode);
+    try {
+      final buffer = StringBuffer();
+      if (hex.length == 6 || hex.length == 7) buffer.write('ff');
+      buffer.write(hex.replaceFirst('#', ''));
+      return Color(int.parse(buffer.toString(), radix: 16));
+    } catch (_) {
+      return getModeColor(mode);
+    }
+  }
 }

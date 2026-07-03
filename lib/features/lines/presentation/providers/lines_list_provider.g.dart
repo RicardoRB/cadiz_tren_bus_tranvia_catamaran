@@ -9,6 +9,81 @@ part of 'lines_list_provider.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
+@ProviderFor(routesByMode)
+final routesByModeProvider = RoutesByModeFamily._();
+
+final class RoutesByModeProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<RouteModel>>,
+          List<RouteModel>,
+          FutureOr<List<RouteModel>>
+        >
+    with $FutureModifier<List<RouteModel>>, $FutureProvider<List<RouteModel>> {
+  RoutesByModeProvider._({
+    required RoutesByModeFamily super.from,
+    required TransportMode super.argument,
+  }) : super(
+         retry: null,
+         name: r'routesByModeProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
+
+  @override
+  String debugGetCreateSourceHash() => _$routesByModeHash();
+
+  @override
+  String toString() {
+    return r'routesByModeProvider'
+        ''
+        '($argument)';
+  }
+
+  @$internal
+  @override
+  $FutureProviderElement<List<RouteModel>> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<List<RouteModel>> create(Ref ref) {
+    final argument = this.argument as TransportMode;
+    return routesByMode(ref, argument);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is RoutesByModeProvider && other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
+}
+
+String _$routesByModeHash() => r'0f557cdf0ab64f45153ca83ab9cb06115b6cd9f7';
+
+final class RoutesByModeFamily extends $Family
+    with $FunctionalFamilyOverride<FutureOr<List<RouteModel>>, TransportMode> {
+  RoutesByModeFamily._()
+    : super(
+        retry: null,
+        name: r'routesByModeProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  RoutesByModeProvider call(TransportMode mode) =>
+      RoutesByModeProvider._(argument: mode, from: this);
+
+  @override
+  String toString() => r'routesByModeProvider';
+}
+
 @ProviderFor(filteredRoutes)
 final filteredRoutesProvider = FilteredRoutesFamily._();
 
@@ -72,7 +147,7 @@ final class FilteredRoutesProvider
   }
 }
 
-String _$filteredRoutesHash() => r'bd366ae341ced40be20d3c40b84925bdd790e277';
+String _$filteredRoutesHash() => r'227ac6c53801fd333a2a47401f7521eb0aeac894';
 
 final class FilteredRoutesFamily extends $Family
     with
@@ -157,7 +232,7 @@ final class ModeOperatorsProvider
   }
 }
 
-String _$modeOperatorsHash() => r'9df4da8cd1e6085c19ec2796804c05da3d249827';
+String _$modeOperatorsHash() => r'8e9f1a177aa25e9886ff6a2dec0203a7b4b64769';
 
 final class ModeOperatorsFamily extends $Family
     with $FunctionalFamilyOverride<FutureOr<List<String>>, TransportMode> {
@@ -176,3 +251,44 @@ final class ModeOperatorsFamily extends $Family
   @override
   String toString() => r'modeOperatorsProvider';
 }
+
+@ProviderFor(operatorsMap)
+final operatorsMapProvider = OperatorsMapProvider._();
+
+final class OperatorsMapProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<Map<String, String>>,
+          Map<String, String>,
+          FutureOr<Map<String, String>>
+        >
+    with
+        $FutureModifier<Map<String, String>>,
+        $FutureProvider<Map<String, String>> {
+  OperatorsMapProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'operatorsMapProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$operatorsMapHash();
+
+  @$internal
+  @override
+  $FutureProviderElement<Map<String, String>> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<Map<String, String>> create(Ref ref) {
+    return operatorsMap(ref);
+  }
+}
+
+String _$operatorsMapHash() => r'7a0e91fc8d42787775551716cebd46cf5e6d8dc8';

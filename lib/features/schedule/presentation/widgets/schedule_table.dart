@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../shared/models/enums.dart';
 import '../providers/schedule_provider.dart';
+import '../../domain/day_type_resolver.dart';
 
 class ScheduleTable extends ConsumerWidget {
   final String stopId;
@@ -37,10 +38,15 @@ class ScheduleTable extends ConsumerWidget {
   }
 
   int _getInitialTabIndex() {
-    final now = DateTime.now();
-    if (now.weekday == DateTime.sunday) return 2;
-    if (now.weekday == DateTime.saturday) return 1;
-    return 0;
+    final dayType = resolveDayType(DateTime.now());
+    switch (dayType) {
+      case DayType.weekday:
+        return 0;
+      case DayType.saturday:
+        return 1;
+      case DayType.holiday:
+        return 2;
+    }
   }
 }
 

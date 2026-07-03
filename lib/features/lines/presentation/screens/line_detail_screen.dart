@@ -34,9 +34,7 @@ class _LineDetailScreenState extends ConsumerState<LineDetailScreen> {
         data: (route) {
           if (route == null) return const Center(child: Text('Línea no encontrada'));
 
-          final color = route.colorHex != null
-              ? Color(int.parse('FF${route.colorHex!.replaceFirst('#', '')}', radix: 16))
-              : TransportModeColors.getModeColor(route.transportMode);
+          final color = TransportModeColors.parseHex(route.colorHex, route.transportMode);
 
           return Column(
             children: [

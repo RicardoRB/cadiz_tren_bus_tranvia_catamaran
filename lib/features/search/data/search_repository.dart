@@ -9,8 +9,10 @@ class SearchRepository {
   SearchRepository(this._db);
 
   Future<List<RouteModel>> searchRoutes(String query) async {
+    final escapedQuery = _escapeLike(query);
     final results = await (_db.select(_db.routes)
-          ..where((t) => t.name.like('%$query%')))
+          ..where((t) => t.name.like('%$escapedQuery%', escapeChar: '\\'))
+          ..limit(20))
         .get();
     return results.map((r) => RouteModel(
       id: r.id,
@@ -22,8 +24,10 @@ class SearchRepository {
   }
 
   Future<List<StopModel>> searchStops(String query) async {
+    final escapedQuery = _escapeLike(query);
     final results = await (_db.select(_db.stops)
-          ..where((t) => t.name.like('%$query%')))
+          ..where((t) => t.name.like('%$escapedQuery%', escapeChar: '\\'))
+          ..limit(20))
         .get();
     return results.map((s) => StopModel(
       id: s.id,
@@ -33,5 +37,12 @@ class SearchRepository {
       transportMode: s.transportMode,
       operatorId: s.operatorId,
     )).toList();
+  }
+
+  String _escapeLike(String query) {
+    return query
+        .replaceAll('\\', '\\\\')
+        .replaceAll('%', '\\%')
+        .replaceAll('_', '\\_');
   }
 }

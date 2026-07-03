@@ -444,10 +444,10 @@ packages:
     dependency: transitive
     description:
       name: matcher
-      sha256: "12956d0ad8390bbcc63ca2e1469c0619946ccb52809807067a7020d57e647aa6"
+      sha256: dc0b7dc7651697ea4ff3e69ef44b0407ea32c487a39fff6a4004fa585e901861
       url: "https://pub.dev"
     source: hosted
-    version: "0.12.18"
+    version: "0.12.19"
   material_color_utilities:
     dependency: transitive
     description:
@@ -857,10 +857,10 @@ packages:
     dependency: transitive
     description:
       name: test
-      sha256: "54c516bbb7cee2754d327ad4fca637f78abfc3cbcc5ace83b3eda117e42cd71a"
+      sha256: "0d5ba5602ec3baa28c8ce365e1efc5575969c765f45c554a3e167dc7945b9c30"
       url: "https://pub.dev"
     source: hosted
-    version: "1.29.0"
+    version: "1.31.2"
   test_api:
     dependency: "direct overridden"
     description:
@@ -873,10 +873,10 @@ packages:
     dependency: transitive
     description:
       name: test_core
-      sha256: "394f07d21f0f2255ec9e3989f21e54d3c7dc0e6e9dbce160e5a9c1a6be0e2943"
+      sha256: a39c204a4fc7a7ccb04a2b985e359fda3cc37e45e0b8ac61c3fb1a05aa832132
       url: "https://pub.dev"
     source: hosted
-    version: "0.6.15"
+    version: "0.6.19"
   typed_data:
     dependency: transitive
     description:

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -18,11 +19,22 @@ class _LinesListScreenState extends ConsumerState<LinesListScreen> {
   final _searchController = TextEditingController();
   String _searchQuery = '';
   String? _selectedOperatorId;
+  Timer? _debounce;
 
   @override
   void dispose() {
     _searchController.dispose();
+    _debounce?.cancel();
     super.dispose();
+  }
+
+  void _onSearchChanged(String query) {
+    if (_debounce?.isActive ?? false) _debounce?.cancel();
+    _debounce = Timer(const Duration(milliseconds: 300), () {
+      setState(() {
+        _searchQuery = query;
+      });
+    });
   }
 
   @override
@@ -34,6 +46,7 @@ class _LinesListScreenState extends ConsumerState<LinesListScreen> {
     ));
 
     final operatorsAsync = ref.watch(modeOperatorsProvider(widget.mode));
+    final operatorsMapAsync = ref.watch(operatorsMapProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -51,28 +64,24 @@ class _LinesListScreenState extends ConsumerState<LinesListScreen> {
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
-                suffixIcon: _searchQuery.isNotEmpty
+                suffixIcon: _searchController.text.isNotEmpty
                     ? IconButton(
                         icon: const Icon(Icons.clear),
                         onPressed: () {
                           _searchController.clear();
-                          setState(() {
-                            _searchQuery = '';
-                          });
+                          _onSearchChanged('');
                         },
                       )
                     : null,
               ),
-              onChanged: (value) {
-                setState(() {
-                  _searchQuery = value;
-                });
-              },
+              onChanged: _onSearchChanged,
             ),
           ),
           operatorsAsync.when(
             data: (operators) {
               if (operators.length <= 1) return const SizedBox.shrink();
+              final operatorsMap = operatorsMapAsync.value ?? {};
+
               return SizedBox(
                 height: 50,
                 child: ListView.builder(
@@ -83,11 +92,12 @@ class _LinesListScreenState extends ConsumerState<LinesListScreen> {
                     final isAll = index == 0;
                     final opId = isAll ? null : operators[index - 1];
                     final isSelected = _selectedOperatorId == opId;
+                    final opName = isAll ? 'Todos' : (operatorsMap[opId] ?? opId);
 
                     return Padding(
                       padding: const EdgeInsets.only(right: 8.0),
                       child: FilterChip(
-                        label: Text(isAll ? 'Todos' : opId!),
+                        label: Text(opName!),
                         selected: isSelected,
                         onSelected: (selected) {
                           setState(() {
@@ -120,14 +130,15 @@ class _LinesListScreenState extends ConsumerState<LinesListScreen> {
                     ),
                   );
                 }
+                final operatorsMap = operatorsMapAsync.value ?? {};
+
                 return ListView.separated(
                   itemCount: routes.length,
                   separatorBuilder: (context, index) => const Divider(height: 1),
                   itemBuilder: (context, index) {
                     final route = routes[index];
-                    final color = route.colorHex != null
-                        ? Color(int.parse('FF${route.colorHex!.replaceFirst('#', '')}', radix: 16))
-                        : TransportModeColors.getModeColor(widget.mode);
+                    final color = TransportModeColors.parseHex(route.colorHex, widget.mode);
+                    final opName = operatorsMap[route.operatorId] ?? route.operatorId;
 
                     return ListTile(
                       leading: Container(
@@ -142,7 +153,7 @@ class _LinesListScreenState extends ConsumerState<LinesListScreen> {
                         route.name,
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      subtitle: Text('Operador: ${route.operatorId}'),
+                      subtitle: Text('Operador: $opName'),
                       trailing: const Icon(Icons.chevron_right),
                       onTap: () => context.push('/lines/detail/${route.id}'),
                     );

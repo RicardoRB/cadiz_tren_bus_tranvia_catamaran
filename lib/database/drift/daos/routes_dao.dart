@@ -24,6 +24,7 @@ class RoutesDao extends DatabaseAccessor<AppDatabase> with _$RoutesDaoMixin {
     // we take the stops from the first trip found for that route/direction.
     final firstTrip = await (select(attachedDatabase.trips)
           ..where((t) => t.routeId.equals(routeId) & t.direction.equalsValue(direction))
+          ..orderBy([(t) => OrderingTerm(expression: t.id)])
           ..limit(1))
         .getSingleOrNull();
 

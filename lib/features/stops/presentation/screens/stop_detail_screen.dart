@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/theme/transport_mode_colors.dart';
 import '../providers/stop_detail_provider.dart';
+import '../providers/favorites_provider.dart';
 import '../../../schedule/presentation/providers/schedule_provider.dart';
 import '../../../schedule/presentation/widgets/schedule_table.dart';
 
@@ -15,12 +16,19 @@ class StopDetailScreen extends ConsumerStatefulWidget {
 }
 
 class _StopDetailScreenState extends ConsumerState<StopDetailScreen> {
-  bool _isFavorite = false; // TODO F5-1: persist favorite
+  late DateTime _referenceTime;
+
+  @override
+  void initState() {
+    super.initState();
+    _referenceTime = DateTime.now();
+  }
 
   @override
   Widget build(BuildContext context) {
     final stopAsync = ref.watch(stopDetailProvider(widget.stopId));
-    final upcomingAsync = ref.watch(upcomingStopTimesProvider(widget.stopId, DateTime.now()));
+    final upcomingAsync = ref.watch(upcomingStopTimesProvider(widget.stopId, _referenceTime));
+    final isFavorite = ref.watch(favoritesProvider).contains(widget.stopId);
 
     return Scaffold(
       appBar: AppBar(
@@ -31,15 +39,13 @@ class _StopDetailScreenState extends ConsumerState<StopDetailScreen> {
         ),
         actions: [
           IconButton(
-            icon: Icon(_isFavorite ? Icons.favorite : Icons.favorite_border),
-            color: _isFavorite ? Colors.red : null,
+            icon: Icon(isFavorite ? Icons.favorite : Icons.favorite_border),
+            color: isFavorite ? Colors.red : null,
             onPressed: () {
-              setState(() {
-                _isFavorite = !_isFavorite;
-              });
+              ref.read(favoritesProvider.notifier).toggleFavorite(widget.stopId);
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text(_isFavorite ? 'Añadido a favoritos' : 'Eliminado de favoritos'),
+                  content: Text(isFavorite ? 'Eliminado de favoritos' : 'Añadido a favoritos'),
                   duration: const Duration(seconds: 1),
                 ),
               );
