@@ -14,45 +14,42 @@ class TransportModeFilter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: Row(
-        children: TransportMode.values.map((mode) {
+    return PopupMenuButton<TransportMode>(
+      icon: const Icon(Icons.filter_list),
+      tooltip: 'Filtrar modos de transporte',
+      onSelected: (mode) {
+        final newSelection = Set<TransportMode>.from(selectedModes);
+        if (newSelection.contains(mode)) {
+          if (newSelection.length > 1) {
+            newSelection.remove(mode);
+          }
+        } else {
+          newSelection.add(mode);
+        }
+        onChanged(newSelection);
+      },
+      itemBuilder: (context) {
+        return TransportMode.values.map((mode) {
           final isSelected = selectedModes.contains(mode);
           final color = TransportModeColors.getModeColor(mode);
 
-          return Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: FilterChip(
-              label: Text(TransportModeColors.getModeName(mode)),
-              selected: isSelected,
-              onSelected: (selected) {
-                final newSelection = Set<TransportMode>.from(selectedModes);
-                if (selected) {
-                  newSelection.add(mode);
-                } else {
-                  if (newSelection.length > 1) {
-                    newSelection.remove(mode);
-                  }
-                }
-                onChanged(newSelection);
-              },
-              selectedColor: color.withValues(alpha: 0.2),
-              checkmarkColor: color,
-              labelStyle: TextStyle(
-                color: isSelected ? color : null,
-                fontWeight: isSelected ? FontWeight.bold : null,
-              ),
-              avatar: Icon(
-                TransportModeColors.getModeIcon(mode),
-                size: 18,
-                color: isSelected ? color : null,
-              ),
+          return CheckedPopupMenuItem<TransportMode>(
+            value: mode,
+            checked: isSelected,
+            child: Row(
+              children: [
+                Icon(
+                  TransportModeColors.getModeIcon(mode),
+                  size: 20,
+                  color: color,
+                ),
+                const SizedBox(width: 12),
+                Text(TransportModeColors.getModeName(mode)),
+              ],
             ),
           );
-        }).toList(),
-      ),
+        }).toList();
+      },
     );
   }
 }
