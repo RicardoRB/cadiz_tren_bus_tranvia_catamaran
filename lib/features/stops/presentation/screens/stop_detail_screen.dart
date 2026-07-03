@@ -1,0 +1,144 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../core/theme/transport_mode_colors.dart';
+import '../providers/stop_detail_provider.dart';
+import '../../../schedule/presentation/providers/schedule_provider.dart';
+import '../../../schedule/presentation/widgets/schedule_table.dart';
+
+class StopDetailScreen extends ConsumerStatefulWidget {
+  final String stopId;
+
+  const StopDetailScreen({super.key, required this.stopId});
+
+  @override
+  ConsumerState<StopDetailScreen> createState() => _StopDetailScreenState();
+}
+
+class _StopDetailScreenState extends ConsumerState<StopDetailScreen> {
+  bool _isFavorite = false; // TODO F5-1: persist favorite
+
+  @override
+  Widget build(BuildContext context) {
+    final stopAsync = ref.watch(stopDetailProvider(widget.stopId));
+    final upcomingAsync = ref.watch(upcomingStopTimesProvider(widget.stopId, DateTime.now()));
+
+    return Scaffold(
+      appBar: AppBar(
+        title: stopAsync.when(
+          data: (stop) => Text(stop?.name ?? 'Detalle de parada'),
+          loading: () => const Text('Cargando...'),
+          error: (err, stack) => const Text('Error'),
+        ),
+        actions: [
+          IconButton(
+            icon: Icon(_isFavorite ? Icons.favorite : Icons.favorite_border),
+            color: _isFavorite ? Colors.red : null,
+            onPressed: () {
+              setState(() {
+                _isFavorite = !_isFavorite;
+              });
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(_isFavorite ? 'Añadido a favoritos' : 'Eliminado de favoritos'),
+                  duration: const Duration(seconds: 1),
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+      body: stopAsync.when(
+        data: (stop) {
+          if (stop == null) return const Center(child: Text('Parada no encontrada'));
+
+          final color = TransportModeColors.getModeColor(stop.transportMode);
+
+          return Column(
+            children: [
+              ListTile(
+                leading: Icon(TransportModeColors.getModeIcon(stop.transportMode), color: color),
+                title: Text(stop.name),
+                subtitle: Text('Operador ID: ${stop.operatorId}'),
+              ),
+              const Divider(),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Row(
+                  children: [
+                    Text(
+                      'Próximos pasos',
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+                    ),
+                    const Spacer(),
+                    const Text('Hoy', style: TextStyle(fontStyle: FontStyle.italic)),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: upcomingAsync.when(
+                  data: (times) {
+                    if (times.isEmpty) {
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text('No hay más servicios para hoy'),
+                          const SizedBox(height: 16),
+                          ElevatedButton(
+                            onPressed: () => _showFullSchedule(context),
+                            child: const Text('Ver horario completo'),
+                          ),
+                        ],
+                      );
+                    }
+                    return ListView.builder(
+                      itemCount: times.length + 1,
+                      itemBuilder: (context, index) {
+                        if (index == times.length) {
+                          return Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: ElevatedButton(
+                              onPressed: () => _showFullSchedule(context),
+                              child: const Text('Ver horario completo'),
+                            ),
+                          );
+                        }
+                        final time = times[index];
+                        return ListTile(
+                          leading: const Icon(Icons.access_time),
+                          title: Text(time.arrivalTime.substring(0, 5)),
+                          subtitle: Text('Trip ID: ${time.tripId}'),
+                        );
+                      },
+                    );
+                  },
+                  loading: () => const Center(child: CircularProgressIndicator()),
+                  error: (err, stack) => Center(child: Text('Error: $err')),
+                ),
+              ),
+            ],
+          );
+        },
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (err, stack) => Center(child: Text('Error: $err')),
+      ),
+    );
+  }
+
+  void _showFullSchedule(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      useSafeArea: true,
+      builder: (context) => Scaffold(
+        appBar: AppBar(
+          title: const Text('Horario completo'),
+          leading: IconButton(
+            icon: const Icon(Icons.close),
+            onPressed: () => Navigator.pop(context),
+          ),
+        ),
+        body: ScheduleTable(stopId: widget.stopId),
+      ),
+    );
+  }
+}

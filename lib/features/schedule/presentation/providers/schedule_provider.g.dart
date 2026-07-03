@@ -56,3 +56,165 @@ final class ScheduleRepositoryProvider
 
 String _$scheduleRepositoryHash() =>
     r'018d30afdb4dfb1abe3afc5c9df0b537238d452a';
+
+@ProviderFor(stopSchedule)
+final stopScheduleProvider = StopScheduleFamily._();
+
+final class StopScheduleProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<StopTimeModel>>,
+          List<StopTimeModel>,
+          FutureOr<List<StopTimeModel>>
+        >
+    with
+        $FutureModifier<List<StopTimeModel>>,
+        $FutureProvider<List<StopTimeModel>> {
+  StopScheduleProvider._({
+    required StopScheduleFamily super.from,
+    required (String, DayType) super.argument,
+  }) : super(
+         retry: null,
+         name: r'stopScheduleProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
+
+  @override
+  String debugGetCreateSourceHash() => _$stopScheduleHash();
+
+  @override
+  String toString() {
+    return r'stopScheduleProvider'
+        ''
+        '$argument';
+  }
+
+  @$internal
+  @override
+  $FutureProviderElement<List<StopTimeModel>> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<List<StopTimeModel>> create(Ref ref) {
+    final argument = this.argument as (String, DayType);
+    return stopSchedule(ref, argument.$1, argument.$2);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is StopScheduleProvider && other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
+}
+
+String _$stopScheduleHash() => r'e1fc8e83c892cf56f287a05920c3d1a487ad05d8';
+
+final class StopScheduleFamily extends $Family
+    with
+        $FunctionalFamilyOverride<
+          FutureOr<List<StopTimeModel>>,
+          (String, DayType)
+        > {
+  StopScheduleFamily._()
+    : super(
+        retry: null,
+        name: r'stopScheduleProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  StopScheduleProvider call(String stopId, DayType dayType) =>
+      StopScheduleProvider._(argument: (stopId, dayType), from: this);
+
+  @override
+  String toString() => r'stopScheduleProvider';
+}
+
+@ProviderFor(upcomingStopTimes)
+final upcomingStopTimesProvider = UpcomingStopTimesFamily._();
+
+final class UpcomingStopTimesProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<StopTimeModel>>,
+          List<StopTimeModel>,
+          FutureOr<List<StopTimeModel>>
+        >
+    with
+        $FutureModifier<List<StopTimeModel>>,
+        $FutureProvider<List<StopTimeModel>> {
+  UpcomingStopTimesProvider._({
+    required UpcomingStopTimesFamily super.from,
+    required (String, DateTime) super.argument,
+  }) : super(
+         retry: null,
+         name: r'upcomingStopTimesProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
+
+  @override
+  String debugGetCreateSourceHash() => _$upcomingStopTimesHash();
+
+  @override
+  String toString() {
+    return r'upcomingStopTimesProvider'
+        ''
+        '$argument';
+  }
+
+  @$internal
+  @override
+  $FutureProviderElement<List<StopTimeModel>> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<List<StopTimeModel>> create(Ref ref) {
+    final argument = this.argument as (String, DateTime);
+    return upcomingStopTimes(ref, argument.$1, argument.$2);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is UpcomingStopTimesProvider && other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
+}
+
+String _$upcomingStopTimesHash() => r'7ae1d0bf769349ae1b4119708ecc1a5ad136d409';
+
+final class UpcomingStopTimesFamily extends $Family
+    with
+        $FunctionalFamilyOverride<
+          FutureOr<List<StopTimeModel>>,
+          (String, DateTime)
+        > {
+  UpcomingStopTimesFamily._()
+    : super(
+        retry: null,
+        name: r'upcomingStopTimesProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  UpcomingStopTimesProvider call(String stopId, DateTime now) =>
+      UpcomingStopTimesProvider._(argument: (stopId, now), from: this);
+
+  @override
+  String toString() => r'upcomingStopTimesProvider';
+}
