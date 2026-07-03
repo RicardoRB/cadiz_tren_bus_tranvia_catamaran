@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:cadiz_tren_bus_tranvia_catamaran/database/seed/database_seeder.dart';
@@ -18,8 +19,10 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> _initApp() async {
     try {
-      final seeder = DatabaseSeeder();
-      await seeder.ensureDatabaseIsSeeded();
+      if (!kIsWeb) {
+        final seeder = DatabaseSeeder();
+        await seeder.ensureDatabaseIsSeeded();
+      }
       if (mounted) {
         context.go('/home');
       }
