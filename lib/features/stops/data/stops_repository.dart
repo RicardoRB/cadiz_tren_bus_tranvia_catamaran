@@ -18,6 +18,11 @@ class StopsRepository {
     return stops.map(_mapToDomain).toList();
   }
 
+  Future<StopModel?> getStopById(String id) async {
+    final stop = await _stopsDao.getStopById(id);
+    return stop != null ? _mapToDomain(stop) : null;
+  }
+
   StopModel _mapToDomain(Stop stop) {
     return StopModel(
       id: stop.id,

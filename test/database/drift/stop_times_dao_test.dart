@@ -17,29 +17,35 @@ void main() {
   });
 
   group('StopTimesDao', () {
-    test('getUpcomingStopTimesByStopAndDay filters correctly by time', () async {
-      // 08:30 is exact match, should include it and later
-      final results = await db.stopTimesDao.getUpcomingStopTimesByStopAndDay(
-        'stop1',
-        DayType.weekday,
-        '08:30:00',
-      );
+    test(
+      'getUpcomingStopTimesByStopAndDay filters correctly by time',
+      () async {
+        // 08:30 is exact match, should include it and later
+        final results = await db.stopTimesDao.getUpcomingStopTimesByStopAndDay(
+          'stop1',
+          DayType.weekday,
+          '08:30:00',
+        );
 
-      expect(results.length, 3);
-      expect(results[0].arrivalTime, '08:30:00');
-      expect(results[1].arrivalTime, '12:00:00');
-      expect(results[2].arrivalTime, '23:55:00');
-    });
+        expect(results.length, 3);
+        expect(results[0].arrivalTime, '08:30:00');
+        expect(results[1].arrivalTime, '12:00:00');
+        expect(results[2].arrivalTime, '23:55:00');
+      },
+    );
 
-    test('getUpcomingStopTimesByStopAndDay returns empty when no more times', () async {
-      final results = await db.stopTimesDao.getUpcomingStopTimesByStopAndDay(
-        'stop1',
-        DayType.weekday,
-        '23:59:59',
-      );
+    test(
+      'getUpcomingStopTimesByStopAndDay returns empty when no more times',
+      () async {
+        final results = await db.stopTimesDao.getUpcomingStopTimesByStopAndDay(
+          'stop1',
+          DayType.weekday,
+          '23:59:59',
+        );
 
-      expect(results, isEmpty);
-    });
+        expect(results, isEmpty);
+      },
+    );
 
     test('getUpcomingStopTimesByStopAndDay filters by day type', () async {
       final results = await db.stopTimesDao.getUpcomingStopTimesByStopAndDay(
