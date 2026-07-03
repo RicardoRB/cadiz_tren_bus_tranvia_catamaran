@@ -1,5 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../../core/theme/theme_provider.dart';
+import '../../../../shared/models/domain/stop.dart';
+import 'stops_provider.dart';
 
 part 'favorites_provider.g.dart';
 
@@ -30,4 +32,17 @@ class Favorites extends _$Favorites {
   bool isFavorite(String stopId) {
     return state.contains(stopId);
   }
+}
+
+@riverpod
+Future<List<StopModel>> favoriteStops(Ref ref) async {
+  final favoriteIds = ref.watch(favoritesProvider);
+  if (favoriteIds.isEmpty) return [];
+
+  final repository = ref.watch(stopsRepositoryProvider);
+
+  final favoritesFutures = favoriteIds.map((id) => repository.getStopById(id));
+  final results = await Future.wait(favoritesFutures);
+
+  return results.whereType<StopModel>().toList();
 }

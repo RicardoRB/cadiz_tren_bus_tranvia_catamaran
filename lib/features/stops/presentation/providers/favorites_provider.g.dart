@@ -60,3 +60,42 @@ abstract class _$Favorites extends $Notifier<Set<String>> {
     return element.handleCreate(ref, build);
   }
 }
+
+@ProviderFor(favoriteStops)
+final favoriteStopsProvider = FavoriteStopsProvider._();
+
+final class FavoriteStopsProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<StopModel>>,
+          List<StopModel>,
+          FutureOr<List<StopModel>>
+        >
+    with $FutureModifier<List<StopModel>>, $FutureProvider<List<StopModel>> {
+  FavoriteStopsProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'favoriteStopsProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$favoriteStopsHash();
+
+  @$internal
+  @override
+  $FutureProviderElement<List<StopModel>> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<List<StopModel>> create(Ref ref) {
+    return favoriteStops(ref);
+  }
+}
+
+String _$favoriteStopsHash() => r'568901b19f1eff9cdde4c99c603bc67a09d8c2ac';

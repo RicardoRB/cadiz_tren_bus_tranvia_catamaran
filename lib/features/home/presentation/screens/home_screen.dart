@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/theme/transport_mode_colors.dart';
 import '../../../../shared/models/enums.dart';
+import '../../../stops/presentation/providers/favorites_provider.dart';
+import '../../../../shared/widgets/loading_shimmer.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final favoritesAsync = ref.watch(favoriteStopsProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('CadizTransit'),
@@ -50,16 +55,47 @@ class HomeScreen extends StatelessWidget {
             const SizedBox(height: 32),
             Text('Favoritos', style: Theme.of(context).textTheme.titleLarge),
             const SizedBox(height: 16),
-            const Card(
-              child: Padding(
-                padding: EdgeInsets.all(32),
-                child: Center(
-                  child: Text(
-                    'Aún no tienes favoritos',
-                    style: TextStyle(fontStyle: FontStyle.italic),
-                  ),
-                ),
-              ),
+            favoritesAsync.when(
+              data: (favorites) {
+                if (favorites.isEmpty) {
+                  return const Card(
+                    child: Padding(
+                      padding: EdgeInsets.all(32),
+                      child: Center(
+                        child: Text(
+                          'Aún no tienes favoritos',
+                          style: TextStyle(fontStyle: FontStyle.italic),
+                        ),
+                      ),
+                    ),
+                  );
+                }
+                return ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: favorites.length,
+                  itemBuilder: (context, index) {
+                    final stop = favorites[index];
+                    return ListTile(
+                      leading: Icon(
+                        TransportModeColors.getModeIcon(stop.transportMode),
+                        color: TransportModeColors.getModeColor(
+                          stop.transportMode,
+                        ),
+                      ),
+                      title: Text(stop.name),
+                      subtitle: Text(
+                        TransportModeColors.getModeName(stop.transportMode),
+                      ),
+                      trailing: const Icon(Icons.chevron_right),
+                      onTap: () => context.push('/stops/${stop.id}'),
+                    );
+                  },
+                );
+              },
+              loading: () =>
+                  const LoadingShimmer(child: ListLoadingShimmer(itemCount: 3)),
+              error: (err, stack) => Center(child: Text('Error: $err')),
             ),
           ],
         ),
