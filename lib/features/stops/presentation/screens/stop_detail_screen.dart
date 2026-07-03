@@ -63,8 +63,9 @@ class _StopDetailScreenState extends ConsumerState<StopDetailScreen> {
       ),
       body: stopAsync.when(
         data: (stop) {
-          if (stop == null)
+          if (stop == null) {
             return const Center(child: Text('Parada no encontrada'));
+          }
 
           final color = TransportModeColors.getModeColor(stop.transportMode);
 
