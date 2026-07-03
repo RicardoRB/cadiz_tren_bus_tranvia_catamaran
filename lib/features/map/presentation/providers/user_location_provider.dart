@@ -10,7 +10,7 @@ enum LocationStatus {
   denied,
   permanentlyDenied,
   disabled,
-  error
+  error,
 }
 
 class UserLocationState {
@@ -18,11 +18,7 @@ class UserLocationState {
   final Position? position;
   final String? errorMessage;
 
-  UserLocationState({
-    required this.status,
-    this.position,
-    this.errorMessage,
-  });
+  UserLocationState({required this.status, this.position, this.errorMessage});
 
   UserLocationState copyWith({
     LocationStatus? status,

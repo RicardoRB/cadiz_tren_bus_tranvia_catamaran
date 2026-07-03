@@ -31,13 +31,12 @@ class StopsDao extends DatabaseAccessor<AppDatabase> with _$StopsDaoMixin {
     // For Cadiz (lat ~36.5), cos(36.5) ~ 0.8
     final lonDelta = radiusInKm / (111.0 * 0.8);
 
-    final query =
-        select(stops)
-          ..where(
-            (t) =>
-                t.lat.isBetweenValues(lat - latDelta, lat + latDelta) &
-                t.lon.isBetweenValues(lon - lonDelta, lon + lonDelta),
-          );
+    final query = select(stops)
+      ..where(
+        (t) =>
+            t.lat.isBetweenValues(lat - latDelta, lat + latDelta) &
+            t.lon.isBetweenValues(lon - lonDelta, lon + lonDelta),
+      );
 
     return query.get();
   }

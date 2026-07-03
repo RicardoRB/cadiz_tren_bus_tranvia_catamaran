@@ -9,7 +9,8 @@ part 'nearby_stops_provider.g.dart';
 Future<List<StopModel>> nearbyStops(Ref ref) async {
   final locationState = ref.watch(userLocationProvider);
 
-  if (locationState.status != LocationStatus.granted || locationState.position == null) {
+  if (locationState.status != LocationStatus.granted ||
+      locationState.position == null) {
     return [];
   }
 

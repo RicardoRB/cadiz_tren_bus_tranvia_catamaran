@@ -52,8 +52,9 @@ class _MapScreenState extends ConsumerState<MapScreen> {
               locationState.status == LocationStatus.granted
                   ? Icons.my_location
                   : Icons.location_searching,
-              color: locationState.status == LocationStatus.denied ||
-                     locationState.status == LocationStatus.permanentlyDenied
+              color:
+                  locationState.status == LocationStatus.denied ||
+                      locationState.status == LocationStatus.permanentlyDenied
                   ? Theme.of(context).colorScheme.error
                   : null,
             ),
@@ -62,15 +63,22 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                   locationState.status == LocationStatus.permanentlyDenied) {
                 _showLocationDeniedDialog();
               } else {
-                ref.read(userLocationProvider.notifier).updateLocation(requestPermission: true).then((_) {
-                  final newState = ref.read(userLocationProvider);
-                  if (newState.status == LocationStatus.granted && newState.position != null) {
-                    _mapController.move(
-                      LatLng(newState.position!.latitude, newState.position!.longitude),
-                      15,
-                    );
-                  }
-                });
+                ref
+                    .read(userLocationProvider.notifier)
+                    .updateLocation(requestPermission: true)
+                    .then((_) {
+                      final newState = ref.read(userLocationProvider);
+                      if (newState.status == LocationStatus.granted &&
+                          newState.position != null) {
+                        _mapController.move(
+                          LatLng(
+                            newState.position!.latitude,
+                            newState.position!.longitude,
+                          ),
+                          15,
+                        );
+                      }
+                    });
               }
             },
           ),
@@ -94,10 +102,15 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                     .toList();
 
                 if (!_isInitialFocusDone && widget.focusStopId != null) {
-                  final focusStop = allStops.where((s) => s.id == widget.focusStopId).firstOrNull;
+                  final focusStop = allStops
+                      .where((s) => s.id == widget.focusStopId)
+                      .firstOrNull;
                   if (focusStop != null) {
                     WidgetsBinding.instance.addPostFrameCallback((_) {
-                      _mapController.move(LatLng(focusStop.lat, focusStop.lon), 16);
+                      _mapController.move(
+                        LatLng(focusStop.lat, focusStop.lon),
+                        16,
+                      );
                       setState(() {
                         _isInitialFocusDone = true;
                       });
@@ -115,7 +128,8 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                   ),
                   children: [
                     TileLayer(
-                      urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                      urlTemplate:
+                          'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                       userAgentPackageName: 'com.cadiztransit.app',
                     ),
                     MarkerClusterLayerWidget(
@@ -132,8 +146,12 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                             child: GestureDetector(
                               onTap: () => _showStopPreview(stop),
                               child: Icon(
-                                TransportModeColors.getModeIcon(stop.transportMode),
-                                color: TransportModeColors.getModeColor(stop.transportMode),
+                                TransportModeColors.getModeIcon(
+                                  stop.transportMode,
+                                ),
+                                color: TransportModeColors.getModeColor(
+                                  stop.transportMode,
+                                ),
                                 size: 30,
                               ),
                             ),
@@ -143,13 +161,17 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                           return Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20),
-                              color: Theme.of(context).colorScheme.primaryContainer,
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.primaryContainer,
                             ),
                             child: Center(
                               child: Text(
                                 markers.length.toString(),
                                 style: TextStyle(
-                                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onPrimaryContainer,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -158,7 +180,8 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                         },
                       ),
                     ),
-                    if (locationState.status == LocationStatus.granted && locationState.position != null)
+                    if (locationState.status == LocationStatus.granted &&
+                        locationState.position != null)
                       MarkerLayer(
                         markers: [
                           Marker(
@@ -172,7 +195,10 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                               decoration: BoxDecoration(
                                 color: Colors.blue,
                                 shape: BoxShape.circle,
-                                border: Border.all(color: Colors.white, width: 2),
+                                border: Border.all(
+                                  color: Colors.white,
+                                  width: 2,
+                                ),
                                 boxShadow: const [
                                   BoxShadow(
                                     color: Colors.black26,

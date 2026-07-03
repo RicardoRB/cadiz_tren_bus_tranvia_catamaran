@@ -58,11 +58,7 @@ class RouteMapPreview extends StatelessWidget {
         ),
         PolylineLayer(
           polylines: [
-            Polyline(
-              points: points,
-              color: routeColor,
-              strokeWidth: 4,
-            ),
+            Polyline(points: points, color: routeColor, strokeWidth: 4),
           ],
         ),
         MarkerLayer(
