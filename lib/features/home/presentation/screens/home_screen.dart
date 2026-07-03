@@ -86,6 +86,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         .updateLocation(requestPermission: true),
                     icon: const Icon(Icons.location_on),
                     label: const Text('Activar'),
+                  )
+                else if (locationState.status == LocationStatus.permanentlyDenied ||
+                    locationState.status == LocationStatus.disabled)
+                  TextButton.icon(
+                    onPressed: () =>
+                        ref.read(userLocationProvider.notifier).openSettings(),
+                    icon: const Icon(Icons.settings),
+                    label: const Text('Ajustes'),
                   ),
               ],
             ),

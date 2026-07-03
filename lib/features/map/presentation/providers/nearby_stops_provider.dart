@@ -5,6 +5,8 @@ import '../../../../shared/models/domain/stop.dart';
 
 part 'nearby_stops_provider.g.dart';
 
+const double _nearbyRadiusKm = 2.0;
+
 @riverpod
 Future<List<StopModel>> nearbyStops(Ref ref) async {
   final locationState = ref.watch(userLocationProvider);
@@ -18,6 +20,6 @@ Future<List<StopModel>> nearbyStops(Ref ref) async {
   return repository.getStopsNear(
     locationState.position!.latitude,
     locationState.position!.longitude,
-    2.0, // 2km radius
+    _nearbyRadiusKm,
   );
 }

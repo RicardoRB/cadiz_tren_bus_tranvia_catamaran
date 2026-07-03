@@ -24,11 +24,13 @@ class UserLocationState {
     LocationStatus? status,
     Position? position,
     String? errorMessage,
+    bool clearPosition = false,
+    bool clearError = false,
   }) {
     return UserLocationState(
       status: status ?? this.status,
-      position: position ?? this.position,
-      errorMessage: errorMessage ?? this.errorMessage,
+      position: clearPosition ? null : (position ?? this.position),
+      errorMessage: clearError ? null : (errorMessage ?? this.errorMessage),
     );
   }
 }
@@ -46,7 +48,11 @@ class UserLocation extends _$UserLocation {
     try {
       bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
       if (!serviceEnabled) {
-        state = state.copyWith(status: LocationStatus.disabled);
+        state = state.copyWith(
+          status: LocationStatus.disabled,
+          clearPosition: true,
+          clearError: true,
+        );
         return;
       }
 
@@ -56,16 +62,28 @@ class UserLocation extends _$UserLocation {
       }
 
       if (permission == LocationPermission.denied) {
-        state = state.copyWith(status: LocationStatus.denied);
+        state = state.copyWith(
+          status: LocationStatus.denied,
+          clearPosition: true,
+          clearError: true,
+        );
         return;
       }
 
       if (permission == LocationPermission.deniedForever) {
-        state = state.copyWith(status: LocationStatus.permanentlyDenied);
+        state = state.copyWith(
+          status: LocationStatus.permanentlyDenied,
+          clearPosition: true,
+          clearError: true,
+        );
         return;
       }
 
-      final position = await Geolocator.getCurrentPosition();
+      final position = await Geolocator.getCurrentPosition(
+        locationSettings: const LocationSettings(
+          timeLimit: Duration(seconds: 10),
+        ),
+      );
       state = UserLocationState(
         status: LocationStatus.granted,
         position: position,

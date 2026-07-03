@@ -37,19 +37,16 @@ class RouteMapPreview extends StatelessWidget {
       if (point.longitude > maxLon) maxLon = point.longitude;
     }
 
-    final center = LatLng((minLat + maxLat) / 2, (minLon + maxLon) / 2);
-
     // Simple way to estimate zoom level or use fitBounds in MapOptions (though initialCenter is used there)
     // For simplicity, we use FlutterMap with an initial state and then we could use a controller
     // but here we want a static-ish preview that fits the bounds.
 
     return FlutterMap(
       options: MapOptions(
-        initialCenter: center,
-        initialZoom: 11,
-        // Using a post-frame callback to fit bounds if we had a controller,
-        // but let's try to make it work with just initialCenter for now.
-        // In a real app, we'd use MapController.fitCamera
+        initialCameraFit: CameraFit.bounds(
+          bounds: LatLngBounds.fromPoints(points),
+          padding: const EdgeInsets.all(32),
+        ),
       ),
       children: [
         TileLayer(
