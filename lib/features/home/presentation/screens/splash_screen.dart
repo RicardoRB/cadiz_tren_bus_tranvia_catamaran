@@ -25,7 +25,11 @@ class _SplashScreenState extends State<SplashScreen> {
         await seeder.ensureDatabaseIsSeeded();
       }
       if (mounted) {
-        context.go('/home');
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) {
+            context.go('/home');
+          }
+        });
       }
     } catch (e) {
       if (mounted) {
