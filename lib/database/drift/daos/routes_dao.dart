@@ -8,6 +8,13 @@ import '../../../shared/models/enums.dart';
 
 part 'routes_dao.g.dart';
 
+class RouteWithDirection {
+  final Route route;
+  final Direction direction;
+
+  RouteWithDirection(this.route, this.direction);
+}
+
 @DriftAccessor(tables: [Routes, Stops, StopTimes, Trips])
 class RoutesDao extends DatabaseAccessor<AppDatabase> with _$RoutesDaoMixin {
   RoutesDao(super.db);
@@ -18,6 +25,23 @@ class RoutesDao extends DatabaseAccessor<AppDatabase> with _$RoutesDaoMixin {
 
   Future<Route?> getRouteById(String id) =>
       (select(routes)..where((t) => t.id.equals(id))).getSingleOrNull();
+
+  Future<List<RouteWithDirection>> getRoutesForStop(String stopId) {
+    final query =
+        select(routes).join([
+            innerJoin(trips, trips.routeId.equalsExp(routes.id)),
+            innerJoin(stopTimes, stopTimes.tripId.equalsExp(trips.id)),
+          ])
+          ..where(stopTimes.stopId.equals(stopId))
+          ..groupBy([routes.id, trips.direction]);
+
+    return query.map((row) {
+      return RouteWithDirection(
+        row.readTable(routes),
+        row.readTable(trips).direction,
+      );
+    }).get();
+  }
 
   Future<List<Stop>> getStopsForRoute(
     String routeId,
