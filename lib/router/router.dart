@@ -1,5 +1,5 @@
 import 'package:go_router/go_router.dart';
-import '../features/home/presentation/screens/home_screen.dart';
+import 'shell_scaffold.dart';
 import '../features/home/presentation/screens/splash_screen.dart';
 import '../features/map/presentation/screens/map_screen.dart';
 import '../features/lines/presentation/screens/line_detail_screen.dart';
@@ -7,15 +7,37 @@ import '../features/lines/presentation/screens/lines_list_screen.dart';
 import '../features/search/presentation/screens/search_screen.dart';
 import '../features/settings/presentation/screens/settings_screen.dart';
 import '../features/stops/presentation/screens/stop_detail_screen.dart';
+import '../features/list/presentation/screens/nearby_lines_screen.dart';
 import '../shared/models/enums.dart';
 
 final router = GoRouter(
   initialLocation: '/',
   routes: [
     GoRoute(path: '/', builder: (context, state) => const SplashScreen()),
-    GoRoute(path: '/home', builder: (context, state) => const HomeScreen()),
+    StatefulShellRoute.indexedStack(
+      builder: (context, state, navigationShell) =>
+          ShellScaffold(navigationShell: navigationShell),
+      branches: [
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: '/map',
+              builder: (context, state) => const MapScreen(),
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: '/nearby',
+              builder: (context, state) => const NearbyLinesScreen(),
+            ),
+          ],
+        ),
+      ],
+    ),
     GoRoute(
-      path: '/map',
+      path: '/stop-on-map',
       builder: (context, state) {
         final stopId = state.uri.queryParameters['stopId'];
         return MapScreen(focusStopId: stopId);
