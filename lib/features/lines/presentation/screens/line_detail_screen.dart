@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../shared/models/enums.dart';
 import '../providers/line_detail_provider.dart';
+import '../../../favorites/presentation/providers/favorites_provider.dart';
 import '../../../../core/theme/transport_mode_colors.dart';
 import '../../../../shared/widgets/loading_shimmer.dart';
 import '../widgets/route_map_preview.dart';
@@ -25,6 +26,7 @@ class _LineDetailScreenState extends ConsumerState<LineDetailScreen> {
     final stopsAsync = ref.watch(
       routeStopsProvider(widget.routeId, _selectedDirection),
     );
+    final isFavorite = ref.watch(favoriteLinesProvider).contains(widget.routeId);
 
     return Scaffold(
       appBar: AppBar(
@@ -33,6 +35,27 @@ class _LineDetailScreenState extends ConsumerState<LineDetailScreen> {
           loading: () => const Text('Cargando...'),
           error: (err, stack) => const Text('Error'),
         ),
+        actions: [
+          IconButton(
+            icon: Icon(isFavorite ? Icons.favorite : Icons.favorite_border),
+            color: isFavorite ? Colors.red : null,
+            onPressed: () {
+              ref
+                  .read(favoriteLinesProvider.notifier)
+                  .toggleFavorite(widget.routeId);
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    isFavorite
+                        ? 'Eliminado de favoritos'
+                        : 'Añadido a favoritos',
+                  ),
+                  duration: const Duration(seconds: 1),
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: routeAsync.when(
         data: (route) {

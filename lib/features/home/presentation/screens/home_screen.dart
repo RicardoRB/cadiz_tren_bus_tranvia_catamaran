@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/theme/transport_mode_colors.dart';
 import '../../../../shared/models/enums.dart';
-import '../../../stops/presentation/providers/favorites_provider.dart';
+import '../../../favorites/presentation/providers/favorites_provider.dart';
 import '../../../../shared/widgets/loading_shimmer.dart';
 import '../../../map/presentation/providers/nearby_stops_provider.dart';
 import '../../../map/presentation/providers/user_location_provider.dart';
@@ -27,7 +27,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final favoritesAsync = ref.watch(favoriteStopsProvider);
+    final favoritesAsync = ref.watch(favoriteStopsListProvider);
     final nearbyStopsAsync = ref.watch(nearbyStopsProvider);
     final locationState = ref.watch(userLocationProvider);
 
@@ -151,7 +151,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               error: (err, stack) => Center(child: Text('Error: $err')),
             ),
             const SizedBox(height: 32),
-            Text('Favoritos', style: Theme.of(context).textTheme.titleLarge),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('Favoritos', style: Theme.of(context).textTheme.titleLarge),
+                TextButton(
+                  onPressed: () => context.push('/favorites'),
+                  child: const Text('Ver todos'),
+                ),
+              ],
+            ),
             const SizedBox(height: 16),
             favoritesAsync.when(
               data: (favorites) {

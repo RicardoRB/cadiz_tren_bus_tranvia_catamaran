@@ -3,10 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/theme/transport_mode_colors.dart';
 import '../providers/stop_detail_provider.dart';
-import '../providers/favorites_provider.dart';
+import '../../../favorites/presentation/providers/favorites_provider.dart';
 import '../../../schedule/presentation/providers/schedule_provider.dart';
 import '../../../schedule/presentation/widgets/schedule_table.dart';
 import '../../../../shared/widgets/loading_shimmer.dart';
+import '../../../favorites/data/reminders_repository.dart';
+import '../widgets/reminder_picker.dart';
 
 class StopDetailScreen extends ConsumerStatefulWidget {
   final String stopId;
@@ -32,7 +34,7 @@ class _StopDetailScreenState extends ConsumerState<StopDetailScreen> {
     final upcomingAsync = ref.watch(
       upcomingStopTimesProvider(widget.stopId, _referenceTime),
     );
-    final isFavorite = ref.watch(favoritesProvider).contains(widget.stopId);
+    final isFavorite = ref.watch(favoriteStopsProvider).contains(widget.stopId);
 
     return Scaffold(
       appBar: AppBar(
@@ -52,7 +54,7 @@ class _StopDetailScreenState extends ConsumerState<StopDetailScreen> {
             color: isFavorite ? Colors.red : null,
             onPressed: () {
               ref
-                  .read(favoritesProvider.notifier)
+                  .read(favoriteStopsProvider.notifier)
                   .toggleFavorite(widget.stopId);
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
@@ -134,10 +136,28 @@ class _StopDetailScreenState extends ConsumerState<StopDetailScreen> {
                           );
                         }
                         final time = times[index];
+                        final reminder = ref.watch(remindersProvider)[
+                          '${stop.id}_${time.tripId}'
+                        ];
                         return ListTile(
                           leading: const Icon(Icons.access_time),
                           title: Text(time.arrivalTime.substring(0, 5)),
                           subtitle: Text('Trip ID: ${time.tripId}'),
+                          trailing: IconButton(
+                            icon: Icon(
+                              reminder != null
+                                  ? Icons.notifications_active
+                                  : Icons.notifications_none,
+                            ),
+                            color: reminder != null
+                                ? Theme.of(context).colorScheme.primary
+                                : null,
+                            onPressed: () => _showReminderPicker(
+                              context,
+                              stop,
+                              time,
+                            ),
+                          ),
                         );
                       },
                     );
@@ -154,6 +174,13 @@ class _StopDetailScreenState extends ConsumerState<StopDetailScreen> {
         loading: () => const LoadingShimmer(child: DetailLoadingShimmer()),
         error: (err, stack) => Center(child: Text('Error: $err')),
       ),
+    );
+  }
+
+  void _showReminderPicker(BuildContext context, stop, time) {
+    showDialog(
+      context: context,
+      builder: (context) => ReminderPicker(stop: stop, stopTime: time),
     );
   }
 

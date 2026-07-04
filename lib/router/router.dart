@@ -7,6 +7,7 @@ import '../features/lines/presentation/screens/lines_list_screen.dart';
 import '../features/search/presentation/screens/search_screen.dart';
 import '../features/settings/presentation/screens/settings_screen.dart';
 import '../features/stops/presentation/screens/stop_detail_screen.dart';
+import '../features/favorites/presentation/screens/favorites_screen.dart';
 import '../shared/models/enums.dart';
 
 final router = GoRouter(
@@ -46,6 +47,10 @@ final router = GoRouter(
         final id = state.pathParameters['id']!;
         return StopDetailScreen(stopId: id);
       },
+    ),
+    GoRoute(
+      path: '/favorites',
+      builder: (context, state) => const FavoritesScreen(),
     ),
     GoRoute(path: '/search', builder: (context, state) => const SearchScreen()),
   ],
