@@ -78,14 +78,14 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                 urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                 userAgentPackageName: 'com.cadiztransit.app',
               ),
-                    RichAttributionWidget(
-                      attributions: [
-                        TextSourceAttribution(
-                          'OpenStreetMap contributors',
-                          onTap: () {}, // Optional: Add URL if needed
-                        ),
-                      ],
-                    ),
+              RichAttributionWidget(
+                attributions: [
+                  TextSourceAttribution(
+                    'OpenStreetMap contributors',
+                    onTap: () {}, // Optional: Add URL if needed
+                  ),
+                ],
+              ),
               MarkerClusterLayerWidget(
                 options: MarkerClusterLayerOptions(
                   maxClusterRadius: 45,
@@ -191,7 +191,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                     .read(userLocationProvider.notifier)
                     .updateLocation(requestPermission: true)
                     .then((_) {
-                  if (!mounted) return;
+                      if (!mounted) return;
                       final newState = ref.read(userLocationProvider);
                       if (newState.status == LocationStatus.granted &&
                           newState.position != null) {

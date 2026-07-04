@@ -87,7 +87,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     icon: const Icon(Icons.location_on),
                     label: const Text('Activar'),
                   )
-                else if (locationState.status == LocationStatus.permanentlyDenied ||
+                else if (locationState.status ==
+                        LocationStatus.permanentlyDenied ||
                     locationState.status == LocationStatus.disabled)
                   TextButton.icon(
                     onPressed: () =>
