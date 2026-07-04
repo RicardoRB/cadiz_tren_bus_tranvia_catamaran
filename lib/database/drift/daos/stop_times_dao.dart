@@ -30,17 +30,23 @@ class StopTimesDao extends DatabaseAccessor<AppDatabase>
   Future<List<StopTime>> getUpcomingStopTimesByStopAndDay(
     String stopId,
     DayType dayType,
-    String time,
-  ) =>
-      (select(stopTimes)
-            ..where(
-              (t) =>
-                  t.stopId.equals(stopId) &
-                  t.dayType.equalsValue(dayType) &
-                  t.arrivalTime.isBiggerOrEqualValue(time),
-            )
-            ..orderBy([(t) => OrderingTerm(expression: t.arrivalTime)]))
-          .get();
+    String time, {
+    int? limit,
+  }) {
+    var query = select(stopTimes)
+      ..where(
+        (t) =>
+            t.stopId.equals(stopId) &
+            t.dayType.equalsValue(dayType) &
+            t.arrivalTime.isBiggerOrEqualValue(time),
+      )
+      ..orderBy([(t) => OrderingTerm(expression: t.arrivalTime)]);
+
+    if (limit != null) {
+      query = query..limit(limit);
+    }
+    return query.get();
+  }
 
   Future<int> insertStopTime(StopTime stopTime) =>
       into(stopTimes).insert(stopTime, mode: InsertMode.insertOrReplace);

@@ -153,7 +153,7 @@ final class UpcomingStopTimesProvider
         $FutureProvider<List<StopTimeModel>> {
   UpcomingStopTimesProvider._({
     required UpcomingStopTimesFamily super.from,
-    required (String, DateTime) super.argument,
+    required (String, DateTime, {int? limit}) super.argument,
   }) : super(
          retry: null,
          name: r'upcomingStopTimesProvider',
@@ -180,8 +180,13 @@ final class UpcomingStopTimesProvider
 
   @override
   FutureOr<List<StopTimeModel>> create(Ref ref) {
-    final argument = this.argument as (String, DateTime);
-    return upcomingStopTimes(ref, argument.$1, argument.$2);
+    final argument = this.argument as (String, DateTime, {int? limit});
+    return upcomingStopTimes(
+      ref,
+      argument.$1,
+      argument.$2,
+      limit: argument.limit,
+    );
   }
 
   @override
@@ -195,13 +200,13 @@ final class UpcomingStopTimesProvider
   }
 }
 
-String _$upcomingStopTimesHash() => r'7ae1d0bf769349ae1b4119708ecc1a5ad136d409';
+String _$upcomingStopTimesHash() => r'e7e11ff0394efab27cf0f9bf086dabbb2fcb8a88';
 
 final class UpcomingStopTimesFamily extends $Family
     with
         $FunctionalFamilyOverride<
           FutureOr<List<StopTimeModel>>,
-          (String, DateTime)
+          (String, DateTime, {int? limit})
         > {
   UpcomingStopTimesFamily._()
     : super(
@@ -212,8 +217,11 @@ final class UpcomingStopTimesFamily extends $Family
         isAutoDispose: true,
       );
 
-  UpcomingStopTimesProvider call(String stopId, DateTime now) =>
-      UpcomingStopTimesProvider._(argument: (stopId, now), from: this);
+  UpcomingStopTimesProvider call(String stopId, DateTime now, {int? limit}) =>
+      UpcomingStopTimesProvider._(
+        argument: (stopId, now, limit: limit),
+        from: this,
+      );
 
   @override
   String toString() => r'upcomingStopTimesProvider';

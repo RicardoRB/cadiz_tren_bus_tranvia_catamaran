@@ -27,9 +27,10 @@ Future<List<StopTimeModel>> stopSchedule(
 Future<List<StopTimeModel>> upcomingStopTimes(
   Ref ref,
   String stopId,
-  DateTime now,
-) {
+  DateTime now, {
+  int? limit,
+}) {
   return ref
       .watch(scheduleRepositoryProvider)
-      .getUpcomingTimesForStop(stopId, now);
+      .getUpcomingTimesForStop(stopId, now, limit: limit);
 }

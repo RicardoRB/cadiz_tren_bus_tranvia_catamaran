@@ -46,4 +46,4 @@ final class NearbyStopsProvider
   }
 }
 
-String _$nearbyStopsHash() => r'0e1254091376911c340822e5e4287745b0e5e430';
+String _$nearbyStopsHash() => r'483635364f1f235cacf020371f3d665b359230e5';

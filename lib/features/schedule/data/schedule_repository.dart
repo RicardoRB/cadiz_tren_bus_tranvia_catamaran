@@ -1,8 +1,8 @@
-import '../../../database/drift/app_database.dart';
 import '../../../database/drift/daos/stop_times_dao.dart';
 import '../../../shared/models/domain/stop_time.dart';
 import '../../../shared/models/enums.dart';
 import '../domain/day_type_resolver.dart';
+import '../../../database/drift/app_database.dart';
 
 class ScheduleRepository {
   final StopTimesDao _stopTimesDao;
@@ -22,8 +22,9 @@ class ScheduleRepository {
 
   Future<List<StopTimeModel>> getUpcomingTimesForStop(
     String stopId,
-    DateTime now,
-  ) async {
+    DateTime now, {
+    int? limit,
+  }) async {
     final dayType = resolveDayType(now);
     final timeString =
         '${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}:${now.second.toString().padLeft(2, '0')}';
@@ -32,6 +33,7 @@ class ScheduleRepository {
       stopId,
       dayType,
       timeString,
+      limit: limit,
     );
     return stopTimes.map(_mapToDomain).toList();
   }

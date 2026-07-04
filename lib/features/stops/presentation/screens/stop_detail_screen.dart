@@ -30,7 +30,7 @@ class _StopDetailScreenState extends ConsumerState<StopDetailScreen> {
   Widget build(BuildContext context) {
     final stopAsync = ref.watch(stopDetailProvider(widget.stopId));
     final upcomingAsync = ref.watch(
-      upcomingStopTimesProvider(widget.stopId, _referenceTime),
+      upcomingStopTimesProvider(widget.stopId, _referenceTime, limit: 5),
     );
     final isFavorite = ref.watch(favoritesProvider).contains(widget.stopId);
 
