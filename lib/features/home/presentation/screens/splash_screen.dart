@@ -25,7 +25,7 @@ class _SplashScreenState extends State<SplashScreen> {
         await seeder.ensureDatabaseIsSeeded();
       }
       if (mounted) {
-        context.go('/home');
+        context.go('/map');
       }
     } catch (e) {
       if (mounted) {

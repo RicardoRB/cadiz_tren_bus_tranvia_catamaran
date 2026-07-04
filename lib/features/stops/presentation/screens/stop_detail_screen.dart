@@ -44,7 +44,8 @@ class _StopDetailScreenState extends ConsumerState<StopDetailScreen> {
         actions: [
           IconButton(
             icon: const Icon(Icons.map_outlined),
-            onPressed: () => context.push('/map?stopId=${widget.stopId}'),
+            onPressed: () =>
+                context.push('/stop-on-map?stopId=${widget.stopId}'),
             tooltip: 'Ver en mapa',
           ),
           IconButton(

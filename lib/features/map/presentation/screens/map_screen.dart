@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart';
 import '../../../../core/theme/transport_mode_colors.dart';
 import '../../../../shared/models/domain/stop.dart';
@@ -44,7 +45,19 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     final locationState = ref.watch(userLocationProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Mapa de Paradas')),
+      appBar: AppBar(
+        title: const Text('Mapa de Paradas'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () => context.push('/search'),
+          ),
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () => context.push('/settings'),
+          ),
+        ],
+      ),
       body: stopsAsync.when(
         data: (allStops) {
           final filteredStops = allStops
