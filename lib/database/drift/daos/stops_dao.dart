@@ -18,4 +18,26 @@ class StopsDao extends DatabaseAccessor<AppDatabase> with _$StopsDaoMixin {
 
   Future<int> insertStop(Stop stop) =>
       into(stops).insert(stop, mode: InsertMode.insertOrReplace);
+
+  Future<List<Stop>> getStopsNear(
+    double lat,
+    double lon,
+    double radiusInKm,
+  ) async {
+    // Basic bounding box filter first (approximate)
+    // 1 degree lat is approx 111km
+    final latDelta = radiusInKm / 111.0;
+    // 1 degree lon is approx 111 * cos(lat) km
+    // For Cadiz (lat ~36.5), cos(36.5) ~ 0.8
+    final lonDelta = radiusInKm / (111.0 * 0.8);
+
+    final query = select(stops)
+      ..where(
+        (t) =>
+            t.lat.isBetweenValues(lat - latDelta, lat + latDelta) &
+            t.lon.isBetweenValues(lon - lonDelta, lon + lonDelta),
+      );
+
+    return query.get();
+  }
 }

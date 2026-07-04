@@ -5,13 +5,31 @@ import '../../../../core/theme/transport_mode_colors.dart';
 import '../../../../shared/models/enums.dart';
 import '../../../stops/presentation/providers/favorites_provider.dart';
 import '../../../../shared/widgets/loading_shimmer.dart';
+import '../../../map/presentation/providers/nearby_stops_provider.dart';
+import '../../../map/presentation/providers/user_location_provider.dart';
 
-class HomeScreen extends ConsumerWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends ConsumerState<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // Try to get location on start if permission already granted
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(userLocationProvider.notifier).updateLocation();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final favoritesAsync = ref.watch(favoriteStopsProvider);
+    final nearbyStopsAsync = ref.watch(nearbyStopsProvider);
+    final locationState = ref.watch(userLocationProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -51,6 +69,86 @@ class HomeScreen extends ConsumerWidget {
                 _TransportModeCard(mode: TransportMode.commuterRail),
                 _TransportModeCard(mode: TransportMode.catamaran),
               ],
+            ),
+            const SizedBox(height: 32),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Paradas cercanas',
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+                if (locationState.status == LocationStatus.initial ||
+                    locationState.status == LocationStatus.denied)
+                  TextButton.icon(
+                    onPressed: () => ref
+                        .read(userLocationProvider.notifier)
+                        .updateLocation(requestPermission: true),
+                    icon: const Icon(Icons.location_on),
+                    label: const Text('Activar'),
+                  )
+                else if (locationState.status ==
+                        LocationStatus.permanentlyDenied ||
+                    locationState.status == LocationStatus.disabled)
+                  TextButton.icon(
+                    onPressed: () =>
+                        ref.read(userLocationProvider.notifier).openSettings(),
+                    icon: const Icon(Icons.settings),
+                    label: const Text('Ajustes'),
+                  ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            nearbyStopsAsync.when(
+              data: (stops) {
+                if (stops.isEmpty) {
+                  if (locationState.status == LocationStatus.granted) {
+                    return const Card(
+                      child: Padding(
+                        padding: EdgeInsets.all(16),
+                        child: Center(
+                          child: Text('No hay paradas en 2km a la redonda'),
+                        ),
+                      ),
+                    );
+                  }
+                  return const Card(
+                    child: Padding(
+                      padding: EdgeInsets.all(16),
+                      child: Center(
+                        child: Text(
+                          'Activa la ubicación para ver paradas cercanas',
+                        ),
+                      ),
+                    ),
+                  );
+                }
+                return ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: stops.length > 3 ? 3 : stops.length,
+                  itemBuilder: (context, index) {
+                    final stop = stops[index];
+                    return ListTile(
+                      leading: Icon(
+                        TransportModeColors.getModeIcon(stop.transportMode),
+                        color: TransportModeColors.getModeColor(
+                          stop.transportMode,
+                        ),
+                      ),
+                      title: Text(stop.name),
+                      subtitle: Text(
+                        TransportModeColors.getModeName(stop.transportMode),
+                      ),
+                      trailing: const Icon(Icons.chevron_right),
+                      onTap: () => context.push('/stops/${stop.id}'),
+                    );
+                  },
+                );
+              },
+              loading: () =>
+                  const LoadingShimmer(child: ListLoadingShimmer(itemCount: 3)),
+              error: (err, stack) => Center(child: Text('Error: $err')),
             ),
             const SizedBox(height: 32),
             Text('Favoritos', style: Theme.of(context).textTheme.titleLarge),

@@ -50,3 +50,42 @@ final class StopsRepositoryProvider
 }
 
 String _$stopsRepositoryHash() => r'f4f4f67e3f3d777169a03dce7cd26003a12c57cb';
+
+@ProviderFor(allStops)
+final allStopsProvider = AllStopsProvider._();
+
+final class AllStopsProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<StopModel>>,
+          List<StopModel>,
+          FutureOr<List<StopModel>>
+        >
+    with $FutureModifier<List<StopModel>>, $FutureProvider<List<StopModel>> {
+  AllStopsProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'allStopsProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$allStopsHash();
+
+  @$internal
+  @override
+  $FutureProviderElement<List<StopModel>> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<List<StopModel>> create(Ref ref) {
+    return allStops(ref);
+  }
+}
+
+String _$allStopsHash() => r'91eb991e4d8757489a71000de9d4c4aa3e48dedf';

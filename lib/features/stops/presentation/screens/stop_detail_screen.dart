@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../core/theme/transport_mode_colors.dart';
 import '../providers/stop_detail_provider.dart';
 import '../providers/favorites_provider.dart';
@@ -41,6 +42,11 @@ class _StopDetailScreenState extends ConsumerState<StopDetailScreen> {
           error: (err, stack) => const Text('Error'),
         ),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.map_outlined),
+            onPressed: () => context.push('/map?stopId=${widget.stopId}'),
+            tooltip: 'Ver en mapa',
+          ),
           IconButton(
             icon: Icon(isFavorite ? Icons.favorite : Icons.favorite_border),
             color: isFavorite ? Colors.red : null,

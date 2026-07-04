@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 import '../features/home/presentation/screens/home_screen.dart';
 import '../features/home/presentation/screens/splash_screen.dart';
+import '../features/map/presentation/screens/map_screen.dart';
 import '../features/lines/presentation/screens/line_detail_screen.dart';
 import '../features/lines/presentation/screens/lines_list_screen.dart';
 import '../features/search/presentation/screens/search_screen.dart';
@@ -13,6 +14,13 @@ final router = GoRouter(
   routes: [
     GoRoute(path: '/', builder: (context, state) => const SplashScreen()),
     GoRoute(path: '/home', builder: (context, state) => const HomeScreen()),
+    GoRoute(
+      path: '/map',
+      builder: (context, state) {
+        final stopId = state.uri.queryParameters['stopId'];
+        return MapScreen(focusStopId: stopId);
+      },
+    ),
     GoRoute(
       path: '/settings',
       builder: (context, state) => const SettingsScreen(),

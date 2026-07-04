@@ -23,6 +23,15 @@ class StopsRepository {
     return stop != null ? _mapToDomain(stop) : null;
   }
 
+  Future<List<StopModel>> getStopsNear(
+    double lat,
+    double lon,
+    double radiusInKm,
+  ) async {
+    final stops = await _stopsDao.getStopsNear(lat, lon, radiusInKm);
+    return stops.map(_mapToDomain).toList();
+  }
+
   StopModel _mapToDomain(Stop stop) {
     return StopModel(
       id: stop.id,

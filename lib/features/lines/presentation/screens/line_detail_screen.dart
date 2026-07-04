@@ -5,6 +5,7 @@ import '../../../../shared/models/enums.dart';
 import '../providers/line_detail_provider.dart';
 import '../../../../core/theme/transport_mode_colors.dart';
 import '../../../../shared/widgets/loading_shimmer.dart';
+import '../widgets/route_map_preview.dart';
 
 class LineDetailScreen extends ConsumerStatefulWidget {
   final String routeId;
@@ -46,20 +47,22 @@ class _LineDetailScreenState extends ConsumerState<LineDetailScreen> {
 
           return Column(
             children: [
-              // Placeholder for Map (Fase 4)
-              Container(
+              SizedBox(
                 height: 200,
                 width: double.infinity,
-                color: color.withValues(alpha: 0.1),
-                child: Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(Icons.map, color: color, size: 48),
-                      const SizedBox(height: 8),
-                      const Text('Mapa disponible en Fase 4'),
-                      // TODO F4-3: draw route on map
-                    ],
+                child: stopsAsync.when(
+                  data: (stops) => RouteMapPreview(
+                    stops: stops,
+                    routeColor: color,
+                    transportMode: route.transportMode,
+                  ),
+                  loading: () => Container(
+                    color: color.withValues(alpha: 0.1),
+                    child: const Center(child: CircularProgressIndicator()),
+                  ),
+                  error: (err, stack) => Container(
+                    color: color.withValues(alpha: 0.1),
+                    child: const Center(child: Icon(Icons.error_outline)),
                   ),
                 ),
               ),
