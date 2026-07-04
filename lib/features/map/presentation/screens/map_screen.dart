@@ -9,6 +9,7 @@ import '../../../../shared/models/domain/stop.dart';
 import '../../../../shared/models/enums.dart';
 import '../../../stops/presentation/providers/stops_provider.dart';
 import '../providers/user_location_provider.dart';
+import '../../../../shared/widgets/location_permission_dialog.dart';
 import '../widgets/stop_preview_sheet.dart';
 import '../widgets/transport_mode_filter.dart';
 
@@ -199,31 +200,65 @@ class _MapScreenState extends ConsumerState<MapScreen> {
               if (locationState.status == LocationStatus.denied ||
                   locationState.status == LocationStatus.permanentlyDenied) {
                 _showLocationDeniedDialog();
+              } else if (locationState.status == LocationStatus.initial) {
+                showDialog(
+                  context: context,
+                  builder: (context) => LocationPermissionDialog(
+                    onConfirm: () {
+                      ref
+                          .read(userLocationProvider.notifier)
+                          .updateLocation(requestPermission: true)
+                          .then((_) {
+                        if (!mounted) return;
+                        final newState = ref.read(userLocationProvider);
+                        if (newState.status == LocationStatus.granted &&
+                            newState.position != null) {
+                          _mapController.move(
+                            LatLng(
+                              newState.position!.latitude,
+                              newState.position!.longitude,
+                            ),
+                            15,
+                          );
+                        }
+                      });
+                    },
+                  ),
+                );
               } else {
                 ref
                     .read(userLocationProvider.notifier)
                     .updateLocation(requestPermission: true)
                     .then((_) {
-                      if (!mounted) return;
-                      final newState = ref.read(userLocationProvider);
-                      if (newState.status == LocationStatus.granted &&
-                          newState.position != null) {
-                        _mapController.move(
-                          LatLng(
-                            newState.position!.latitude,
-                            newState.position!.longitude,
-                          ),
-                          15,
-                        );
-                      }
-                    });
+                  if (!mounted) return;
+                  final newState = ref.read(userLocationProvider);
+                  if (newState.status == LocationStatus.granted &&
+                      newState.position != null) {
+                    _mapController.move(
+                      LatLng(
+                        newState.position!.latitude,
+                        newState.position!.longitude,
+                      ),
+                      15,
+                    );
+                  }
+                });
               }
             },
-            child: Icon(
-              locationState.status == LocationStatus.granted
-                  ? Icons.my_location
-                  : Icons.location_searching,
-            ),
+            child: locationState.status == LocationStatus.loading
+                ? const SizedBox(
+                    width: 24,
+                    height: 24,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: Colors.white,
+                    ),
+                  )
+                : Icon(
+                    locationState.status == LocationStatus.granted
+                        ? Icons.my_location
+                        : Icons.location_searching,
+                  ),
           ),
         ],
       ),

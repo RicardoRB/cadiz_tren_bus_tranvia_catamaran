@@ -3,17 +3,46 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/theme/transport_mode_colors.dart';
 import '../../../../shared/models/domain/stop.dart';
+import '../../../../shared/widgets/location_permission_dialog.dart';
 import '../../../../shared/widgets/loading_shimmer.dart';
 import '../../../stops/presentation/providers/favorites_provider.dart';
 import '../../domain/nearby_line_entry.dart';
 import '../providers/nearby_lines_provider.dart';
 import '../../../map/presentation/providers/user_location_provider.dart';
 
-class NearbyLinesScreen extends ConsumerWidget {
+class NearbyLinesScreen extends ConsumerStatefulWidget {
   const NearbyLinesScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<NearbyLinesScreen> createState() => _NearbyLinesScreenState();
+}
+
+class _NearbyLinesScreenState extends ConsumerState<NearbyLinesScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final locationState = ref.read(userLocationProvider);
+      if (locationState.status == LocationStatus.initial) {
+        _showPermissionDialog();
+      }
+    });
+  }
+
+  void _showPermissionDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => LocationPermissionDialog(
+        onConfirm: () => ref
+            .read(userLocationProvider.notifier)
+            .updateLocation(requestPermission: true),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final locationState = ref.watch(userLocationProvider);
     final nearbyLinesAsync = ref.watch(nearbyLinesProvider);
     final favoriteStopsAsync = ref.watch(favoriteStopsProvider);
@@ -44,6 +73,7 @@ class NearbyLinesScreen extends ConsumerWidget {
             _NearbyLinesSection(
               locationState: locationState,
               nearbyLinesAsync: nearbyLinesAsync,
+              onActivateLocation: _showPermissionDialog,
             ),
           ],
         ),
@@ -145,14 +175,20 @@ class _FavoriteCard extends StatelessWidget {
 class _NearbyLinesSection extends ConsumerWidget {
   final UserLocationState locationState;
   final AsyncValue<List<NearbyLineEntry>> nearbyLinesAsync;
+  final VoidCallback onActivateLocation;
 
   const _NearbyLinesSection({
     required this.locationState,
     required this.nearbyLinesAsync,
+    required this.onActivateLocation,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    if (locationState.status == LocationStatus.loading) {
+      return const LoadingShimmer(child: ListLoadingShimmer());
+    }
+
     if (locationState.status == LocationStatus.denied ||
         locationState.status == LocationStatus.permanentlyDenied ||
         locationState.status == LocationStatus.disabled) {
@@ -168,9 +204,16 @@ class _NearbyLinesSection extends ConsumerWidget {
               ),
               const SizedBox(height: 16),
               ElevatedButton(
-                onPressed: () => ref
-                    .read(userLocationProvider.notifier)
-                    .updateLocation(requestPermission: true),
+                onPressed: () {
+                  if (locationState.status == LocationStatus.denied ||
+                      locationState.status == LocationStatus.initial) {
+                    onActivateLocation();
+                  } else {
+                    ref
+                        .read(userLocationProvider.notifier)
+                        .updateLocation(requestPermission: true);
+                  }
+                },
                 child: const Text('Activar ubicación'),
               ),
             ],
