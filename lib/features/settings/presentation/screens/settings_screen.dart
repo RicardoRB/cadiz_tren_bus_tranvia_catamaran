@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:cadiz_tren_bus_tranvia_catamaran/core/theme/theme_provider.dart';
-import 'package:cadiz_tren_bus_tranvia_catamaran/providers/counter_provider.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final counter = ref.watch(counterProvider);
     final themeMode = ref.watch(themeControllerProvider);
 
     return Scaffold(
@@ -46,20 +43,6 @@ class SettingsScreen extends ConsumerWidget {
           const Divider(),
           const ListTile(
             title: Text('Otros', style: TextStyle(fontWeight: FontWeight.bold)),
-          ),
-          ListTile(
-            title: const Text('Valor del contador (desde Settings):'),
-            subtitle: Text(
-              '$counter',
-              style: Theme.of(context).textTheme.headlineSmall,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: ElevatedButton(
-              onPressed: () => context.pop(),
-              child: const Text('Volver'),
-            ),
           ),
         ],
       ),
