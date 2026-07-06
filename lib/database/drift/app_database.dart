@@ -1,7 +1,7 @@
 import 'package:drift/drift.dart';
 import '../connection/connection.dart'
+    if (dart.library.ui) '../connection/native.dart'
     if (dart.library.html) '../connection/web.dart'
-    if (dart.library.io) '../connection/native.dart'
     as impl;
 
 import 'tables/operators_table.dart';
