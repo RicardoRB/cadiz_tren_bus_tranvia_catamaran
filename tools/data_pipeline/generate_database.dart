@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:drift/native.dart';
-import '../../lib/database/drift/app_database.dart';
-import '../../lib/shared/models/enums.dart';
+import 'package:cadiz_tren_bus_tranvia_catamaran/database/drift/app_database.dart';
+import 'package:cadiz_tren_bus_tranvia_catamaran/shared/models/enums.dart';
 import 'generators/factory.dart';
 
 void main() async {
