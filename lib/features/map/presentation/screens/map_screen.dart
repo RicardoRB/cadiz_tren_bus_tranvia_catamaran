@@ -209,19 +209,19 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                           .read(userLocationProvider.notifier)
                           .updateLocation(requestPermission: true)
                           .then((_) {
-                            if (!mounted) return;
-                            final newState = ref.read(userLocationProvider);
-                            if (newState.status == LocationStatus.granted &&
-                                newState.position != null) {
-                              _mapController.move(
-                                LatLng(
-                                  newState.position!.latitude,
-                                  newState.position!.longitude,
-                                ),
-                                15,
-                              );
-                            }
-                          });
+                        if (!mounted) return;
+                        final newState = ref.read(userLocationProvider);
+                        if (newState.status == LocationStatus.granted &&
+                            newState.position != null) {
+                          _mapController.move(
+                            LatLng(
+                              newState.position!.latitude,
+                              newState.position!.longitude,
+                            ),
+                            15,
+                          );
+                        }
+                      });
                     },
                   ),
                 );
@@ -230,19 +230,19 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                     .read(userLocationProvider.notifier)
                     .updateLocation(requestPermission: true)
                     .then((_) {
-                      if (!mounted) return;
-                      final newState = ref.read(userLocationProvider);
-                      if (newState.status == LocationStatus.granted &&
-                          newState.position != null) {
-                        _mapController.move(
-                          LatLng(
-                            newState.position!.latitude,
-                            newState.position!.longitude,
-                          ),
-                          15,
-                        );
-                      }
-                    });
+                  if (!mounted) return;
+                  final newState = ref.read(userLocationProvider);
+                  if (newState.status == LocationStatus.granted &&
+                      newState.position != null) {
+                    _mapController.move(
+                      LatLng(
+                        newState.position!.latitude,
+                        newState.position!.longitude,
+                      ),
+                      15,
+                    );
+                  }
+                });
               }
             },
             child: locationState.status == LocationStatus.loading
