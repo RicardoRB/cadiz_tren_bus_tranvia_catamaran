@@ -1,4 +1,4 @@
-import '../../../lib/database/drift/app_database.dart';
+import 'package:cadiz_tren_bus_tranvia_catamaran/database/drift/app_database.dart';
 
 abstract class TransportDataGenerator {
   final AppDatabase db;

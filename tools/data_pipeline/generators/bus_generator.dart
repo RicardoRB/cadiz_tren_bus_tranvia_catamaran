@@ -1,5 +1,5 @@
-import '../../../lib/database/drift/app_database.dart';
-import '../../../lib/shared/models/enums.dart';
+import 'package:cadiz_tren_bus_tranvia_catamaran/database/drift/app_database.dart';
+import 'package:cadiz_tren_bus_tranvia_catamaran/shared/models/enums.dart';
 import 'base_generator.dart';
 
 class BusGenerator extends TransportDataGenerator {
