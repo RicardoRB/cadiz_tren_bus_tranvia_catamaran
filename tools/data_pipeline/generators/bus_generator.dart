@@ -1,5 +1,5 @@
-import '../../../lib/database/drift/app_database.dart';
-import '../../../lib/shared/models/enums.dart';
+import 'package:cadiz_tren_bus_tranvia_catamaran/database/drift/app_database.dart';
+import 'package:cadiz_tren_bus_tranvia_catamaran/shared/models/enums.dart';
 import 'base_generator.dart';
 
 class BusGenerator extends TransportDataGenerator {
@@ -75,7 +75,11 @@ class BusGenerator extends TransportDataGenerator {
     // 4. Trips
     const tripId = 'trip_M010_1';
     await db.tripsDao.insertTrip(
-      const Trip(id: tripId, routeId: routeId, direction: Direction.outbound),
+      const Trip(
+        id: tripId,
+        routeId: routeId,
+        direction: Direction.outbound,
+      ),
     );
 
     // 5. Stop Times
@@ -118,6 +122,6 @@ class BusGenerator extends TransportDataGenerator {
       await db.stopTimesDao.insertStopTime(st);
     }
 
-    print('Bus data generated successfully.');
+    logger.info('Bus data generated successfully.');
   }
 }

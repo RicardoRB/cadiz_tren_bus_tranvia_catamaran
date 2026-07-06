@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 class LocationPermissionDialog extends StatelessWidget {
   final VoidCallback onConfirm;
 
-  const LocationPermissionDialog({super.key, required this.onConfirm});
+  const LocationPermissionDialog({
+    super.key,
+    required this.onConfirm,
+  });
 
   @override
   Widget build(BuildContext context) {
