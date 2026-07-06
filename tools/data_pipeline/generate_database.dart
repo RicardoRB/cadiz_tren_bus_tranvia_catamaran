@@ -36,6 +36,7 @@ void main() async {
   } catch (e, stack) {
     print('Error generating database: $e');
     print(stack);
+    rethrow;
   } finally {
     await db.close();
   }
