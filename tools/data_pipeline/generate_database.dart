@@ -11,7 +11,6 @@ void main() async {
   // Setup logging
   Logger.root.level = Level.ALL;
   Logger.root.onRecord.listen((record) {
-    // ignore: avoid_print
     print('${record.level.name}: ${record.time}: ${record.message}');
   });
 
@@ -36,8 +35,14 @@ void main() async {
     await db.customSelect('SELECT 1').get();
 
     _logger.info('Populating bus data...');
-    final busGenerator = TransportDataFactory.create(TransportMode.bus, db);
-    await busGenerator.populate();
+    TransportDataFactory transportDataFactory = TransportDataFactory(db);
+
+    for (TransportMode mode in TransportMode.values) {
+      if (transportDataFactory.contains(mode)) {
+        final busGenerator = transportDataFactory.get(mode);
+        await busGenerator.populate();
+      }
+    }
 
     _logger.info('Database generation complete!');
   } catch (e, stack) {
