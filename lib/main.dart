@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'core/theme/app_theme.dart';
 import 'core/theme/theme_provider.dart';
+import 'l10n/app_localizations.dart';
 import 'router/router.dart';
 import 'shared/widgets/adaptativos/app_adaptativa.dart';
 
@@ -26,7 +27,6 @@ class MyApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return AppAdaptativa(
       routerConfig: router,
-      title: 'Cadiz Transit',
     );
   }
 }

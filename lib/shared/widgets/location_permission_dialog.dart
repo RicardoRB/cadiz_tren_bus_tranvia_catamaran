@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 
 class LocationPermissionDialog extends StatelessWidget {
   final VoidCallback onConfirm;
@@ -7,29 +8,27 @@ class LocationPermissionDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return AlertDialog(
-      title: const Row(
+      title: Row(
         children: [
-          Icon(Icons.location_on, color: Colors.blue),
-          SizedBox(width: 8),
-          Text('Ubicación necesaria'),
+          const Icon(Icons.location_on, color: Colors.blue),
+          const SizedBox(width: 8),
+          Text(l10n.locationPermissionTitle),
         ],
       ),
-      content: const Text(
-        'Para mostrarte las paradas y líneas más cercanas a tu posición, necesitamos acceso a tu ubicación GPS.\n\n'
-        'Tus datos de ubicación no se guardan ni se envían a ningún servidor externo.',
-      ),
+      content: Text(l10n.locationPermissionContent),
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: const Text('AHORA NO'),
+          child: Text(l10n.notNow),
         ),
         ElevatedButton(
           onPressed: () {
             Navigator.pop(context);
             onConfirm();
           },
-          child: const Text('PERMITIR'),
+          child: Text(l10n.allow),
         ),
       ],
     );

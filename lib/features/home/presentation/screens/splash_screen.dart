@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:cadiz_tren_bus_tranvia_catamaran/database/seed/database_seeder.dart';
+import '../../../../l10n/app_localizations.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -30,7 +31,11 @@ class _SplashScreenState extends State<SplashScreen> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error al inicializar la base de datos: $e')),
+          SnackBar(
+            content: Text(
+              AppLocalizations.of(context)!.initDatabaseError(e.toString()),
+            ),
+          ),
         );
       }
     }

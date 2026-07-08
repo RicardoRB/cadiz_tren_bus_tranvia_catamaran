@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../../core/theme/transport_mode_colors.dart';
 import '../providers/stop_detail_provider.dart';
 import '../providers/favorites_provider.dart';
@@ -34,11 +35,12 @@ class _StopDetailScreenState extends ConsumerState<StopDetailScreen> {
       upcomingStopTimesProvider(widget.stopId, _referenceTime),
     );
     final isFavorite = ref.watch(favoritesProvider).contains(widget.stopId);
+    final l10n = AppLocalizations.of(context)!;
 
     final title = stopAsync.when(
-      data: (stop) => stop?.name ?? 'Detalle de parada',
-      loading: () => 'Cargando...',
-      error: (err, stack) => 'Error',
+      data: (stop) => stop?.name ?? l10n.stopDetail,
+      loading: () => l10n.loading,
+      error: (err, stack) => l10n.error,
     );
 
     return PaginaAdaptativa(
@@ -47,7 +49,7 @@ class _StopDetailScreenState extends ConsumerState<StopDetailScreen> {
         IconButton(
           icon: const Icon(Icons.map_outlined),
           onPressed: () => context.push('/stop-on-map?stopId=${widget.stopId}'),
-          tooltip: 'Ver en mapa',
+          tooltip: l10n.viewOnMap,
         ),
         IconButton(
           icon: Icon(isFavorite ? Icons.favorite : Icons.favorite_border),
@@ -57,7 +59,9 @@ class _StopDetailScreenState extends ConsumerState<StopDetailScreen> {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(
-                  isFavorite ? 'Eliminado de favoritos' : 'Añadido a favoritos',
+                  isFavorite
+                      ? l10n.removedFromFavorites
+                      : l10n.addedToFavorites,
                 ),
                 duration: const Duration(seconds: 1),
               ),
@@ -68,7 +72,7 @@ class _StopDetailScreenState extends ConsumerState<StopDetailScreen> {
       child: stopAsync.when(
         data: (stop) {
           if (stop == null) {
-            return const Center(child: Text('Parada no encontrada'));
+            return Center(child: Text(l10n.stopNotFound));
           }
 
           final color = TransportModeColors.getModeColor(stop.transportMode);
@@ -81,7 +85,7 @@ class _StopDetailScreenState extends ConsumerState<StopDetailScreen> {
                   color: color,
                 ),
                 title: Text(stop.name),
-                subtitle: Text('Operador ID: ${stop.operatorId}'),
+                subtitle: Text(l10n.operatorId(stop.operatorId)),
               ),
               const Divider(),
               Padding(
@@ -89,15 +93,15 @@ class _StopDetailScreenState extends ConsumerState<StopDetailScreen> {
                 child: Row(
                   children: [
                     Text(
-                      'Próximos pasos',
+                      l10n.nextDepartures,
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     const Spacer(),
-                    const Text(
-                      'Hoy',
-                      style: TextStyle(fontStyle: FontStyle.italic),
+                    Text(
+                      l10n.today,
+                      style: const TextStyle(fontStyle: FontStyle.italic),
                     ),
                   ],
                 ),
@@ -109,11 +113,11 @@ class _StopDetailScreenState extends ConsumerState<StopDetailScreen> {
                       return Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Text('No hay más servicios para hoy'),
+                          Text(l10n.noMoreServicesToday),
                           const SizedBox(height: 16),
                           ElevatedButton(
                             onPressed: () => _showFullSchedule(context),
-                            child: const Text('Ver horario completo'),
+                            child: Text(l10n.viewFullSchedule),
                           ),
                         ],
                       );
@@ -126,7 +130,7 @@ class _StopDetailScreenState extends ConsumerState<StopDetailScreen> {
                             padding: const EdgeInsets.all(16.0),
                             child: ElevatedButton(
                               onPressed: () => _showFullSchedule(context),
-                              child: const Text('Ver horario completo'),
+                              child: Text(l10n.viewFullSchedule),
                             ),
                           );
                         }
@@ -134,7 +138,7 @@ class _StopDetailScreenState extends ConsumerState<StopDetailScreen> {
                         return ListTile(
                           leading: const Icon(Icons.access_time),
                           title: Text(time.arrivalTime.substring(0, 5)),
-                          subtitle: Text('Trip ID: ${time.tripId}'),
+                          subtitle: Text(l10n.tripId(time.tripId)),
                         );
                       },
                     );
@@ -142,26 +146,29 @@ class _StopDetailScreenState extends ConsumerState<StopDetailScreen> {
                   loading: () => const LoadingShimmer(
                     child: ListLoadingShimmer(itemCount: 5),
                   ),
-                  error: (err, stack) => Center(child: Text('Error: $err')),
+                  error: (err, stack) =>
+                      Center(child: Text(l10n.errorWithDetail(err.toString()))),
                 ),
               ),
             ],
           );
         },
         loading: () => const LoadingShimmer(child: DetailLoadingShimmer()),
-        error: (err, stack) => Center(child: Text('Error: $err')),
+        error: (err, stack) =>
+            Center(child: Text(l10n.errorWithDetail(err.toString()))),
       ),
     );
   }
 
   void _showFullSchedule(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       useSafeArea: true,
       builder: (context) => Scaffold(
         appBar: AppBar(
-          title: const Text('Horario completo'),
+          title: Text(l10n.fullSchedule),
           leading: IconButton(
             icon: const Icon(Icons.close),
             onPressed: () => Navigator.pop(context),

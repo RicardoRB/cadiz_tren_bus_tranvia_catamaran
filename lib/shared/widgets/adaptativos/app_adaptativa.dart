@@ -7,15 +7,14 @@ import 'package:macos_ui/macos_ui.dart';
 import 'package:yaru/yaru.dart';
 import '../../../core/utils/controlador_plataforma.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../../l10n/app_localizations.dart';
 
 class AppAdaptativa extends ConsumerWidget {
   final GoRouter routerConfig;
-  final String title;
 
   const AppAdaptativa({
     super.key,
     required this.routerConfig,
-    required this.title,
   });
 
   @override
@@ -25,7 +24,7 @@ class AppAdaptativa extends ConsumerWidget {
     switch (plataforma) {
       case TipoPlataforma.windows:
         return fluent.FluentApp.router(
-          title: title,
+          onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,
           routerConfig: routerConfig,
           debugShowCheckedModeBanner: false,
           theme: fluent.FluentThemeData(
@@ -40,31 +39,39 @@ class AppAdaptativa extends ConsumerWidget {
               'normal': Colors.blue,
             }),
           ),
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
         );
       case TipoPlataforma.macos:
         return MacosApp.router(
-          title: title,
+          onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,
           routerConfig: routerConfig,
           debugShowCheckedModeBanner: false,
           theme: MacosThemeData.light(),
           darkTheme: MacosThemeData.dark(),
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
         );
       case TipoPlataforma.ios:
         return CupertinoApp.router(
-          title: title,
+          onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,
           routerConfig: routerConfig,
           debugShowCheckedModeBanner: false,
           theme: const CupertinoThemeData(),
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
         );
       case TipoPlataforma.linux:
         return YaruTheme(
           builder: (context, yaruTheme, child) {
             return MaterialApp.router(
-              title: title,
+              onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,
               routerConfig: routerConfig,
               debugShowCheckedModeBanner: false,
               theme: yaruTheme.theme,
               darkTheme: yaruTheme.darkTheme,
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              supportedLocales: AppLocalizations.supportedLocales,
             );
           },
         );
@@ -72,11 +79,13 @@ class AppAdaptativa extends ConsumerWidget {
       case TipoPlataforma.web:
       default:
         return MaterialApp.router(
-          title: title,
+          onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,
           routerConfig: routerConfig,
           debugShowCheckedModeBanner: false,
           theme: AppTheme.lightTheme,
           darkTheme: AppTheme.darkTheme,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
         );
     }
   }

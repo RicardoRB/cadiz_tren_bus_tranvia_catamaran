@@ -1,3 +1,4 @@
+import 'package:cadiz_tren_bus_tranvia_catamaran/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import '../../../../shared/models/enums.dart';
 import '../../../../core/theme/transport_mode_colors.dart';
@@ -14,9 +15,10 @@ class TransportModeFilter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return PopupMenuButton<TransportMode>(
       icon: const Icon(Icons.filter_list),
-      tooltip: 'Filtrar modos de transporte',
+      tooltip: l10n.filterTransportModes,
       onSelected: (mode) {
         final newSelection = Set<TransportMode>.from(selectedModes);
         if (newSelection.contains(mode)) {
@@ -44,7 +46,7 @@ class TransportModeFilter extends StatelessWidget {
                   color: color,
                 ),
                 const SizedBox(width: 12),
-                Text(TransportModeColors.getModeName(mode)),
+                Text(TransportModeColors.getModeName(context, mode)),
               ],
             ),
           );
