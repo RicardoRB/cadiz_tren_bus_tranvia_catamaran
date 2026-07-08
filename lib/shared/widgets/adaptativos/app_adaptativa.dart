@@ -77,7 +77,6 @@ class AppAdaptativa extends ConsumerWidget {
         );
       case TipoPlataforma.android:
       case TipoPlataforma.web:
-      default:
         return MaterialApp.router(
           onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,
           routerConfig: routerConfig,

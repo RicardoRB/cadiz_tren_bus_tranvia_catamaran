@@ -1,5 +1,3 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:cadiz_tren_bus_tranvia_catamaran/core/utils/controlador_plataforma.dart';
@@ -7,7 +5,6 @@ import 'package:cadiz_tren_bus_tranvia_catamaran/core/utils/controlador_platafor
 void main() {
   test('ControladorPlataforma should detect platform correctly', () {
     final container = ProviderContainer();
-    final controlador = container.read(controladorPlataformaProvider.notifier);
     final plataforma = container.read(controladorPlataformaProvider);
 
     // defaultTargetPlatform in tests is usually android

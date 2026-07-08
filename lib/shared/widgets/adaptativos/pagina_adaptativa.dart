@@ -37,7 +37,8 @@ class PaginaAdaptativa extends ConsumerWidget {
                               );
                             }
                             return fluent.CommandBarBuilderItem(
-                              builder: (context, mode, child) => a,
+                              wrappedItem: a,
+                              builder: (context, mode, child) => child!,
                             );
                           }).toList(),
                         )
