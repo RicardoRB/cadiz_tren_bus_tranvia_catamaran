@@ -1,3 +1,4 @@
+import 'package:cadiz_tren_bus_tranvia_catamaran/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import '../../../../shared/models/enums.dart';
 import '../../../../core/theme/transport_mode_colors.dart';
