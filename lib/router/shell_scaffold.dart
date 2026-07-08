@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../shared/widgets/adaptativos/scaffold_adaptativo.dart';
 
 class ShellScaffold extends StatelessWidget {
   final StatefulNavigationShell navigationShell;
@@ -8,26 +9,22 @@ class ShellScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: navigationShell,
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: navigationShell.currentIndex,
-        onDestinationSelected: (index) => navigationShell.goBranch(index),
-        destinations: const [
-          NavigationDestination(
-            icon: Icon(Icons.map_outlined),
-            selectedIcon: Icon(Icons.map),
-            label: 'Mapa',
-            tooltip: 'Mapa de paradas',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.list_alt_outlined),
-            selectedIcon: Icon(Icons.list_alt),
-            label: 'Cercanas',
-            tooltip: 'Líneas cercanas',
-          ),
-        ],
-      ),
+    return ScaffoldAdaptativo(
+      navigationShell: navigationShell,
+      destinos: const [
+        DestinoNavegacion(
+          icon: Icons.map_outlined,
+          selectedIcon: Icons.map,
+          label: 'Mapa',
+          tooltip: 'Mapa de paradas',
+        ),
+        DestinoNavegacion(
+          icon: Icons.list_alt_outlined,
+          selectedIcon: Icons.list_alt,
+          label: 'Cercanas',
+          tooltip: 'Líneas cercanas',
+        ),
+      ],
     );
   }
 }

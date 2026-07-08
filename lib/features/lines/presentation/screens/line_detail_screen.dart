@@ -5,6 +5,7 @@ import '../../../../shared/models/enums.dart';
 import '../providers/line_detail_provider.dart';
 import '../../../../core/theme/transport_mode_colors.dart';
 import '../../../../shared/widgets/loading_shimmer.dart';
+import '../../../../shared/widgets/adaptativos/pagina_adaptativa.dart';
 import '../widgets/route_map_preview.dart';
 
 class LineDetailScreen extends ConsumerStatefulWidget {
@@ -26,15 +27,15 @@ class _LineDetailScreenState extends ConsumerState<LineDetailScreen> {
       routeStopsProvider(widget.routeId, _selectedDirection),
     );
 
-    return Scaffold(
-      appBar: AppBar(
-        title: routeAsync.when(
-          data: (route) => Text(route?.name ?? 'Detalle de línea'),
-          loading: () => const Text('Cargando...'),
-          error: (err, stack) => const Text('Error'),
-        ),
-      ),
-      body: routeAsync.when(
+    final title = routeAsync.when(
+      data: (route) => route?.name ?? 'Detalle de línea',
+      loading: () => 'Cargando...',
+      error: (err, stack) => 'Error',
+    );
+
+    return PaginaAdaptativa(
+      title: title,
+      child: routeAsync.when(
         data: (route) {
           if (route == null) {
             return const Center(child: Text('Línea no encontrada'));

@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'core/theme/app_theme.dart';
 import 'core/theme/theme_provider.dart';
 import 'router/router.dart';
+import 'shared/widgets/adaptativos/app_adaptativa.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,15 +24,9 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final themeMode = ref.watch(themeControllerProvider);
-
-    return MaterialApp.router(
-      title: 'Cadiz Tren Bus Tranvia Catamaran',
-      theme: AppTheme.lightTheme,
-      darkTheme: AppTheme.darkTheme,
-      themeMode: themeMode,
+    return AppAdaptativa(
       routerConfig: router,
-      debugShowCheckedModeBanner: false,
+      title: 'Cadiz Transit',
     );
   }
 }

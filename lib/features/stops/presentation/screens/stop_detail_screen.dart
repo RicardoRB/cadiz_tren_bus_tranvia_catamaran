@@ -7,6 +7,7 @@ import '../providers/favorites_provider.dart';
 import '../../../schedule/presentation/providers/schedule_provider.dart';
 import '../../../schedule/presentation/widgets/schedule_table.dart';
 import '../../../../shared/widgets/loading_shimmer.dart';
+import '../../../../shared/widgets/adaptativos/pagina_adaptativa.dart';
 
 class StopDetailScreen extends ConsumerStatefulWidget {
   final String stopId;
@@ -34,42 +35,37 @@ class _StopDetailScreenState extends ConsumerState<StopDetailScreen> {
     );
     final isFavorite = ref.watch(favoritesProvider).contains(widget.stopId);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: stopAsync.when(
-          data: (stop) => Text(stop?.name ?? 'Detalle de parada'),
-          loading: () => const Text('Cargando...'),
-          error: (err, stack) => const Text('Error'),
+    final title = stopAsync.when(
+      data: (stop) => stop?.name ?? 'Detalle de parada',
+      loading: () => 'Cargando...',
+      error: (err, stack) => 'Error',
+    );
+
+    return PaginaAdaptativa(
+      title: title,
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.map_outlined),
+          onPressed: () => context.push('/stop-on-map?stopId=${widget.stopId}'),
+          tooltip: 'Ver en mapa',
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.map_outlined),
-            onPressed: () =>
-                context.push('/stop-on-map?stopId=${widget.stopId}'),
-            tooltip: 'Ver en mapa',
-          ),
-          IconButton(
-            icon: Icon(isFavorite ? Icons.favorite : Icons.favorite_border),
-            color: isFavorite ? Colors.red : null,
-            onPressed: () {
-              ref
-                  .read(favoritesProvider.notifier)
-                  .toggleFavorite(widget.stopId);
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(
-                    isFavorite
-                        ? 'Eliminado de favoritos'
-                        : 'Añadido a favoritos',
-                  ),
-                  duration: const Duration(seconds: 1),
+        IconButton(
+          icon: Icon(isFavorite ? Icons.favorite : Icons.favorite_border),
+          color: isFavorite ? Colors.red : null,
+          onPressed: () {
+            ref.read(favoritesProvider.notifier).toggleFavorite(widget.stopId);
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                  isFavorite ? 'Eliminado de favoritos' : 'Añadido a favoritos',
                 ),
-              );
-            },
-          ),
-        ],
-      ),
-      body: stopAsync.when(
+                duration: const Duration(seconds: 1),
+              ),
+            );
+          },
+        ),
+      ],
+      child: stopAsync.when(
         data: (stop) {
           if (stop == null) {
             return const Center(child: Text('Parada no encontrada'));
