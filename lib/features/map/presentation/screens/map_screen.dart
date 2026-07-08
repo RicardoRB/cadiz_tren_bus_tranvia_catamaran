@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../../core/theme/transport_mode_colors.dart';
+import '../../../../core/platform/pagina_adaptativa.dart';
 import '../../../../shared/models/domain/stop.dart';
 import '../../../../shared/models/enums.dart';
 import '../../../stops/presentation/providers/stops_provider.dart';
@@ -47,167 +48,191 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     final locationState = ref.watch(userLocationProvider);
     final l10n = AppLocalizations.of(context)!;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.mapOfStops),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () => context.push('/search'),
-          ),
-          IconButton(
-            icon: const Icon(Icons.settings),
-            onPressed: () => context.push('/settings'),
-          ),
-        ],
-      ),
-      body: stopsAsync.when(
-        data: (allStops) {
-          final filteredStops = allStops
-              .where((s) => _selectedModes.contains(s.transportMode))
-              .toList();
-
-          if (!_isInitialFocusDone && widget.focusStopId != null) {
-            final focusStop = allStops
-                .where((s) => s.id == widget.focusStopId)
-                .firstOrNull;
-            if (focusStop != null) {
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                _mapController.move(LatLng(focusStop.lat, focusStop.lon), 16);
-                setState(() {
-                  _isInitialFocusDone = true;
-                });
-              });
-            }
-          }
-
-          return FlutterMap(
-            mapController: _mapController,
-            options: const MapOptions(
-              initialCenter: LatLng(36.5297, -6.2946), // Cádiz city
-              initialZoom: 12,
-              maxZoom: 18,
-              minZoom: 8,
-            ),
-            children: [
-              TileLayer(
-                urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                userAgentPackageName: 'com.cadiztransit.app',
-              ),
-              RichAttributionWidget(
-                attributions: [
-                  TextSourceAttribution(
-                    'OpenStreetMap contributors',
-                    onTap: () {}, // Optional: Add URL if needed
-                  ),
-                ],
-              ),
-              MarkerClusterLayerWidget(
-                options: MarkerClusterLayerOptions(
-                  maxClusterRadius: 45,
-                  size: const Size(40, 40),
-                  alignment: Alignment.center,
-                  padding: const EdgeInsets.all(50),
-                  markers: filteredStops.map((stop) {
-                    return Marker(
-                      point: LatLng(stop.lat, stop.lon),
-                      width: 40,
-                      height: 40,
-                      child: GestureDetector(
-                        onTap: () => _showStopPreview(stop),
-                        child: Icon(
-                          TransportModeColors.getModeIcon(stop.transportMode),
-                          color: TransportModeColors.getModeColor(
-                            stop.transportMode,
-                          ),
-                          size: 30,
-                        ),
-                      ),
-                    );
-                  }).toList(),
-                  builder: (context, markers) {
-                    return Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Theme.of(context).colorScheme.primaryContainer,
-                      ),
-                      child: Center(
-                        child: Text(
-                          markers.length.toString(),
-                          style: TextStyle(
-                            color: Theme.of(
-                              context,
-                            ).colorScheme.onPrimaryContainer,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-              if (locationState.status == LocationStatus.granted &&
-                  locationState.position != null)
-                MarkerLayer(
-                  markers: [
-                    Marker(
-                      point: LatLng(
-                        locationState.position!.latitude,
-                        locationState.position!.longitude,
-                      ),
-                      width: 20,
-                      height: 20,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.blue,
-                          shape: BoxShape.circle,
-                          border: Border.all(color: Colors.white, width: 2),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Colors.black26,
-                              blurRadius: 4,
-                              offset: Offset(0, 2),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-            ],
-          );
-        },
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (err, stack) =>
-            Center(child: Text(l10n.errorWithDetail(err.toString()))),
-      ),
-      floatingActionButton: Column(
-        mainAxisSize: MainAxisSize.min,
+    return PaginaAdaptativa(
+      title: Text(l10n.mapOfStops),
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.search),
+          onPressed: () => context.push('/search'),
+        ),
+        IconButton(
+          icon: const Icon(Icons.settings),
+          onPressed: () => context.push('/settings'),
+        ),
+      ],
+      body: Stack(
         children: [
-          FloatingActionButton.small(
-            heroTag: 'filter_fab',
-            onPressed: null, // PopupMenuButton handles interaction
-            child: TransportModeFilter(
-              selectedModes: _selectedModes,
-              onChanged: (newSelection) {
-                setState(() {
-                  _selectedModes = newSelection;
-                });
-              },
-            ),
+          stopsAsync.when(
+            data: (allStops) {
+              final filteredStops = allStops
+                  .where((s) => _selectedModes.contains(s.transportMode))
+                  .toList();
+
+              if (!_isInitialFocusDone && widget.focusStopId != null) {
+                final focusStop = allStops
+                    .where((s) => s.id == widget.focusStopId)
+                    .firstOrNull;
+                if (focusStop != null) {
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    _mapController.move(LatLng(focusStop.lat, focusStop.lon), 16);
+                    setState(() {
+                      _isInitialFocusDone = true;
+                    });
+                  });
+                }
+              }
+
+              return FlutterMap(
+                mapController: _mapController,
+                options: const MapOptions(
+                  initialCenter: LatLng(36.5297, -6.2946), // Cádiz city
+                  initialZoom: 12,
+                  maxZoom: 18,
+                  minZoom: 8,
+                ),
+                children: [
+                  TileLayer(
+                    urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                    userAgentPackageName: 'com.cadiztransit.app',
+                  ),
+                  RichAttributionWidget(
+                    attributions: [
+                      TextSourceAttribution(
+                        'OpenStreetMap contributors',
+                        onTap: () {}, // Optional: Add URL if needed
+                      ),
+                    ],
+                  ),
+                  MarkerClusterLayerWidget(
+                    options: MarkerClusterLayerOptions(
+                      maxClusterRadius: 45,
+                      size: const Size(40, 40),
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.all(50),
+                      markers: filteredStops.map((stop) {
+                        return Marker(
+                          point: LatLng(stop.lat, stop.lon),
+                          width: 40,
+                          height: 40,
+                          child: GestureDetector(
+                            onTap: () => _showStopPreview(stop),
+                            child: Icon(
+                              TransportModeColors.getModeIcon(stop.transportMode),
+                              color: TransportModeColors.getModeColor(
+                                stop.transportMode,
+                              ),
+                              size: 30,
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                      builder: (context, markers) {
+                        return Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: Theme.of(context).colorScheme.primaryContainer,
+                          ),
+                          child: Center(
+                            child: Text(
+                              markers.length.toString(),
+                              style: TextStyle(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onPrimaryContainer,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  if (locationState.status == LocationStatus.granted &&
+                      locationState.position != null)
+                    MarkerLayer(
+                      markers: [
+                        Marker(
+                          point: LatLng(
+                            locationState.position!.latitude,
+                            locationState.position!.longitude,
+                          ),
+                          width: 20,
+                          height: 20,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.blue,
+                              shape: BoxShape.circle,
+                              border: Border.all(color: Colors.white, width: 2),
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Colors.black26,
+                                  blurRadius: 4,
+                                  offset: Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                ],
+              );
+            },
+            loading: () => const Center(child: CircularProgressIndicator()),
+            error: (err, stack) =>
+                Center(child: Text(l10n.errorWithDetail(err.toString()))),
           ),
-          const SizedBox(height: 12),
-          FloatingActionButton(
-            heroTag: 'location_fab',
-            onPressed: () {
-              if (locationState.status == LocationStatus.denied ||
-                  locationState.status == LocationStatus.permanentlyDenied) {
-                _showLocationDeniedDialog();
-              } else if (locationState.status == LocationStatus.initial) {
-                showDialog(
-                  context: context,
-                  builder: (context) => LocationPermissionDialog(
-                    onConfirm: () {
+          Positioned(
+            right: 16,
+            bottom: 16,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                FloatingActionButton.small(
+                  heroTag: 'filter_fab',
+                  onPressed: null, // PopupMenuButton handles interaction
+                  child: TransportModeFilter(
+                    selectedModes: _selectedModes,
+                    onChanged: (newSelection) {
+                      setState(() {
+                        _selectedModes = newSelection;
+                      });
+                    },
+                  ),
+                ),
+                const SizedBox(height: 12),
+                FloatingActionButton(
+                  heroTag: 'location_fab',
+                  onPressed: () {
+                    if (locationState.status == LocationStatus.denied ||
+                        locationState.status == LocationStatus.permanentlyDenied) {
+                      _showLocationDeniedDialog();
+                    } else if (locationState.status == LocationStatus.initial) {
+                      showDialog(
+                        context: context,
+                        builder: (context) => LocationPermissionDialog(
+                          onConfirm: () {
+                            ref
+                                .read(userLocationProvider.notifier)
+                                .updateLocation(requestPermission: true)
+                                .then((_) {
+                                  if (!mounted) return;
+                                  final newState = ref.read(userLocationProvider);
+                                  if (newState.status == LocationStatus.granted &&
+                                      newState.position != null) {
+                                    _mapController.move(
+                                      LatLng(
+                                        newState.position!.latitude,
+                                        newState.position!.longitude,
+                                      ),
+                                      15,
+                                    );
+                                  }
+                                });
+                          },
+                        ),
+                      );
+                    } else {
                       ref
                           .read(userLocationProvider.notifier)
                           .updateLocation(requestPermission: true)
@@ -225,43 +250,25 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                               );
                             }
                           });
-                    },
-                  ),
-                );
-              } else {
-                ref
-                    .read(userLocationProvider.notifier)
-                    .updateLocation(requestPermission: true)
-                    .then((_) {
-                      if (!mounted) return;
-                      final newState = ref.read(userLocationProvider);
-                      if (newState.status == LocationStatus.granted &&
-                          newState.position != null) {
-                        _mapController.move(
-                          LatLng(
-                            newState.position!.latitude,
-                            newState.position!.longitude,
+                    }
+                  },
+                  child: locationState.status == LocationStatus.loading
+                      ? const SizedBox(
+                          width: 24,
+                          height: 24,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: Colors.white,
                           ),
-                          15,
-                        );
-                      }
-                    });
-              }
-            },
-            child: locationState.status == LocationStatus.loading
-                ? const SizedBox(
-                    width: 24,
-                    height: 24,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      color: Colors.white,
-                    ),
-                  )
-                : Icon(
-                    locationState.status == LocationStatus.granted
-                        ? Icons.my_location
-                        : Icons.location_searching,
-                  ),
+                        )
+                      : Icon(
+                          locationState.status == LocationStatus.granted
+                              ? Icons.my_location
+                              : Icons.location_searching,
+                        ),
+                ),
+              ],
+            ),
           ),
         ],
       ),

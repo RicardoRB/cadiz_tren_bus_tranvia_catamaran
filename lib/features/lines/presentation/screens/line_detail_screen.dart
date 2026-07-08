@@ -5,6 +5,7 @@ import '../../../../shared/models/enums.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../providers/line_detail_provider.dart';
 import '../../../../core/theme/transport_mode_colors.dart';
+import '../../../../core/platform/pagina_adaptativa.dart';
 import '../../../../shared/widgets/loading_shimmer.dart';
 import '../widgets/route_map_preview.dart';
 
@@ -28,13 +29,11 @@ class _LineDetailScreenState extends ConsumerState<LineDetailScreen> {
     );
     final l10n = AppLocalizations.of(context)!;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: routeAsync.when(
-          data: (route) => Text(route?.name ?? l10n.lineDetail),
-          loading: () => Text(l10n.loading),
-          error: (err, stack) => Text(l10n.error),
-        ),
+    return PaginaAdaptativa(
+      title: routeAsync.when(
+        data: (route) => Text(route?.name ?? l10n.lineDetail),
+        loading: () => Text(l10n.loading),
+        error: (err, stack) => Text(l10n.error),
       ),
       body: routeAsync.when(
         data: (route) {

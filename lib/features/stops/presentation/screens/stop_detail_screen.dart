@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../../core/theme/transport_mode_colors.dart';
+import '../../../../core/platform/pagina_adaptativa.dart';
 import '../providers/stop_detail_provider.dart';
 import '../providers/favorites_provider.dart';
 import '../../../schedule/presentation/providers/schedule_provider.dart';
@@ -36,41 +37,39 @@ class _StopDetailScreenState extends ConsumerState<StopDetailScreen> {
     final isFavorite = ref.watch(favoritesProvider).contains(widget.stopId);
     final l10n = AppLocalizations.of(context)!;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: stopAsync.when(
-          data: (stop) => Text(stop?.name ?? l10n.stopDetail),
-          loading: () => Text(l10n.loading),
-          error: (err, stack) => Text(l10n.error),
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.map_outlined),
-            onPressed: () =>
-                context.push('/stop-on-map?stopId=${widget.stopId}'),
-            tooltip: l10n.viewOnMap,
-          ),
-          IconButton(
-            icon: Icon(isFavorite ? Icons.favorite : Icons.favorite_border),
-            color: isFavorite ? Colors.red : null,
-            onPressed: () {
-              ref
-                  .read(favoritesProvider.notifier)
-                  .toggleFavorite(widget.stopId);
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(
-                    isFavorite
-                        ? l10n.removedFromFavorites
-                        : l10n.addedToFavorites,
-                  ),
-                  duration: const Duration(seconds: 1),
-                ),
-              );
-            },
-          ),
-        ],
+    return PaginaAdaptativa(
+      title: stopAsync.when(
+        data: (stop) => Text(stop?.name ?? l10n.stopDetail),
+        loading: () => Text(l10n.loading),
+        error: (err, stack) => Text(l10n.error),
       ),
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.map_outlined),
+          onPressed: () =>
+              context.push('/stop-on-map?stopId=${widget.stopId}'),
+          tooltip: l10n.viewOnMap,
+        ),
+        IconButton(
+          icon: Icon(isFavorite ? Icons.favorite : Icons.favorite_border),
+          color: isFavorite ? Colors.red : null,
+          onPressed: () {
+            ref
+                .read(favoritesProvider.notifier)
+                .toggleFavorite(widget.stopId);
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                  isFavorite
+                      ? l10n.removedFromFavorites
+                      : l10n.addedToFavorites,
+                ),
+                duration: const Duration(seconds: 1),
+              ),
+            );
+          },
+        ),
+      ],
       body: stopAsync.when(
         data: (stop) {
           if (stop == null) {

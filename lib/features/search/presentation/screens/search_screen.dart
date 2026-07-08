@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../../core/theme/transport_mode_colors.dart';
+import '../../../../core/platform/pagina_adaptativa.dart';
 import '../providers/search_provider.dart';
 import '../../../../shared/widgets/loading_shimmer.dart';
 
@@ -15,17 +16,15 @@ class SearchScreen extends ConsumerWidget {
     final query = ref.watch(searchQueryProvider);
     final l10n = AppLocalizations.of(context)!;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: TextField(
-          autofocus: true,
-          decoration: InputDecoration(
-            hintText: l10n.searchHint,
-            border: InputBorder.none,
-          ),
-          onChanged: (value) =>
-              ref.read(searchQueryProvider.notifier).update(value),
+    return PaginaAdaptativa(
+      title: TextField(
+        autofocus: true,
+        decoration: InputDecoration(
+          hintText: l10n.searchHint,
+          border: InputBorder.none,
         ),
+        onChanged: (value) =>
+            ref.read(searchQueryProvider.notifier).update(value),
       ),
       body: resultsAsync.when(
         data: (results) {

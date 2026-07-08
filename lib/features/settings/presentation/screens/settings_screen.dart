@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cadiz_tren_bus_tranvia_catamaran/core/theme/theme_provider.dart';
+import 'package:cadiz_tren_bus_tranvia_catamaran/core/platform/pagina_adaptativa.dart';
 import '../../../../l10n/app_localizations.dart';
 
 class SettingsScreen extends ConsumerWidget {
@@ -9,11 +10,10 @@ class SettingsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themeMode = ref.watch(themeControllerProvider);
-
     final l10n = AppLocalizations.of(context)!;
 
-    return Scaffold(
-      appBar: AppBar(title: Text(l10n.settingsTitle)),
+    return PaginaAdaptativa(
+      title: Text(l10n.settingsTitle),
       body: ListView(
         children: [
           ListTile(
@@ -22,29 +22,35 @@ class SettingsScreen extends ConsumerWidget {
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
-          RadioGroup<ThemeMode>(
+          RadioListTile<ThemeMode>(
+            title: Text(l10n.systemTheme),
+            value: ThemeMode.system,
             groupValue: themeMode,
             onChanged: (value) {
               if (value != null) {
                 ref.read(themeControllerProvider.notifier).setThemeMode(value);
               }
             },
-            child: Column(
-              children: [
-                RadioListTile<ThemeMode>(
-                  title: Text(l10n.systemTheme),
-                  value: ThemeMode.system,
-                ),
-                RadioListTile<ThemeMode>(
-                  title: Text(l10n.lightTheme),
-                  value: ThemeMode.light,
-                ),
-                RadioListTile<ThemeMode>(
-                  title: Text(l10n.darkTheme),
-                  value: ThemeMode.dark,
-                ),
-              ],
-            ),
+          ),
+          RadioListTile<ThemeMode>(
+            title: Text(l10n.lightTheme),
+            value: ThemeMode.light,
+            groupValue: themeMode,
+            onChanged: (value) {
+              if (value != null) {
+                ref.read(themeControllerProvider.notifier).setThemeMode(value);
+              }
+            },
+          ),
+          RadioListTile<ThemeMode>(
+            title: Text(l10n.darkTheme),
+            value: ThemeMode.dark,
+            groupValue: themeMode,
+            onChanged: (value) {
+              if (value != null) {
+                ref.read(themeControllerProvider.notifier).setThemeMode(value);
+              }
+            },
           ),
           const Divider(),
           ListTile(
