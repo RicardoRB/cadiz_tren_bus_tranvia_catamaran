@@ -56,9 +56,7 @@ class _LinesListScreenState extends ConsumerState<LinesListScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          l10n.linesOf(
-            TransportModeColors.getModeName(context, widget.mode),
-          ),
+          l10n.linesOf(TransportModeColors.getModeName(context, widget.mode)),
         ),
       ),
       body: Column(
@@ -183,9 +181,8 @@ class _LinesListScreenState extends ConsumerState<LinesListScreen> {
                 );
               },
               loading: () => const LoadingShimmer(child: ListLoadingShimmer()),
-              error: (err, stack) => Center(
-                child: Text(l10n.errorWithDetail(err.toString())),
-              ),
+              error: (err, stack) =>
+                  Center(child: Text(l10n.errorWithDetail(err.toString()))),
             ),
           ),
         ],

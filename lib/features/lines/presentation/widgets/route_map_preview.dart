@@ -20,9 +20,7 @@ class RouteMapPreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (stops.isEmpty) {
-      return Center(
-        child: Text(AppLocalizations.of(context)!.noStopsToShow),
-      );
+      return Center(child: Text(AppLocalizations.of(context)!.noStopsToShow));
     }
 
     final points = stops.map((s) => LatLng(s.lat, s.lon)).toList();

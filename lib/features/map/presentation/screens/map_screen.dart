@@ -179,7 +179,8 @@ class _MapScreenState extends ConsumerState<MapScreen> {
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (err, stack) => Center(child: Text(l10n.errorWithDetail(err.toString()))),
+        error: (err, stack) =>
+            Center(child: Text(l10n.errorWithDetail(err.toString()))),
       ),
       floatingActionButton: Column(
         mainAxisSize: MainAxisSize.min,

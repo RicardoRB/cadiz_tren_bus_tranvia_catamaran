@@ -95,11 +95,7 @@ class _LineDetailScreenState extends ConsumerState<LineDetailScreen> {
                 child: stopsAsync.when(
                   data: (stops) {
                     if (stops.isEmpty) {
-                      return Center(
-                        child: Text(
-                          l10n.noStopsForDirection,
-                        ),
-                      );
+                      return Center(child: Text(l10n.noStopsForDirection));
                     }
                     return ListView.builder(
                       itemCount: stops.length,
@@ -132,7 +128,10 @@ class _LineDetailScreenState extends ConsumerState<LineDetailScreen> {
                           ),
                           title: Text(stop.name),
                           subtitle: Text(
-                            TransportModeColors.getModeName(context, stop.transportMode),
+                            TransportModeColors.getModeName(
+                              context,
+                              stop.transportMode,
+                            ),
                           ),
                           trailing: const Icon(Icons.chevron_right),
                           onTap: () => context.push('/stops/${stop.id}'),
@@ -143,14 +142,16 @@ class _LineDetailScreenState extends ConsumerState<LineDetailScreen> {
                   loading: () => const LoadingShimmer(
                     child: ListLoadingShimmer(itemCount: 5),
                   ),
-                  error: (err, stack) => Center(child: Text(l10n.errorWithDetail(err.toString()))),
+                  error: (err, stack) =>
+                      Center(child: Text(l10n.errorWithDetail(err.toString()))),
                 ),
               ),
             ],
           );
         },
         loading: () => const LoadingShimmer(child: DetailLoadingShimmer()),
-        error: (err, stack) => Center(child: Text(l10n.errorWithDetail(err.toString()))),
+        error: (err, stack) =>
+            Center(child: Text(l10n.errorWithDetail(err.toString()))),
       ),
     );
   }

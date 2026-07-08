@@ -44,7 +44,10 @@ class StopPreviewSheet extends StatelessWidget {
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
                     Text(
-                      TransportModeColors.getModeName(context, stop.transportMode),
+                      TransportModeColors.getModeName(
+                        context,
+                        stop.transportMode,
+                      ),
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         color: color,
                         fontWeight: FontWeight.bold,

@@ -67,9 +67,7 @@ class _ScheduleList extends ConsumerWidget {
     return scheduleAsync.when(
       data: (times) {
         if (times.isEmpty) {
-          return Center(
-            child: Text(l10n.noScheduleForDayType),
-          );
+          return Center(child: Text(l10n.noScheduleForDayType));
         }
 
         // Group by hour
@@ -140,7 +138,8 @@ class _ScheduleList extends ConsumerWidget {
         );
       },
       loading: () => const LoadingShimmer(child: ListLoadingShimmer()),
-      error: (err, stack) => Center(child: Text(l10n.errorWithDetail(err.toString()))),
+      error: (err, stack) =>
+          Center(child: Text(l10n.errorWithDetail(err.toString()))),
     );
   }
 }

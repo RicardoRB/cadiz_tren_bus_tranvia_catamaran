@@ -62,7 +62,10 @@ class SearchScreen extends ConsumerWidget {
                     ),
                     title: Text(route.name),
                     subtitle: Text(
-                      TransportModeColors.getModeName(context, route.transportMode),
+                      TransportModeColors.getModeName(
+                        context,
+                        route.transportMode,
+                      ),
                     ),
                     onTap: () => context.push('/lines/${route.id}'),
                   ),
@@ -80,7 +83,10 @@ class SearchScreen extends ConsumerWidget {
                     ),
                     title: Text(stop.name),
                     subtitle: Text(
-                      TransportModeColors.getModeName(context, stop.transportMode),
+                      TransportModeColors.getModeName(
+                        context,
+                        stop.transportMode,
+                      ),
                     ),
                     onTap: () => context.push('/stops/${stop.id}'),
                   ),
@@ -90,7 +96,8 @@ class SearchScreen extends ConsumerWidget {
           );
         },
         loading: () => const LoadingShimmer(child: ListLoadingShimmer()),
-        error: (err, stack) => Center(child: Text(l10n.errorWithDetail(err.toString()))),
+        error: (err, stack) =>
+            Center(child: Text(l10n.errorWithDetail(err.toString()))),
       ),
     );
   }

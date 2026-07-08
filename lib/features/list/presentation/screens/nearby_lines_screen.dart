@@ -102,7 +102,10 @@ class _FavoritesSection extends StatelessWidget {
               padding: const EdgeInsets.all(16.0),
               child: Text(
                 l10n.favorites,
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             SizedBox(
@@ -153,7 +156,10 @@ class _FavoriteCard extends StatelessWidget {
                   const SizedBox(width: 4),
                   Expanded(
                     child: Text(
-                      TransportModeColors.getModeName(context, stop.transportMode),
+                      TransportModeColors.getModeName(
+                        context,
+                        stop.transportMode,
+                      ),
                       style: Theme.of(context).textTheme.bodySmall,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -202,10 +208,7 @@ class _NearbyLinesSection extends ConsumerWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                l10n.needLocationForNearby,
-                textAlign: TextAlign.center,
-              ),
+              Text(l10n.needLocationForNearby, textAlign: TextAlign.center),
               const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () {

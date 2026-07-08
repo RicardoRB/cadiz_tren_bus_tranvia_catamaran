@@ -148,14 +148,16 @@ class _StopDetailScreenState extends ConsumerState<StopDetailScreen> {
                   loading: () => const LoadingShimmer(
                     child: ListLoadingShimmer(itemCount: 5),
                   ),
-                  error: (err, stack) => Center(child: Text(l10n.errorWithDetail(err.toString()))),
+                  error: (err, stack) =>
+                      Center(child: Text(l10n.errorWithDetail(err.toString()))),
                 ),
               ),
             ],
           );
         },
         loading: () => const LoadingShimmer(child: DetailLoadingShimmer()),
-        error: (err, stack) => Center(child: Text(l10n.errorWithDetail(err.toString()))),
+        error: (err, stack) =>
+            Center(child: Text(l10n.errorWithDetail(err.toString()))),
       ),
     );
   }
