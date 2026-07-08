@@ -24,6 +24,14 @@
       }
     }
   },
+  "initDatabaseError": "Error al inicializar la base de datos: {error}",
+  "@initDatabaseError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
   "lineNotFound": "Línea no encontrada",
   "stopNotFound": "Parada no encontrada",
   "outbound": "Ida",
@@ -69,11 +77,15 @@
   "viewOnMap": "Ver en mapa",
   "removedFromFavorites": "Eliminado de favoritos",
   "addedToFavorites": "Añadido a favoritos",
-  "nextDepartures": "Próximos pasos",
+  "nextDepartures": "Próximas salidas",
   "today": "Hoy",
   "noStopsForDirection": "No hay paradas registradas para este sentido",
   "viewFullDetail": "Ver detalle completo",
   "favorites": "Favoritos",
+  "all": "Todos",
+  "filterTransportModes": "Filtrar modos de transporte",
+  "searchLineHint": "Buscar línea...",
+  "noLinesAvailable": "No hay líneas disponibles",
   "needLocationForNearby": "Necesitamos tu ubicación para mostrar líneas cercanas",
   "bus": "Autobús",
   "tram": "Tranvía",
@@ -83,7 +95,7 @@
   "saturday": "Sábado",
   "holiday": "Festivo",
   "noScheduleForDayType": "No hay horarios para este tipo de día",
-  "operatorId": "Operador ID: {id}",
+  "operatorId": "Operador: {id}",
   "@operatorId": {
     "placeholders": {
       "id": {

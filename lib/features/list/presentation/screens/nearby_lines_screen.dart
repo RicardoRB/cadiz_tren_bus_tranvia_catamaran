@@ -94,13 +94,14 @@ class _FavoritesSection extends StatelessWidget {
     return favoriteStopsAsync.when(
       data: (stops) {
         if (stops.isEmpty) return const SizedBox.shrink();
+        final l10n = AppLocalizations.of(context)!;
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Text(
-                AppLocalizations.of(context)!.favorites,
+                l10n.favorites,
                 style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ),

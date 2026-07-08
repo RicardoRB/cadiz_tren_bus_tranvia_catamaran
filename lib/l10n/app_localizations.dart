@@ -182,6 +182,12 @@ abstract class AppLocalizations {
   /// **'Error: {detail}'**
   String errorWithDetail(String detail);
 
+  /// No description provided for @initDatabaseError.
+  ///
+  /// In es, this message translates to:
+  /// **'Error al inicializar la base de datos: {error}'**
+  String initDatabaseError(String error);
+
   /// No description provided for @lineNotFound.
   ///
   /// In es, this message translates to:
@@ -371,7 +377,7 @@ abstract class AppLocalizations {
   /// No description provided for @nextDepartures.
   ///
   /// In es, this message translates to:
-  /// **'Próximos pasos'**
+  /// **'Próximas salidas'**
   String get nextDepartures;
 
   /// No description provided for @today.
@@ -397,6 +403,30 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Favoritos'**
   String get favorites;
+
+  /// No description provided for @all.
+  ///
+  /// In es, this message translates to:
+  /// **'Todos'**
+  String get all;
+
+  /// No description provided for @filterTransportModes.
+  ///
+  /// In es, this message translates to:
+  /// **'Filtrar modos de transporte'**
+  String get filterTransportModes;
+
+  /// No description provided for @searchLineHint.
+  ///
+  /// In es, this message translates to:
+  /// **'Buscar línea...'**
+  String get searchLineHint;
+
+  /// No description provided for @noLinesAvailable.
+  ///
+  /// In es, this message translates to:
+  /// **'No hay líneas disponibles'**
+  String get noLinesAvailable;
 
   /// No description provided for @needLocationForNearby.
   ///
@@ -455,7 +485,7 @@ abstract class AppLocalizations {
   /// No description provided for @operatorId.
   ///
   /// In es, this message translates to:
-  /// **'Operador ID: {id}'**
+  /// **'Operador: {id}'**
   String operatorId(String id);
 
   /// No description provided for @tripId.

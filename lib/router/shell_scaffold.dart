@@ -9,6 +9,7 @@ class ShellScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       body: navigationShell,
       bottomNavigationBar: NavigationBar(
@@ -18,14 +19,14 @@ class ShellScaffold extends StatelessWidget {
           NavigationDestination(
             icon: const Icon(Icons.map_outlined),
             selectedIcon: const Icon(Icons.map),
-            label: AppLocalizations.of(context)!.mapLabel,
-            tooltip: AppLocalizations.of(context)!.mapTooltip,
+            label: l10n.mapLabel,
+            tooltip: l10n.mapTooltip,
           ),
           NavigationDestination(
             icon: const Icon(Icons.list_alt_outlined),
             selectedIcon: const Icon(Icons.list_alt),
-            label: AppLocalizations.of(context)!.nearbyLabel,
-            tooltip: AppLocalizations.of(context)!.nearbyTooltip,
+            label: l10n.nearbyLabel,
+            tooltip: l10n.nearbyTooltip,
           ),
         ],
       ),

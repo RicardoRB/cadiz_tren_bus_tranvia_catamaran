@@ -53,6 +53,11 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
+  String initDatabaseError(String error) {
+    return 'Error al inicializar la base de datos: $error';
+  }
+
+  @override
   String get lineNotFound => 'Línea no encontrada';
 
   @override
@@ -152,7 +157,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get addedToFavorites => 'Añadido a favoritos';
 
   @override
-  String get nextDepartures => 'Próximos pasos';
+  String get nextDepartures => 'Próximas salidas';
 
   @override
   String get today => 'Hoy';
@@ -166,6 +171,18 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get favorites => 'Favoritos';
+
+  @override
+  String get all => 'Todos';
+
+  @override
+  String get filterTransportModes => 'Filtrar modos de transporte';
+
+  @override
+  String get searchLineHint => 'Buscar línea...';
+
+  @override
+  String get noLinesAvailable => 'No hay líneas disponibles';
 
   @override
   String get needLocationForNearby =>
@@ -197,7 +214,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String operatorId(String id) {
-    return 'Operador ID: $id';
+    return 'Operador: $id';
   }
 
   @override

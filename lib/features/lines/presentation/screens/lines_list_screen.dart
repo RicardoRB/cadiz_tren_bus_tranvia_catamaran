@@ -41,6 +41,7 @@ class _LinesListScreenState extends ConsumerState<LinesListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final filteredRoutesAsync = ref.watch(
       filteredRoutesProvider(
         widget.mode,
@@ -55,7 +56,7 @@ class _LinesListScreenState extends ConsumerState<LinesListScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          AppLocalizations.of(context)!.linesOf(
+          l10n.linesOf(
             TransportModeColors.getModeName(context, widget.mode),
           ),
         ),
@@ -67,7 +68,7 @@ class _LinesListScreenState extends ConsumerState<LinesListScreen> {
             child: TextField(
               controller: _searchController,
               decoration: InputDecoration(
-                hintText: 'Buscar línea...',
+                hintText: l10n.searchLineHint,
                 prefixIcon: const Icon(Icons.search),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
@@ -101,7 +102,7 @@ class _LinesListScreenState extends ConsumerState<LinesListScreen> {
                     final opId = isAll ? null : operators[index - 1];
                     final isSelected = _selectedOperatorId == opId;
                     final opName = isAll
-                        ? 'Todos'
+                        ? l10n.all
                         : (operatorsMap[opId] ?? opId);
 
                     return Padding(
@@ -139,8 +140,8 @@ class _LinesListScreenState extends ConsumerState<LinesListScreen> {
                         const SizedBox(height: 16),
                         Text(
                           _searchQuery.isEmpty
-                              ? 'No hay líneas disponibles'
-                              : 'No se encontraron líneas para "$_searchQuery"',
+                              ? l10n.noLinesAvailable
+                              : l10n.noResultsFor(_searchQuery),
                         ),
                       ],
                     ),
@@ -174,7 +175,7 @@ class _LinesListScreenState extends ConsumerState<LinesListScreen> {
                         route.name,
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      subtitle: Text('Operador: $opName'),
+                      subtitle: Text(l10n.operatorId(opName!)),
                       trailing: const Icon(Icons.chevron_right),
                       onTap: () => context.push('/lines/${route.id}'),
                     );
@@ -182,9 +183,9 @@ class _LinesListScreenState extends ConsumerState<LinesListScreen> {
                 );
               },
               loading: () => const LoadingShimmer(child: ListLoadingShimmer()),
-        error: (err, stack) => Center(
-          child: Text(AppLocalizations.of(context)!.errorWithDetail(err.toString())),
-        ),
+              error: (err, stack) => Center(
+                child: Text(l10n.errorWithDetail(err.toString())),
+              ),
             ),
           ),
         ],
