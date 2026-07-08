@@ -173,7 +173,7 @@ class _LinesListScreenState extends ConsumerState<LinesListScreen> {
                         route.name,
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      subtitle: Text(l10n.operatorId(opName!)),
+                      subtitle: Text(l10n.operatorId(opName)),
                       trailing: const Icon(Icons.chevron_right),
                       onTap: () => context.push('/lines/${route.id}'),
                     );
