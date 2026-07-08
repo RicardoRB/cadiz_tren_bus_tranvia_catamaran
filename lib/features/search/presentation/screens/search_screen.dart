@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../../core/theme/transport_mode_colors.dart';
 import '../providers/search_provider.dart';
 import '../../../../shared/widgets/loading_shimmer.dart';
@@ -12,13 +13,14 @@ class SearchScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final resultsAsync = ref.watch(searchResultsProvider);
     final query = ref.watch(searchQueryProvider);
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
         title: TextField(
           autofocus: true,
-          decoration: const InputDecoration(
-            hintText: 'Buscar paradas o líneas...',
+          decoration: InputDecoration(
+            hintText: l10n.searchHint,
             border: InputBorder.none,
           ),
           onChanged: (value) =>
@@ -28,10 +30,10 @@ class SearchScreen extends ConsumerWidget {
       body: resultsAsync.when(
         data: (results) {
           if (query.isEmpty) {
-            return const Center(child: Text('Empieza a escribir para buscar'));
+            return Center(child: Text(l10n.startTypingToSearch));
           }
           if (query.length < 2) {
-            return const Center(child: Text('Escribe al menos 2 caracteres'));
+            return Center(child: Text(l10n.typeAtLeastTwoChars));
           }
           if (results.routes.isEmpty && results.stops.isEmpty) {
             return Center(
@@ -40,7 +42,7 @@ class SearchScreen extends ConsumerWidget {
                 children: [
                   const Icon(Icons.search_off, size: 64, color: Colors.grey),
                   const SizedBox(height: 16),
-                  Text('No se han encontrado resultados para "$query"'),
+                  Text(l10n.noResultsFor(query)),
                 ],
               ),
             );
@@ -49,7 +51,7 @@ class SearchScreen extends ConsumerWidget {
           return ListView(
             children: [
               if (results.routes.isNotEmpty) ...[
-                const _SectionHeader(title: 'Líneas'),
+                _SectionHeader(title: l10n.lines),
                 ...results.routes.map(
                   (route) => ListTile(
                     leading: Icon(
@@ -60,14 +62,17 @@ class SearchScreen extends ConsumerWidget {
                     ),
                     title: Text(route.name),
                     subtitle: Text(
-                      TransportModeColors.getModeName(route.transportMode),
+                      TransportModeColors.getModeName(
+                        context,
+                        route.transportMode,
+                      ),
                     ),
                     onTap: () => context.push('/lines/${route.id}'),
                   ),
                 ),
               ],
               if (results.stops.isNotEmpty) ...[
-                const _SectionHeader(title: 'Paradas'),
+                _SectionHeader(title: l10n.stops),
                 ...results.stops.map(
                   (stop) => ListTile(
                     leading: Icon(
@@ -78,7 +83,10 @@ class SearchScreen extends ConsumerWidget {
                     ),
                     title: Text(stop.name),
                     subtitle: Text(
-                      TransportModeColors.getModeName(stop.transportMode),
+                      TransportModeColors.getModeName(
+                        context,
+                        stop.transportMode,
+                      ),
                     ),
                     onTap: () => context.push('/stops/${stop.id}'),
                   ),
@@ -88,7 +96,8 @@ class SearchScreen extends ConsumerWidget {
           );
         },
         loading: () => const LoadingShimmer(child: ListLoadingShimmer()),
-        error: (err, stack) => Center(child: Text('Error: $err')),
+        error: (err, stack) =>
+            Center(child: Text(l10n.errorWithDetail(err.toString()))),
       ),
     );
   }

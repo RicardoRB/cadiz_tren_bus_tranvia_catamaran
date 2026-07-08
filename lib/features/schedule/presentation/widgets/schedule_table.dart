@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../shared/models/enums.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../providers/schedule_provider.dart';
 import '../../domain/day_type_resolver.dart';
 import '../../../../shared/widgets/loading_shimmer.dart';
@@ -12,16 +13,17 @@ class ScheduleTable extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     return DefaultTabController(
       length: 3,
       initialIndex: _getInitialTabIndex(),
       child: Column(
         children: [
-          const TabBar(
+          TabBar(
             tabs: [
-              Tab(text: 'Laborable'),
-              Tab(text: 'Sábado'),
-              Tab(text: 'Festivo'),
+              Tab(text: l10n.weekday),
+              Tab(text: l10n.saturday),
+              Tab(text: l10n.holiday),
             ],
           ),
           Expanded(
@@ -60,13 +62,12 @@ class _ScheduleList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final scheduleAsync = ref.watch(stopScheduleProvider(stopId, dayType));
+    final l10n = AppLocalizations.of(context)!;
 
     return scheduleAsync.when(
       data: (times) {
         if (times.isEmpty) {
-          return const Center(
-            child: Text('No hay horarios para este tipo de día'),
-          );
+          return Center(child: Text(l10n.noScheduleForDayType));
         }
 
         // Group by hour
@@ -137,7 +138,8 @@ class _ScheduleList extends ConsumerWidget {
         );
       },
       loading: () => const LoadingShimmer(child: ListLoadingShimmer()),
-      error: (err, stack) => Center(child: Text('Error: $err')),
+      error: (err, stack) =>
+          Center(child: Text(l10n.errorWithDetail(err.toString()))),
     );
   }
 }

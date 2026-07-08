@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../../shared/models/enums.dart';
 import '../providers/lines_list_provider.dart';
 import '../../../../core/theme/transport_mode_colors.dart';
@@ -40,6 +41,7 @@ class _LinesListScreenState extends ConsumerState<LinesListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final filteredRoutesAsync = ref.watch(
       filteredRoutesProvider(
         widget.mode,
@@ -54,7 +56,7 @@ class _LinesListScreenState extends ConsumerState<LinesListScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Líneas de ${TransportModeColors.getModeName(widget.mode)}',
+          l10n.linesOf(TransportModeColors.getModeName(context, widget.mode)),
         ),
       ),
       body: Column(
@@ -64,7 +66,7 @@ class _LinesListScreenState extends ConsumerState<LinesListScreen> {
             child: TextField(
               controller: _searchController,
               decoration: InputDecoration(
-                hintText: 'Buscar línea...',
+                hintText: l10n.searchLineHint,
                 prefixIcon: const Icon(Icons.search),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
@@ -98,7 +100,7 @@ class _LinesListScreenState extends ConsumerState<LinesListScreen> {
                     final opId = isAll ? null : operators[index - 1];
                     final isSelected = _selectedOperatorId == opId;
                     final opName = isAll
-                        ? 'Todos'
+                        ? l10n.all
                         : (operatorsMap[opId] ?? opId);
 
                     return Padding(
@@ -136,8 +138,8 @@ class _LinesListScreenState extends ConsumerState<LinesListScreen> {
                         const SizedBox(height: 16),
                         Text(
                           _searchQuery.isEmpty
-                              ? 'No hay líneas disponibles'
-                              : 'No se encontraron líneas para "$_searchQuery"',
+                              ? l10n.noLinesAvailable
+                              : l10n.noResultsFor(_searchQuery),
                         ),
                       ],
                     ),
@@ -171,7 +173,7 @@ class _LinesListScreenState extends ConsumerState<LinesListScreen> {
                         route.name,
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      subtitle: Text('Operador: $opName'),
+                      subtitle: Text(l10n.operatorId(opName)),
                       trailing: const Icon(Icons.chevron_right),
                       onTap: () => context.push('/lines/${route.id}'),
                     );
@@ -179,7 +181,8 @@ class _LinesListScreenState extends ConsumerState<LinesListScreen> {
                 );
               },
               loading: () => const LoadingShimmer(child: ListLoadingShimmer()),
-              error: (err, stack) => Center(child: Text('Error: $err')),
+              error: (err, stack) =>
+                  Center(child: Text(l10n.errorWithDetail(err.toString()))),
             ),
           ),
         ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../../shared/models/domain/stop.dart';
 import '../../../../shared/models/enums.dart';
 
@@ -19,7 +20,7 @@ class RouteMapPreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (stops.isEmpty) {
-      return const Center(child: Text('No hay paradas para mostrar'));
+      return Center(child: Text(AppLocalizations.of(context)!.noStopsToShow));
     }
 
     final points = stops.map((s) => LatLng(s.lat, s.lon)).toList();

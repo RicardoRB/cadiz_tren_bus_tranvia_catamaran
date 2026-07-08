@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cadiz_tren_bus_tranvia_catamaran/core/theme/theme_provider.dart';
+import '../../../../l10n/app_localizations.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -9,12 +10,17 @@ class SettingsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final themeMode = ref.watch(themeControllerProvider);
 
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
-      appBar: AppBar(title: const Text('Configuración')),
+      appBar: AppBar(title: Text(l10n.settingsTitle)),
       body: ListView(
         children: [
-          const ListTile(
-            title: Text('Tema', style: TextStyle(fontWeight: FontWeight.bold)),
+          ListTile(
+            title: Text(
+              l10n.themeTitle,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
           ),
           RadioGroup<ThemeMode>(
             groupValue: themeMode,
@@ -23,26 +29,29 @@ class SettingsScreen extends ConsumerWidget {
                 ref.read(themeControllerProvider.notifier).setThemeMode(value);
               }
             },
-            child: const Column(
+            child: Column(
               children: [
                 RadioListTile<ThemeMode>(
-                  title: Text('Sistema'),
+                  title: Text(l10n.systemTheme),
                   value: ThemeMode.system,
                 ),
                 RadioListTile<ThemeMode>(
-                  title: Text('Claro'),
+                  title: Text(l10n.lightTheme),
                   value: ThemeMode.light,
                 ),
                 RadioListTile<ThemeMode>(
-                  title: Text('Oscuro'),
+                  title: Text(l10n.darkTheme),
                   value: ThemeMode.dark,
                 ),
               ],
             ),
           ),
           const Divider(),
-          const ListTile(
-            title: Text('Otros', style: TextStyle(fontWeight: FontWeight.bold)),
+          ListTile(
+            title: Text(
+              l10n.othersTitle,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
           ),
         ],
       ),
