@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../../core/theme/transport_mode_colors.dart';
 import '../../../../shared/models/domain/stop.dart';
 import '../../../../shared/widgets/location_permission_dialog.dart';
@@ -46,10 +47,11 @@ class _NearbyLinesScreenState extends ConsumerState<NearbyLinesScreen> {
     final locationState = ref.watch(userLocationProvider);
     final nearbyLinesAsync = ref.watch(nearbyLinesProvider);
     final favoriteStopsAsync = ref.watch(favoriteStopsProvider);
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Cercanas'),
+        title: Text(l10n.nearbyLabel),
         actions: [
           IconButton(
             icon: const Icon(Icons.search),
@@ -95,11 +97,11 @@ class _FavoritesSection extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Padding(
-              padding: EdgeInsets.all(16.0),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
               child: Text(
-                'Favoritos',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                AppLocalizations.of(context)!.favorites,
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ),
             SizedBox(
@@ -150,7 +152,7 @@ class _FavoriteCard extends StatelessWidget {
                   const SizedBox(width: 4),
                   Expanded(
                     child: Text(
-                      TransportModeColors.getModeName(stop.transportMode),
+                      TransportModeColors.getModeName(context, stop.transportMode),
                       style: Theme.of(context).textTheme.bodySmall,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -185,6 +187,7 @@ class _NearbyLinesSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     if (locationState.status == LocationStatus.loading) {
       return const LoadingShimmer(child: ListLoadingShimmer());
     }
@@ -198,8 +201,8 @@ class _NearbyLinesSection extends ConsumerWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text(
-                'Necesitamos tu ubicación para mostrar líneas cercanas',
+              Text(
+                l10n.needLocationForNearby,
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 16),
@@ -214,7 +217,7 @@ class _NearbyLinesSection extends ConsumerWidget {
                         .updateLocation(requestPermission: true);
                   }
                 },
-                child: const Text('Activar ubicación'),
+                child: Text(l10n.activateLocation),
               ),
             ],
           ),
@@ -225,10 +228,10 @@ class _NearbyLinesSection extends ConsumerWidget {
     return nearbyLinesAsync.when(
       data: (entries) {
         if (entries.isEmpty && locationState.status == LocationStatus.granted) {
-          return const Center(
+          return Center(
             child: Padding(
-              padding: EdgeInsets.all(32.0),
-              child: Text('No hay líneas cercanas'),
+              padding: const EdgeInsets.all(32.0),
+              child: Text(l10n.noNearbyLines),
             ),
           );
         }
@@ -270,8 +273,8 @@ class _NearbyLinesSection extends ConsumerWidget {
                   ),
                   Text(
                     entry.proximaSalida != null
-                        ? 'Próx: ${entry.proximaSalida}'
-                        : 'Sin horarios',
+                        ? l10n.nextDeparture(entry.proximaSalida!)
+                        : l10n.noMoreServicesToday,
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
                 ],
@@ -287,11 +290,11 @@ class _NearbyLinesSection extends ConsumerWidget {
           padding: const EdgeInsets.all(32.0),
           child: Column(
             children: [
-              Text('Error: $err'),
+              Text(l10n.errorWithDetail(err.toString())),
               const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () => ref.refresh(nearbyLinesProvider),
-                child: const Text('Reintentar'),
+                child: Text(l10n.retry),
               ),
             ],
           ),

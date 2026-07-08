@@ -1,0 +1,111 @@
+{
+  "@@locale": "es",
+  "appTitle": "CadizTransit",
+  "@appTitle": {
+    "description": "El título de la aplicación"
+  },
+  "mapLabel": "Mapa",
+  "mapTooltip": "Mapa de paradas",
+  "nearbyLabel": "Cercanas",
+  "nearbyTooltip": "Líneas cercanas",
+  "settingsTitle": "Configuración",
+  "themeTitle": "Tema",
+  "systemTheme": "Sistema",
+  "lightTheme": "Claro",
+  "darkTheme": "Oscuro",
+  "othersTitle": "Otros",
+  "loading": "Cargando...",
+  "error": "Error",
+  "errorWithDetail": "Error: {detail}",
+  "@errorWithDetail": {
+    "placeholders": {
+      "detail": {
+        "type": "String"
+      }
+    }
+  },
+  "lineNotFound": "Línea no encontrada",
+  "stopNotFound": "Parada no encontrada",
+  "outbound": "Ida",
+  "inbound": "Vuelta",
+  "noStopsToShow": "No hay paradas para mostrar",
+  "activateLocation": "Activar ubicación",
+  "noNearbyLines": "No hay líneas cercanas",
+  "retry": "Reintentar",
+  "locationPermissionTitle": "Ubicación necesaria",
+  "locationPermissionContent": "Para mostrarte las paradas y líneas más cercanas a tu posición, necesitamos acceso a tu ubicación GPS.\n\nTus datos de ubicación no se guardan ni se envían a ningún servidor externo.",
+  "locationPermissionMapContent": "Para mostrar tu ubicación en el mapa y encontrar paradas cercanas, necesitamos permiso de acceso a la ubicación.",
+  "locationPermissionTitleSimple": "Permiso de ubicación",
+  "notNow": "AHORA NO",
+  "allow": "PERMITIR",
+  "cancel": "CANCELAR",
+  "settings": "AJUSTES",
+  "fullSchedule": "Horario completo",
+  "noMoreServicesToday": "No hay más servicios para hoy",
+  "nextDeparture": "Próx: {time}",
+  "@nextDeparture": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "viewFullSchedule": "Ver horario completo",
+  "startTypingToSearch": "Empieza a escribir para buscar",
+  "typeAtLeastTwoChars": "Escribe al menos 2 caracteres",
+  "noResultsFor": "No se han encontrado resultados para \"{query}\"",
+  "@noResultsFor": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "searchHint": "Buscar paradas o líneas...",
+  "lines": "Líneas",
+  "stops": "Paradas",
+  "lineDetail": "Detalle de línea",
+  "stopDetail": "Detalle de parada",
+  "viewOnMap": "Ver en mapa",
+  "removedFromFavorites": "Eliminado de favoritos",
+  "addedToFavorites": "Añadido a favoritos",
+  "nextDepartures": "Próximos pasos",
+  "today": "Hoy",
+  "noStopsForDirection": "No hay paradas registradas para este sentido",
+  "viewFullDetail": "Ver detalle completo",
+  "favorites": "Favoritos",
+  "needLocationForNearby": "Necesitamos tu ubicación para mostrar líneas cercanas",
+  "bus": "Autobús",
+  "tram": "Tranvía",
+  "commuterRail": "Cercanías",
+  "catamaran": "Catamarán",
+  "weekday": "Laborable",
+  "saturday": "Sábado",
+  "holiday": "Festivo",
+  "noScheduleForDayType": "No hay horarios para este tipo de día",
+  "operatorId": "Operador ID: {id}",
+  "@operatorId": {
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "tripId": "ID de viaje: {id}",
+  "@tripId": {
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "linesOf": "Líneas de {mode}",
+  "@linesOf": {
+    "placeholders": {
+      "mode": {
+        "type": "String"
+      }
+    }
+  },
+  "mapOfStops": "Mapa de Paradas"
+}

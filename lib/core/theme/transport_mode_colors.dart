@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../shared/models/enums.dart';
+import '../../l10n/app_localizations.dart';
 
 class TransportModeColors {
   static Color getModeColor(TransportMode mode) {
@@ -28,16 +29,17 @@ class TransportModeColors {
     }
   }
 
-  static String getModeName(TransportMode mode) {
+  static String getModeName(BuildContext context, TransportMode mode) {
+    final l10n = AppLocalizations.of(context)!;
     switch (mode) {
       case TransportMode.bus:
-        return 'Autobús';
+        return l10n.bus;
       case TransportMode.tram:
-        return 'Tranvía';
+        return l10n.tram;
       case TransportMode.commuterRail:
-        return 'Cercanías';
+        return l10n.commuterRail;
       case TransportMode.catamaran:
-        return 'Catamarán';
+        return l10n.catamaran;
     }
   }
 

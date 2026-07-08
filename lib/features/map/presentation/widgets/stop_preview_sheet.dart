@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../shared/models/domain/stop.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../../core/theme/transport_mode_colors.dart';
 import 'package:go_router/go_router.dart';
 
@@ -43,7 +44,7 @@ class StopPreviewSheet extends StatelessWidget {
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
                     Text(
-                      TransportModeColors.getModeName(stop.transportMode),
+                      TransportModeColors.getModeName(context, stop.transportMode),
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         color: color,
                         fontWeight: FontWeight.bold,
@@ -63,7 +64,7 @@ class StopPreviewSheet extends StatelessWidget {
                 context.push('/stops/${stop.id}');
               },
               icon: const Icon(Icons.info_outline),
-              label: const Text('Ver detalle completo'),
+              label: Text(AppLocalizations.of(context)!.viewFullDetail),
               style: FilledButton.styleFrom(
                 backgroundColor: color,
                 foregroundColor: Colors.white,

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../../shared/models/enums.dart';
 import '../providers/lines_list_provider.dart';
 import '../../../../core/theme/transport_mode_colors.dart';
@@ -54,7 +55,9 @@ class _LinesListScreenState extends ConsumerState<LinesListScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Líneas de ${TransportModeColors.getModeName(widget.mode)}',
+          AppLocalizations.of(context)!.linesOf(
+            TransportModeColors.getModeName(context, widget.mode),
+          ),
         ),
       ),
       body: Column(
@@ -179,7 +182,9 @@ class _LinesListScreenState extends ConsumerState<LinesListScreen> {
                 );
               },
               loading: () => const LoadingShimmer(child: ListLoadingShimmer()),
-              error: (err, stack) => Center(child: Text('Error: $err')),
+        error: (err, stack) => Center(
+          child: Text(AppLocalizations.of(context)!.errorWithDetail(err.toString())),
+        ),
             ),
           ),
         ],

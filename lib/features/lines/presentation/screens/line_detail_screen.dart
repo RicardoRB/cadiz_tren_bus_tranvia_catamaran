@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../shared/models/enums.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../providers/line_detail_provider.dart';
 import '../../../../core/theme/transport_mode_colors.dart';
 import '../../../../shared/widgets/loading_shimmer.dart';
@@ -25,19 +26,20 @@ class _LineDetailScreenState extends ConsumerState<LineDetailScreen> {
     final stopsAsync = ref.watch(
       routeStopsProvider(widget.routeId, _selectedDirection),
     );
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
         title: routeAsync.when(
-          data: (route) => Text(route?.name ?? 'Detalle de línea'),
-          loading: () => const Text('Cargando...'),
-          error: (err, stack) => const Text('Error'),
+          data: (route) => Text(route?.name ?? l10n.lineDetail),
+          loading: () => Text(l10n.loading),
+          error: (err, stack) => Text(l10n.error),
         ),
       ),
       body: routeAsync.when(
         data: (route) {
           if (route == null) {
-            return const Center(child: Text('Línea no encontrada'));
+            return Center(child: Text(l10n.lineNotFound));
           }
 
           final color = TransportModeColors.parseHex(
@@ -69,16 +71,16 @@ class _LineDetailScreenState extends ConsumerState<LineDetailScreen> {
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: SegmentedButton<Direction>(
-                  segments: const [
+                  segments: [
                     ButtonSegment(
                       value: Direction.outbound,
-                      label: Text('Ida'),
-                      icon: Icon(Icons.arrow_forward),
+                      label: Text(l10n.outbound),
+                      icon: const Icon(Icons.arrow_forward),
                     ),
                     ButtonSegment(
                       value: Direction.inbound,
-                      label: Text('Vuelta'),
-                      icon: Icon(Icons.arrow_back),
+                      label: Text(l10n.inbound),
+                      icon: const Icon(Icons.arrow_back),
                     ),
                   ],
                   selected: {_selectedDirection},
@@ -93,9 +95,9 @@ class _LineDetailScreenState extends ConsumerState<LineDetailScreen> {
                 child: stopsAsync.when(
                   data: (stops) {
                     if (stops.isEmpty) {
-                      return const Center(
+                      return Center(
                         child: Text(
-                          'No hay paradas registradas para este sentido',
+                          l10n.noStopsForDirection,
                         ),
                       );
                     }
@@ -130,7 +132,7 @@ class _LineDetailScreenState extends ConsumerState<LineDetailScreen> {
                           ),
                           title: Text(stop.name),
                           subtitle: Text(
-                            TransportModeColors.getModeName(stop.transportMode),
+                            TransportModeColors.getModeName(context, stop.transportMode),
                           ),
                           trailing: const Icon(Icons.chevron_right),
                           onTap: () => context.push('/stops/${stop.id}'),
@@ -141,14 +143,14 @@ class _LineDetailScreenState extends ConsumerState<LineDetailScreen> {
                   loading: () => const LoadingShimmer(
                     child: ListLoadingShimmer(itemCount: 5),
                   ),
-                  error: (err, stack) => Center(child: Text('Error: $err')),
+                  error: (err, stack) => Center(child: Text(l10n.errorWithDetail(err.toString()))),
                 ),
               ),
             ],
           );
         },
         loading: () => const LoadingShimmer(child: DetailLoadingShimmer()),
-        error: (err, stack) => Center(child: Text('Error: $err')),
+        error: (err, stack) => Center(child: Text(l10n.errorWithDetail(err.toString()))),
       ),
     );
   }

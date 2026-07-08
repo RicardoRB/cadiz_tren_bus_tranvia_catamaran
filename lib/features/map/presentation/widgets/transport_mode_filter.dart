@@ -44,7 +44,7 @@ class TransportModeFilter extends StatelessWidget {
                   color: color,
                 ),
                 const SizedBox(width: 12),
-                Text(TransportModeColors.getModeName(mode)),
+                Text(TransportModeColors.getModeName(context, mode)),
               ],
             ),
           );

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../../core/theme/transport_mode_colors.dart';
 import '../../../../shared/models/domain/stop.dart';
 import '../../../../shared/models/enums.dart';
@@ -44,10 +46,11 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   Widget build(BuildContext context) {
     final stopsAsync = ref.watch(allStopsProvider);
     final locationState = ref.watch(userLocationProvider);
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Mapa de Paradas'),
+        title: Text(l10n.mapOfStops),
         actions: [
           IconButton(
             icon: const Icon(Icons.search),
@@ -176,7 +179,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (err, stack) => Center(child: Text('Error: $err')),
+        error: (err, stack) => Center(child: Text(l10n.errorWithDetail(err.toString()))),
       ),
       floatingActionButton: Column(
         mainAxisSize: MainAxisSize.min,
@@ -266,24 +269,23 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   }
 
   void _showLocationDeniedDialog() {
+    final l10n = AppLocalizations.of(context)!;
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Permiso de ubicación'),
-        content: const Text(
-          'Para mostrar tu ubicación en el mapa y encontrar paradas cercanas, necesitamos permiso de acceso a la ubicación.',
-        ),
+        title: Text(l10n.locationPermissionTitleSimple),
+        content: Text(l10n.locationPermissionMapContent),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('CANCELAR'),
+            child: Text(l10n.cancel),
           ),
           TextButton(
             onPressed: () {
               Navigator.pop(context);
               ref.read(userLocationProvider.notifier).openSettings();
             },
-            child: const Text('AJUSTES'),
+            child: Text(l10n.settings),
           ),
         ],
       ),
