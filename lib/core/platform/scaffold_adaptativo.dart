@@ -74,8 +74,9 @@ class ScaffoldAdaptativo extends ConsumerWidget {
         );
 
       case TipoPlataforma.ios:
-        return CupertinoTabScaffold(
-          tabBar: CupertinoTabBar(
+        return Scaffold(
+          body: navigationShell,
+          bottomNavigationBar: CupertinoTabBar(
             currentIndex: navigationShell.currentIndex,
             onTap: (index) => navigationShell.goBranch(index),
             items: destinations
@@ -88,8 +89,6 @@ class ScaffoldAdaptativo extends ConsumerWidget {
                 )
                 .toList(),
           ),
-          tabBuilder: (context, index) =>
-              CupertinoTabView(builder: (context) => navigationShell),
         );
 
       case TipoPlataforma.linux:
