@@ -30,12 +30,10 @@ class PaginaAdaptativa extends ConsumerWidget {
             commandBar: actions != null
                 ? CommandBar(
                     primaryItems: actions!
-                        .map(
-                          (action) => CommandBarBuilderItem(
-                            wrappedItem: action,
-                            builder: (context, mode, w) => w,
-                          ),
-                        )
+                        .map<CommandBarItem>((action) => CommandBarButton(
+                              icon: action,
+                              onPressed: () {},
+                            ))
                         .toList(),
                   )
                 : null,
@@ -48,17 +46,19 @@ class PaginaAdaptativa extends ConsumerWidget {
           toolBar: ToolBar(
             title: title,
             actions: actions
-                ?.map(
-                  (action) => ToolBarIconButton(
-                    label: '',
-                    icon: action,
-                    onPressed: () {}, // Action already has its own handler
-                    showLabel: false,
-                  ),
-                )
+                ?.map((action) => ToolBarIconButton(
+                      label: '',
+                      icon: action,
+                      onPressed: () {},
+                      showLabel: false,
+                    ))
                 .toList(),
           ),
-          children: [ContentArea(builder: (context, scrollController) => body)],
+          children: [
+            ContentArea(
+              builder: (context, scrollController) => body,
+            ),
+          ],
         );
 
       case TipoPlataforma.ios:
@@ -66,18 +66,23 @@ class PaginaAdaptativa extends ConsumerWidget {
           navigationBar: CupertinoNavigationBar(
             middle: title,
             trailing: actions != null
-                ? Row(mainAxisSize: MainAxisSize.min, children: actions!)
+                ? Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: actions!,
+                  )
                 : null,
           ),
           child: SafeArea(child: body),
         );
 
+      case TipoPlataforma.linux:
       case TipoPlataforma.android:
       case TipoPlataforma.web:
-      case TipoPlataforma.linux:
-      default:
         return Scaffold(
-          appBar: AppBar(title: title, actions: actions),
+          appBar: AppBar(
+            title: title,
+            actions: actions,
+          ),
           body: body,
         );
     }

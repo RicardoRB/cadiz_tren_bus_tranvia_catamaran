@@ -11,7 +11,10 @@ import '../../l10n/app_localizations.dart';
 class ScaffoldAdaptativo extends ConsumerWidget {
   final StatefulNavigationShell navigationShell;
 
-  const ScaffoldAdaptativo({super.key, required this.navigationShell});
+  const ScaffoldAdaptativo({
+    super.key,
+    required this.navigationShell,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -54,7 +57,7 @@ class ScaffoldAdaptativo extends ConsumerWidget {
         );
 
       case TipoPlataforma.macos:
-        return MacosScaffold(
+        return MacosWindow(
           sidebar: Sidebar(
             minWidth: 200,
             builder: (context, scrollController) => SidebarItems(
@@ -70,11 +73,7 @@ class ScaffoldAdaptativo extends ConsumerWidget {
                   .toList(),
             ),
           ),
-          children: [
-            ContentArea(
-              builder: (context, scrollController) => navigationShell,
-            ),
-          ],
+          child: navigationShell,
         );
 
       case TipoPlataforma.ios:
@@ -92,14 +91,14 @@ class ScaffoldAdaptativo extends ConsumerWidget {
                 )
                 .toList(),
           ),
-          tabBuilder: (context, index) =>
-              CupertinoTabView(builder: (context) => navigationShell),
+          tabBuilder: (context, index) => CupertinoTabView(
+            builder: (context) => navigationShell,
+          ),
         );
 
+      case TipoPlataforma.linux:
       case TipoPlataforma.android:
       case TipoPlataforma.web:
-      case TipoPlataforma.linux:
-      default:
         return Scaffold(
           body: navigationShell,
           bottomNavigationBar: NavigationBar(
