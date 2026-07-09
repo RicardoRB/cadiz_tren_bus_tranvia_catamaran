@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:macos_ui/macos_ui.dart';
-import 'package:yaru/yaru.dart';
 import 'controlador_plataforma.dart';
 import 'tipo_plataforma.dart';
 import '../theme/platform_themes.dart';

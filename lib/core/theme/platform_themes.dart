@@ -8,13 +8,13 @@ class PlatformThemes {
     return fluent.FluentThemeData(
       brightness: Brightness.light,
       accentColor: fluent.AccentColor.swatch({
-        'darkest': materialTheme.colorScheme.primary.withOpacity(1.0),
-        'darker': materialTheme.colorScheme.primary.withOpacity(0.9),
-        'dark': materialTheme.colorScheme.primary.withOpacity(0.8),
+        'darkest': materialTheme.colorScheme.primary.withValues(alpha: 1.0),
+        'darker': materialTheme.colorScheme.primary.withValues(alpha: 0.9),
+        'dark': materialTheme.colorScheme.primary.withValues(alpha: 0.8),
         'normal': materialTheme.colorScheme.primary,
-        'light': materialTheme.colorScheme.primary.withOpacity(0.6),
-        'lighter': materialTheme.colorScheme.primary.withOpacity(0.4),
-        'lightest': materialTheme.colorScheme.primary.withOpacity(0.2),
+        'light': materialTheme.colorScheme.primary.withValues(alpha: 0.6),
+        'lighter': materialTheme.colorScheme.primary.withValues(alpha: 0.4),
+        'lightest': materialTheme.colorScheme.primary.withValues(alpha: 0.2),
       }),
     );
   }
@@ -23,13 +23,13 @@ class PlatformThemes {
     return fluent.FluentThemeData(
       brightness: Brightness.dark,
       accentColor: fluent.AccentColor.swatch({
-        'darkest': materialTheme.colorScheme.primary.withOpacity(1.0),
-        'darker': materialTheme.colorScheme.primary.withOpacity(0.9),
-        'dark': materialTheme.colorScheme.primary.withOpacity(0.8),
+        'darkest': materialTheme.colorScheme.primary.withValues(alpha: 1.0),
+        'darker': materialTheme.colorScheme.primary.withValues(alpha: 0.9),
+        'dark': materialTheme.colorScheme.primary.withValues(alpha: 0.8),
         'normal': materialTheme.colorScheme.primary,
-        'light': materialTheme.colorScheme.primary.withOpacity(0.6),
-        'lighter': materialTheme.colorScheme.primary.withOpacity(0.4),
-        'lightest': materialTheme.colorScheme.primary.withOpacity(0.2),
+        'light': materialTheme.colorScheme.primary.withValues(alpha: 0.6),
+        'lighter': materialTheme.colorScheme.primary.withValues(alpha: 0.4),
+        'lightest': materialTheme.colorScheme.primary.withValues(alpha: 0.2),
       }),
     );
   }

@@ -1,8 +1,1 @@
-enum TipoPlataforma {
-  android,
-  ios,
-  windows,
-  macos,
-  linux,
-  web,
-}
+enum TipoPlataforma { android, ios, windows, macos, linux, web }

@@ -10,10 +10,16 @@ void main() {
 
     final controller = container.read(controladorPlataformaProvider.notifier);
 
-    expect(container.read(controladorPlataformaProvider), isA<TipoPlataforma>());
+    expect(
+      container.read(controladorPlataformaProvider),
+      isA<TipoPlataforma>(),
+    );
 
     controller.setPlataforma(TipoPlataforma.windows);
-    expect(container.read(controladorPlataformaProvider), TipoPlataforma.windows);
+    expect(
+      container.read(controladorPlataformaProvider),
+      TipoPlataforma.windows,
+    );
 
     controller.setPlataforma(TipoPlataforma.ios);
     expect(container.read(controladorPlataformaProvider), TipoPlataforma.ios);

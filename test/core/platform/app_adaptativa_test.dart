@@ -11,7 +11,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:macos_ui/macos_ui.dart';
 
 void main() {
-  testWidgets('AppAdaptativa shows FluentApp for Windows', (WidgetTester tester) async {
+  testWidgets('AppAdaptativa shows FluentApp for Windows', (
+    WidgetTester tester,
+  ) async {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
@@ -35,7 +37,9 @@ void main() {
     expect(find.byType(FluentApp), findsOneWidget);
   });
 
-  testWidgets('AppAdaptativa shows MacosApp for macOS', (WidgetTester tester) async {
+  testWidgets('AppAdaptativa shows MacosApp for macOS', (
+    WidgetTester tester,
+  ) async {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
@@ -58,7 +62,9 @@ void main() {
     expect(find.byType(MacosApp), findsOneWidget);
   });
 
-  testWidgets('AppAdaptativa shows CupertinoApp for iOS', (WidgetTester tester) async {
+  testWidgets('AppAdaptativa shows CupertinoApp for iOS', (
+    WidgetTester tester,
+  ) async {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
@@ -81,7 +87,9 @@ void main() {
     expect(find.byType(CupertinoApp), findsOneWidget);
   });
 
-  testWidgets('AppAdaptativa shows MaterialApp for Android', (WidgetTester tester) async {
+  testWidgets('AppAdaptativa shows MaterialApp for Android', (
+    WidgetTester tester,
+  ) async {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [

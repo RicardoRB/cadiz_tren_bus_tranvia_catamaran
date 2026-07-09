@@ -11,10 +11,7 @@ import '../../l10n/app_localizations.dart';
 class ScaffoldAdaptativo extends ConsumerWidget {
   final StatefulNavigationShell navigationShell;
 
-  const ScaffoldAdaptativo({
-    super.key,
-    required this.navigationShell,
-  });
+  const ScaffoldAdaptativo({super.key, required this.navigationShell});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -74,7 +71,9 @@ class ScaffoldAdaptativo extends ConsumerWidget {
             ),
           ),
           children: [
-            ContentArea(builder: (context, scrollController) => navigationShell),
+            ContentArea(
+              builder: (context, scrollController) => navigationShell,
+            ),
           ],
         );
 
@@ -93,9 +92,8 @@ class ScaffoldAdaptativo extends ConsumerWidget {
                 )
                 .toList(),
           ),
-          tabBuilder: (context, index) => CupertinoTabView(
-            builder: (context) => navigationShell,
-          ),
+          tabBuilder: (context, index) =>
+              CupertinoTabView(builder: (context) => navigationShell),
         );
 
       case TipoPlataforma.android:

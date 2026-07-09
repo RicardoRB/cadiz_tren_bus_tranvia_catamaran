@@ -74,7 +74,10 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                     .firstOrNull;
                 if (focusStop != null) {
                   WidgetsBinding.instance.addPostFrameCallback((_) {
-                    _mapController.move(LatLng(focusStop.lat, focusStop.lon), 16);
+                    _mapController.move(
+                      LatLng(focusStop.lat, focusStop.lon),
+                      16,
+                    );
                     setState(() {
                       _isInitialFocusDone = true;
                     });
@@ -92,7 +95,8 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                 ),
                 children: [
                   TileLayer(
-                    urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                    urlTemplate:
+                        'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                     userAgentPackageName: 'com.cadiztransit.app',
                   ),
                   RichAttributionWidget(
@@ -117,7 +121,9 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                           child: GestureDetector(
                             onTap: () => _showStopPreview(stop),
                             child: Icon(
-                              TransportModeColors.getModeIcon(stop.transportMode),
+                              TransportModeColors.getModeIcon(
+                                stop.transportMode,
+                              ),
                               color: TransportModeColors.getModeColor(
                                 stop.transportMode,
                               ),
@@ -130,7 +136,9 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                         return Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
-                            color: Theme.of(context).colorScheme.primaryContainer,
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.primaryContainer,
                           ),
                           child: Center(
                             child: Text(
@@ -205,7 +213,8 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                   heroTag: 'location_fab',
                   onPressed: () {
                     if (locationState.status == LocationStatus.denied ||
-                        locationState.status == LocationStatus.permanentlyDenied) {
+                        locationState.status ==
+                            LocationStatus.permanentlyDenied) {
                       _showLocationDeniedDialog();
                     } else if (locationState.status == LocationStatus.initial) {
                       showDialog(
@@ -217,8 +226,11 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                                 .updateLocation(requestPermission: true)
                                 .then((_) {
                                   if (!mounted) return;
-                                  final newState = ref.read(userLocationProvider);
-                                  if (newState.status == LocationStatus.granted &&
+                                  final newState = ref.read(
+                                    userLocationProvider,
+                                  );
+                                  if (newState.status ==
+                                          LocationStatus.granted &&
                                       newState.position != null) {
                                     _mapController.move(
                                       LatLng(

@@ -46,17 +46,14 @@ class _StopDetailScreenState extends ConsumerState<StopDetailScreen> {
       actions: [
         IconButton(
           icon: const Icon(Icons.map_outlined),
-          onPressed: () =>
-              context.push('/stop-on-map?stopId=${widget.stopId}'),
+          onPressed: () => context.push('/stop-on-map?stopId=${widget.stopId}'),
           tooltip: l10n.viewOnMap,
         ),
         IconButton(
           icon: Icon(isFavorite ? Icons.favorite : Icons.favorite_border),
           color: isFavorite ? Colors.red : null,
           onPressed: () {
-            ref
-                .read(favoritesProvider.notifier)
-                .toggleFavorite(widget.stopId);
+            ref.read(favoritesProvider.notifier).toggleFavorite(widget.stopId);
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(
