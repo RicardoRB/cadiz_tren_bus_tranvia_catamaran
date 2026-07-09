@@ -22,35 +22,29 @@ class SettingsScreen extends ConsumerWidget {
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
-          RadioListTile<ThemeMode>(
-            title: Text(l10n.systemTheme),
-            value: ThemeMode.system,
+          RadioGroup<ThemeMode>(
             groupValue: themeMode,
             onChanged: (value) {
               if (value != null) {
                 ref.read(themeControllerProvider.notifier).setThemeMode(value);
               }
             },
-          ),
-          RadioListTile<ThemeMode>(
-            title: Text(l10n.lightTheme),
-            value: ThemeMode.light,
-            groupValue: themeMode,
-            onChanged: (value) {
-              if (value != null) {
-                ref.read(themeControllerProvider.notifier).setThemeMode(value);
-              }
-            },
-          ),
-          RadioListTile<ThemeMode>(
-            title: Text(l10n.darkTheme),
-            value: ThemeMode.dark,
-            groupValue: themeMode,
-            onChanged: (value) {
-              if (value != null) {
-                ref.read(themeControllerProvider.notifier).setThemeMode(value);
-              }
-            },
+            child: Column(
+              children: [
+                RadioListTile<ThemeMode>(
+                  title: Text(l10n.systemTheme),
+                  value: ThemeMode.system,
+                ),
+                RadioListTile<ThemeMode>(
+                  title: Text(l10n.lightTheme),
+                  value: ThemeMode.light,
+                ),
+                RadioListTile<ThemeMode>(
+                  title: Text(l10n.darkTheme),
+                  value: ThemeMode.dark,
+                ),
+              ],
+            ),
           ),
           const Divider(),
           ListTile(
