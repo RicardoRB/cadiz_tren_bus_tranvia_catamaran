@@ -30,9 +30,9 @@ class PaginaAdaptativa extends ConsumerWidget {
             commandBar: actions != null
                 ? CommandBar(
                     primaryItems: actions!
-                        .map((action) => CommandBarBuilderItem(
-                              wrappedItem: action,
-                              builder: (context, mode, w) => w,
+                        .map<CommandBarItem>((action) => CommandBarButton(
+                              icon: action,
+                              onPressed: () {},
                             ))
                         .toList(),
                   )
@@ -49,13 +49,15 @@ class PaginaAdaptativa extends ConsumerWidget {
                 ?.map((action) => ToolBarIconButton(
                       label: '',
                       icon: action,
-                      onPressed: () {}, // Action already has its own handler
+                      onPressed: () {},
                       showLabel: false,
                     ))
                 .toList(),
           ),
           children: [
-            ContentArea(builder: (context, scrollController) => body),
+            ContentArea(
+              builder: (context, scrollController) => body,
+            ),
           ],
         );
 
@@ -73,10 +75,9 @@ class PaginaAdaptativa extends ConsumerWidget {
           child: SafeArea(child: body),
         );
 
+      case TipoPlataforma.linux:
       case TipoPlataforma.android:
       case TipoPlataforma.web:
-      case TipoPlataforma.linux:
-      default:
         return Scaffold(
           appBar: AppBar(
             title: title,

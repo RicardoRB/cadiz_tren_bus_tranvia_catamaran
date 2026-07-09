@@ -57,7 +57,7 @@ class ScaffoldAdaptativo extends ConsumerWidget {
         );
 
       case TipoPlataforma.macos:
-        return MacosScaffold(
+        return MacosWindow(
           sidebar: Sidebar(
             minWidth: 200,
             builder: (context, scrollController) => SidebarItems(
@@ -73,9 +73,7 @@ class ScaffoldAdaptativo extends ConsumerWidget {
                   .toList(),
             ),
           ),
-          children: [
-            ContentArea(builder: (context, scrollController) => navigationShell),
-          ],
+          child: navigationShell,
         );
 
       case TipoPlataforma.ios:
@@ -98,10 +96,9 @@ class ScaffoldAdaptativo extends ConsumerWidget {
           ),
         );
 
+      case TipoPlataforma.linux:
       case TipoPlataforma.android:
       case TipoPlataforma.web:
-      case TipoPlataforma.linux:
-      default:
         return Scaffold(
           body: navigationShell,
           bottomNavigationBar: NavigationBar(

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:macos_ui/macos_ui.dart';
-import 'package:yaru/yaru.dart';
 import 'controlador_plataforma.dart';
 import 'tipo_plataforma.dart';
 import '../theme/platform_themes.dart';
@@ -68,19 +67,8 @@ class AppAdaptativa extends ConsumerWidget {
           supportedLocales: supportedLocales,
         );
       case TipoPlataforma.linux:
-        return MaterialApp.router(
-          debugShowCheckedModeBanner: false,
-          routerConfig: routerConfig,
-          onGenerateTitle: onGenerateTitle,
-          themeMode: themeMode,
-          theme: theme.copyWith(extensions: const [YaruControlTheme()]),
-          darkTheme: darkTheme.copyWith(extensions: const [YaruControlTheme()]),
-          localizationsDelegates: localizationsDelegates,
-          supportedLocales: supportedLocales,
-        );
       case TipoPlataforma.android:
       case TipoPlataforma.web:
-      default:
         return MaterialApp.router(
           debugShowCheckedModeBanner: false,
           routerConfig: routerConfig,
