@@ -30,10 +30,10 @@ class PaginaAdaptativa extends ConsumerWidget {
             commandBar: actions != null
                 ? CommandBar(
                     primaryItems: actions!
-                        .map<CommandBarItem>((action) => CommandBarButton(
-                              icon: action,
-                              onPressed: () {},
-                            ))
+                        .map<CommandBarItem>(
+                          (action) =>
+                              CommandBarButton(icon: action, onPressed: () {}),
+                        )
                         .toList(),
                   )
                 : null,
@@ -46,19 +46,17 @@ class PaginaAdaptativa extends ConsumerWidget {
           toolBar: ToolBar(
             title: title,
             actions: actions
-                ?.map((action) => ToolBarIconButton(
-                      label: '',
-                      icon: action,
-                      onPressed: () {},
-                      showLabel: false,
-                    ))
+                ?.map(
+                  (action) => ToolBarIconButton(
+                    label: '',
+                    icon: action,
+                    onPressed: () {},
+                    showLabel: false,
+                  ),
+                )
                 .toList(),
           ),
-          children: [
-            ContentArea(
-              builder: (context, scrollController) => body,
-            ),
-          ],
+          children: [ContentArea(builder: (context, scrollController) => body)],
         );
 
       case TipoPlataforma.ios:
@@ -66,10 +64,7 @@ class PaginaAdaptativa extends ConsumerWidget {
           navigationBar: CupertinoNavigationBar(
             middle: title,
             trailing: actions != null
-                ? Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: actions!,
-                  )
+                ? Row(mainAxisSize: MainAxisSize.min, children: actions!)
                 : null,
           ),
           child: SafeArea(child: body),
@@ -79,10 +74,7 @@ class PaginaAdaptativa extends ConsumerWidget {
       case TipoPlataforma.android:
       case TipoPlataforma.web:
         return Scaffold(
-          appBar: AppBar(
-            title: title,
-            actions: actions,
-          ),
+          appBar: AppBar(title: title, actions: actions),
           body: body,
         );
     }
