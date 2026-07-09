@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../../core/theme/transport_mode_colors.dart';
+import '../../../../core/platform/pagina_adaptativa.dart';
 import '../../../../shared/models/domain/stop.dart';
 import '../../../../shared/widgets/location_permission_dialog.dart';
 import '../../../../shared/widgets/loading_shimmer.dart';
@@ -49,20 +50,18 @@ class _NearbyLinesScreenState extends ConsumerState<NearbyLinesScreen> {
     final favoriteStopsAsync = ref.watch(favoriteStopsProvider);
     final l10n = AppLocalizations.of(context)!;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.nearbyLabel),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () => context.push('/search'),
-          ),
-          IconButton(
-            icon: const Icon(Icons.settings),
-            onPressed: () => context.push('/settings'),
-          ),
-        ],
-      ),
+    return PaginaAdaptativa(
+      title: Text(l10n.nearbyLabel),
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.search),
+          onPressed: () => context.push('/search'),
+        ),
+        IconButton(
+          icon: const Icon(Icons.settings),
+          onPressed: () => context.push('/settings'),
+        ),
+      ],
       body: RefreshIndicator(
         onRefresh: () async {
           await ref.read(userLocationProvider.notifier).updateLocation();

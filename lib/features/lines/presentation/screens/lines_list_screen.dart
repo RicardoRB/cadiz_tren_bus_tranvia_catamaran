@@ -6,6 +6,7 @@ import '../../../../l10n/app_localizations.dart';
 import '../../../../shared/models/enums.dart';
 import '../providers/lines_list_provider.dart';
 import '../../../../core/theme/transport_mode_colors.dart';
+import '../../../../core/platform/pagina_adaptativa.dart';
 import '../../../../shared/widgets/loading_shimmer.dart';
 
 class LinesListScreen extends ConsumerStatefulWidget {
@@ -53,11 +54,9 @@ class _LinesListScreenState extends ConsumerState<LinesListScreen> {
     final operatorsAsync = ref.watch(modeOperatorsProvider(widget.mode));
     final operatorsMapAsync = ref.watch(operatorsMapProvider);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          l10n.linesOf(TransportModeColors.getModeName(context, widget.mode)),
-        ),
+    return PaginaAdaptativa(
+      title: Text(
+        l10n.linesOf(TransportModeColors.getModeName(context, widget.mode)),
       ),
       body: Column(
         children: [
